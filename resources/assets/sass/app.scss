@@ -1,0 +1,59 @@
+// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+    font-family: 'Lato';
+    background-color: #FAFFFC;
+}
+
+#menu-toggle{
+	font-size: 20px;
+}
+
+#logo{
+	display: inline;
+	margin: -10px 10px;
+	height: 170%;
+}
+
+.auth-form{
+	margin-top: 5%;
+}
+
+/* sidebar */
+.navbar.navbar-default{
+		margin-bottom: 0px;
+}
+#sidebar-wrapper{
+	position: fixed;
+	height: 100%;
+	width: 250px;
+	overflow: hidden;
+	background: #15a589;
+	
+	-webkit-transform: translate(0, 0);
+	-webkit-transition: all 1s ease;
+}
+
+/*main Content*/
+#page-content-wrapper{
+	width: 100%;
+	padding-left: 250px;
+	-webkit-transition: all 1s ease;	
+}
+.sidebar-nav{
+	padding: 0;
+	list-style: none;
+}
+.sidebar-nav li{
+	text-indent: 20px;
+	line-height: 40px;
+	border-bottom: 1px solid #0a7762;
+}
+.sidebar-nav li a{
+	display: block;
+	text-decoration: none;
+	color: #ddd;
+}
+.sidebar-nav li:hover{
+	background: #16A085;
+}

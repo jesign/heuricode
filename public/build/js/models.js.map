@@ -1,0 +1,1 @@
+{"version":3,"sources":["userModel.js"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"models.js","sourcesContent":["app.factory('taskModel', ['$http', function($http){\r\n\treturn {\r\n\t\t\r\n\t};\r\n}]);"],"sourceRoot":"/source/"}
