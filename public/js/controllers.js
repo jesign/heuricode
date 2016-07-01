@@ -71,16 +71,17 @@ myApp.controller('codeController', ['$scope', 'codeModel',
 			getSubmissionStatus: function(id){				
 				codeModel.submissionStatusModel(id).success(function(response){
 					console.log(response);
-					$scope.compiling = true;					
 					$scope.statusId = response.status;
-		  			console.log($scope.statusId);
+					$scope.compiling = true;					
 		  			$scope.showOutput = false;
+		  			console.log($scope.statusId);
+		  			
 		  			if($scope.statusId != 0){
 		  				$scope.getSubmissionStatus($scope.submitId);
 		  			}
-		  			$scope.showOutput = true;
 
 		  			$scope.compiling = false;
+		  			$scope.showOutput = true;
 
 		  			if(response.cmpinfo){
 		  				$scope.error = true;
