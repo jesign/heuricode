@@ -1,0 +1,104 @@
+<script type="text/javascript">
+				
+	function enableTab(id) {
+	var el = document.getElementById(id);
+		el.onkeydown = function(e) {
+		    if (e.keyCode === 9) { // tab was pressed
+
+		        // get caret position/selection
+		        var val = this.value,
+		            start = this.selectionStart,
+		            end = this.selectionEnd;
+
+		        // set textarea value to: text before caret + tab + text after caret
+		        this.value = val.substring(0, start) + '\t' + val.substring(end);
+
+		        // put caret at right position again
+		        this.selectionStart = this.selectionEnd = start + 1;
+
+		        // prevent the focus lose
+		        return false;
+		    }
+		};
+	}
+
+	// Enable the tab character onkeypress (onkeydown) inside textarea...
+	// ... for a textarea that has an `id="my-textarea"`
+	enableTab('codingArea');
+	</script>
+<div class="container-fluid">
+		
+	<div class="row" ng-controller="codeController">
+		<div class="col-lg-6">
+			<div style="margin:10px">
+				<form name="sourceCode">
+					<div class="form-group">
+						<div class="btn-group pull-right ">
+							<div class="btn-group">
+						    	<button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown">
+						    	<% codeLanguage %>
+						    	<span class="caret"></span>
+						    	</button>
+						    	<ul class="dropdown-menu" role="menu">
+						      		<li><a ng-click="languageToCpp()">C++</a></li>
+						      		<li><a ng-click="languageToJava()">Java</a></li>
+						    	</ul>
+						  	</div>
+							<button type="submit" class="btn btn-warning btn-sm" ng-click="runCode(sourceCode)">Run</button>
+							<button  class="btn btn-primary btn-sm" ng-click="submitCode()">Submit</button>
+							<button  class="btn btn-danger btn-sm" ng-click="testError()">Test Error</button>
+							<button  class="btn btn-success btn-sm" ng-click="testSuccess()">Test Success</button>
+						</div>
+						<label class="control-label" style="font-size: 1.3em;"> Editor</label>
+			    		<textarea id="codingArea" ng-model="newCode.codes" class="form-control" rows="23"></textarea>
+					</div>
+			
+				</form>
+
+
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="btn-group pull-right" role="group" aria-label="..." ng-show="compiling">
+			  <button type="button" class="btn btn-default" ng-click="toggleOutput()">Output</button>
+			  <button type="button" class="btn btn-default" ng-click="toggleOutput()">Problem Details</button>
+			</div>
+			<div class="sk-circle">
+			  <div class="sk-circle1 sk-child"></div>
+			  <div class="sk-circle2 sk-child"></div>
+			  <div class="sk-circle3 sk-child"></div>
+			  <div class="sk-circle4 sk-child"></div>
+			  <div class="sk-circle5 sk-child"></div>
+			  <div class="sk-circle6 sk-child"></div>
+			  <div class="sk-circle7 sk-child"></div>
+			  <div class="sk-circle8 sk-child"></div>
+			  <div class="sk-circle9 sk-child"></div>
+			  <div class="sk-circle10 sk-child"></div>
+			  <div class="sk-circle11 sk-child"></div>
+			  <div class="sk-circle12 sk-child"></div>
+			</div>
+			<textarea ng-show="showOutput" class="form-control" rows="10" style="background-color: #eee; color: #d00; font-size: .9em;" readonly>Result:
+<% result %>
+			</textarea>
+			<div class="problem-details" >
+				<h1>Problem Details</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				
+			</div>
+
+
+		</div>
+		
+	</div>
+</div>
