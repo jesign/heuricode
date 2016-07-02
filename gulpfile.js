@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 process.env.DISABLE_NOTIFIER = true;
+=======
+>>>>>>> 7e7076e8341326d27cd9fd51e65432635ae5711c
 var elixir = require('laravel-elixir');
 
 /*
@@ -32,6 +35,7 @@ elixir(function(mix) {
         'models/userModel.js',
         'models/codeModel.js',
         'models/problemModel.js'
+
         ], 'public/js/models.js');
     mix.version([
         'js/app.js',

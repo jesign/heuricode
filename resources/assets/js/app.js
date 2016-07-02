@@ -22,5 +22,6 @@ myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$
 
 		$urlRouterProvider.otherwise('/');
 
+
 	}
 ]);	 

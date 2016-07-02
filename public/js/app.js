@@ -1,3 +1,4 @@
+
 var myApp = angular.module('myApp', ['ui.router']);
 
 myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$locationProvider','$httpProvider',
@@ -21,6 +22,7 @@ myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$
 		}),
 
 		$urlRouterProvider.otherwise('/');
+
 
 	}
 ]);	 

@@ -1,11 +1,22 @@
+myApp.controller('userController', ['$scope', 
+	function($scope){
+
+
+		//function
+		angular.extend($scope, {
+			testFunction: function(){
+				alert('Yeah');
+			}
+		});
+
+	}]);
 myApp.controller('navController', ['$scope', 
 	function($scope){
 
 
 		// variables
 		angular.extend($scope, {
-
-			showNav: true
+			
 		});
 		
 		// functions
@@ -18,8 +29,7 @@ myApp.controller('navController', ['$scope',
 					content.css('padding-left', "0%");
 				}else{
 					sidebar.css('-webkit-transform', 'translate(0,0');	
-
-					content.css('padding-left', "260px");
+					content.css('padding-left', "240px");
 				}
 				sidebar.toggleClass("open");
 			},
@@ -32,6 +42,8 @@ myApp.controller('navController', ['$scope',
 				content.css('padding-left', "0%");
 
 				console.log('Not auth');
-			},
+			}
 		});
 	}]);
+
+//# sourceMappingURL=controllers.js.map

@@ -3,3 +3,4 @@ app.factory('taskModel', ['$http', function($http){
 		
 	};
 }]);
+//# sourceMappingURL=models.js.map

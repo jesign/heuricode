@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     <title>HeuriCode</title>
     <link rel="icon" href="{{ asset('img/heuricode-small.png') }}">
     <!-- Fonts -->
@@ -16,6 +17,7 @@
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" type="text/css" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+
     <script>var baseUrl = "{{ url('/') }}/";</script>
 </head>
 <body id="app-layout" ng-app="myApp">
@@ -33,9 +35,11 @@
                     </button>
 
                     <!-- Branding Image -->
+
                     <a class="navbar-brand" href="#/">
                         <img id="logo" src="{{ asset('img/heuricode-inverse-small.png') }}" >
                         HeuriCode
+
                     </a>
                 </div>
 
@@ -75,6 +79,7 @@
         </nav>
         
         @if(!Auth::guest())
+
         <div id="sidebar-wrapper" class="open">
             <ul class="sidebar-nav">
                 <li><a ui-sref="problemPage">Self-Train</a></li>
