@@ -19,20 +19,6 @@ myApp.factory('codeModel', ['$http', function($http){
 		  }
 		  
 		});
-
-		// 'Content-Type': 'application/x-www-form-urlencoded
-
-		// return $http({
-		// 	headers: {
-  //    			'Content-Type': 'text-plain'
-		// 	},
-		// 	url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
-		// 	method: 'POST',
-		// 	data: angular.toJson({
-		// 		sourceCode: codes,
-		// 		language: lang_id
-		// 	}) 
-		// });
 	};
 	model.submissionStatusModel = function(id){
 		// return $http.get('http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2');
@@ -78,4 +64,14 @@ myApp.factory('codeModel', ['$http', function($http){
 	return model;
 
 }]);
+myApp.factory('problemModel', ['$http', function($http){
+	return {
+		getProblem: function(){
+			return $http.get(baseUrl + 'problem');
+		}
+	}
+
+}]);	
+
+
 //# sourceMappingURL=models.js.map

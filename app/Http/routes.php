@@ -21,9 +21,7 @@ Route::get('#', function(){
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/problem', function(){
-	return redirect('');
-});
+Route::get('/problem', 'ProblemController@getProblem');
 Route::get('/Help', function(){
 	return view('home');
 });

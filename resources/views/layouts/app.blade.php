@@ -16,9 +16,7 @@
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" type="text/css" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
-    <style type="text/css" media="screen">
-   
-</style>
+    <script>var baseUrl = "{{ url('/') }}/";</script>
 </head>
 <body id="app-layout" ng-app="myApp">
     <div ng-controller="navController">
@@ -79,8 +77,8 @@
         @if(!Auth::guest())
         <div id="sidebar-wrapper" class="open">
             <ul class="sidebar-nav">
-                <li><a href="#/problem">Self-Train</a></li>
-                <li><a href="{{ url('Find-Match') }}">Find Match</a></li>
+                <li><a ui-sref="problemPage">Self-Train</a></li>
+                <li><a ui-sref="{{ url('Find-Match') }}">Find Match</a></li>
                 <li><a href="{{ url('Stats-Progress') }}">Statistical Progress</a></li>
                 <li><a href="{{ url('Settings') }}">Settings</a></li>
                 <li><a href="{{ url('Help') }}">Help</a></li>
@@ -95,10 +93,11 @@
     </div>
 
     <!-- JavaScripts Offline -->
-    <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-    <script src="{{ asset('bower_components/angular/angular.min.js')}}"></script>
-    <script src="{{ asset('bower_components/angular-route/angular-route.min.js') }}"></script>
+    <script src="{{ asset('bower_components/jquery/dist/jquery.js') }}"></script>
+    <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.js')}}"></script>
+    <script src="{{ asset('bower_components/angular/angular.js')}}"></script>
+    <script src="{{ asset('bower_components/angular-route/angular-route.js') }}"></script>
+    <script src="{{ asset('bower_components/angular-ui-router/release/angular-ui-router.js') }}"></script>
     <script src="{{ asset('js/app.js')}}"></script>
     <script src="{{ asset('js/controllers.js')}}"></script>
     <script src="{{ asset('js/models.js')}}"></script>

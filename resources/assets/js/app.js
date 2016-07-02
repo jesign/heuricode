@@ -1,25 +1,26 @@
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ui.router']);
 
-myApp.config(['$interpolateProvider', '$routeProvider','$locationProvider','$httpProvider',
-	function($interpolateProvider, $routeProvider, $locationProvider,$httpProvider){
+myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$locationProvider','$httpProvider',
+	function($interpolateProvider, $stateProvider, $urlRouterProvider, $locationProvider,$httpProvider){
 		$interpolateProvider.startSymbol('<%');
 		$interpolateProvider.endSymbol('%>');
 
 		delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-		$routeProvider.when('/', {
-			templateUrl: 'templates/test.html',
-			controller: 'userController'
-		}),
-		$routeProvider.when('/problem',{
+		$stateProvider.state({
 			templateUrl: 'templates/problem.html',
-			controller: 'userController'
+			controller: 'userController',
+			url: '/problem',
+			name: 'problemPage'
 		}),
-		$routeProvider.when('/coding',{
+		$stateProvider.state({
 			templateUrl: 'templates/coding.html',
-			controller: 'codeController'
+			controller: 'codeController',
+			url: '/coding',
+			name: 'codingPage'
 		}),
-		$routeProvider.otherwise('/');
+
+		$urlRouterProvider.otherwise('/');
 
 	}
 ]);	 

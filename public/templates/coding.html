@@ -27,7 +27,6 @@
 	enableTab('codingArea');
 	</script>
 <div class="container-fluid">
-		
 	<div class="row" ng-controller="codeController">
 		<div class="col-lg-6">
 			<div style="margin:10px">
@@ -63,41 +62,14 @@
 			  <button type="button" class="btn btn-default" ng-click="toggleOutput()">Output</button>
 			  <button type="button" class="btn btn-default" ng-click="toggleProblemDetails()">Problem Details</button>
 			</div>
-			<div class="sk-circle" ng-show="compiling">
-			  <div class="sk-circle1 sk-child"></div>
-			  <div class="sk-circle2 sk-child"></div>
-			  <div class="sk-circle3 sk-child"></div>
-			  <div class="sk-circle4 sk-child"></div>
-			  <div class="sk-circle5 sk-child"></div>
-			  <div class="sk-circle6 sk-child"></div>
-			  <div class="sk-circle7 sk-child"></div>
-			  <div class="sk-circle8 sk-child"></div>
-			  <div class="sk-circle9 sk-child"></div>
-			  <div class="sk-circle10 sk-child"></div>
-			  <div class="sk-circle11 sk-child"></div>
-			  <div class="sk-circle12 sk-child"></div>
-			</div>
-			<div id="result" ng-show="showOutput" class="container-fluid">
-				<label>Result</label>
-				
-				<div  class="container-fluid">
-					<pre class="container-fluid " style="background-color: #eee; color: #d00; font-size: .9em; border: 1px solid #555; height: 250px; width: 100%;"><div>adfasdf</div><% result %></pre>
-				</div>
+			
+			<div id="result" ng-show="showOutput">
+
+					<pre class="" style="background-color: #eee; font-size: .9em; border: 1px solid #555; height: 250px; width: 100%;"><span style="color: #fc9;"><% status %></span><span class="<% resultValueColor %>"><% resultValue %></span> - <span class="compilation-details" ng-hide="compiling">time: <% time %> memory: <% memory %> signal: <% signal %></span><br><span style="color: #000"><% output %></span><span style="color: #d00"><% error %></span></pre>
 			</div>
 			<div class="problem-details" ng-show="showProblem">
-				<h1>Problem Details</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				<h4><% problemTitle %></h4>
+				<pre style="width: 100%; height: auto"><% problemDescription %></pre>
 				
 			</div>
 

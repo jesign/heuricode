@@ -25,11 +25,13 @@ elixir(function(mix) {
     mix.scripts([ 
     	'controllers/userController.js',
         'controllers/navController.js',
-        'controllers/codeController.js'
+        'controllers/codeController.js',
+        'controllers/problemController.js'
     	], 'public/js/controllers.js');
     mix.scripts([
         'models/userModel.js',
-        'models/codeModel.js'
+        'models/codeModel.js',
+        'models/problemModel.js'
         ], 'public/js/models.js');
     mix.version([
         'js/app.js',

@@ -1,44 +1,103 @@
-myApp.controller('codeController', ['$scope', 'codeModel', 
-	function($scope, codeModel){
+myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
+	function($scope, codeModel, problemModel){
+		problemModel.getProblem().success(function(response){
+			$scope.problemTitle = response.problem_title;
+			$scope.problemDescription = response.problem_description;
+			$scope.newCode.codes = response.code_cpp;
+			console.log(response.problem_title);
+		});
+	
+
 		// variables
 		angular.extend($scope, {
 			codeLanguage: "C++",
 			newCode: {
-				codes: "#include int main(){ printf(\"Hello!\"); return 0; }",
+				codes: null,
 				langId: 1,
-				error: null,
-				statusId: null,
-				submitId:null,
-				showOutput: false,
-				showProblem: true,
-				compiling: false,
-				result: null
-			},
+			}, 
+			error: null,
+			statusId: null,
+			submitId:null,
+			showOutput: false,
+			showProblem: true,
+			compiling: true,
+			result: null,
+			resultValue: null,
+			time: null,
+			memory: null,
+			signal: null,
+
+			problemTitle: null,
+			problemDescription: null,
+			problemCodeCpp: null,
+			problemCodeJava: null
 		});
 		 
 		// functions
 		angular.extend($scope, {
+			getResultValue: function(id){
+				switch(id){
+					case 11: 
+						return "Compilation Error";
+					break;
+					case 12:
+						return "Runtime Error";
+					break;
+					case 13:
+						return "Time limit Exceeded";
+					break;
+					case 15: 
+						return "Success";
+					break;
+					case 17: 
+						return "Memory Limit Exceeded";
+					break;
+					case 19:
+						return "Illegal System Call";
+					break;
+					case 20:
+						return "Internal Error";
+					break;
+				}
+			},
 			getSubmissionStatus: function(id){				
 				codeModel.submissionStatusModel(id).success(function(response){
+					$scope.output = "";
+					$scope.error = "";
+
+					$scope.showOutput = true;
 					console.log(response);
-					$scope.compiling = true;					
+					$scope.showProblem = true;
 					$scope.statusId = response.status;
-		  			console.log($scope.statusId);
-		  			$scope.showOutput = false;
-		  			if($scope.statusId != 0){
+					var status_id = $scope.statusId;
+
+		  			if(status_id != 0){
+		  				$scope.compiling = true;
+		  				if(status_id < 0)
+		  					$scope.status = "Waiting for compilation...";
+		  				else if(status_id == 1)
+		  					$scope.status = "Compilation...";
+		  				else if(status_id == 3)
+		  					$scope.status = "Running...";
 		  				$scope.getSubmissionStatus($scope.submitId);
-		  			}
-		  			$scope.showOutput = true;
-
-		  			$scope.compiling = false;
-
-		  			if(response.cmpinfo){
-		  				$scope.error = true;
-		  				$scope.result = "Error: \n" + response.cmpinfo;
 		  			}else{
-		  				$scope.result = response.output;
+		  				$scope.status = "";
+		  				$scope.compiling = false;
+		  				
+		  				$scope.time = response.time;
+		  				$scope.memory = response.memory;
+		  				$scope.signal - response.signal;
 		  			}
 
+		  			$scope.resultValue = $scope.getResultValue(response.result);
+		  			console.log($scope.getResultValue(response.result));
+		  			if(response.result == 15){
+		  				$scope.resultValueColor = "resultValSuccess";
+		  				$scope.output = response.output;
+		  			}else{
+		  				$scope.resultValueColor = "resultValError";
+		  				$scope.error = response.cmpinfo;
+		  			}
 
 				})
 			},
@@ -76,7 +135,8 @@ myApp.controller('codeController', ['$scope', 'codeModel',
 			toggleOutput: function(){
 				$scope.showOutput = $scope.showOutput === false ? true: false;
 			},
-			toggleProblem: function(){
+			toggleProblemDetails: function(){
+				console.log($scope.showProblem);
 				$scope.showProblem = $scope.showProblem === false ? true: false;
 			},
 			testError: function(){
@@ -84,7 +144,9 @@ myApp.controller('codeController', ['$scope', 'codeModel',
 			},
 			testSuccess: function(){
 				$scope.getSubmissionStatus(47900843);
-			}
+			},
+			
+			
 			
 		});
 	}]);
