@@ -59,9 +59,9 @@
 			</div>
 		</div>
 		<div class="col-lg-6">
-			<div class="btn-group pull-right" role="group" aria-label="..." ng-show="compiling">
+			<div class="btn-group pull-right" role="group" aria-label="...">
 			  <button type="button" class="btn btn-default" ng-click="toggleOutput()">Output</button>
-			  <button type="button" class="btn btn-default" ng-click="toggleOutput()">Problem Details</button>
+			  <button type="button" class="btn btn-default" ng-click="toggleProblemDetails()">Problem Details</button>
 			</div>
 			<div class="sk-circle" ng-show="compiling">
 			  <div class="sk-circle1 sk-child"></div>
@@ -77,10 +77,14 @@
 			  <div class="sk-circle11 sk-child"></div>
 			  <div class="sk-circle12 sk-child"></div>
 			</div>
-			<textarea ng-show="showOutput" class="form-control" rows="10" style="background-color: #eee; color: #d00; font-size: .9em;" readonly>Result:
-<% result %>
-			</textarea>
-			<div class="problem-details" >
+			<div id="result" ng-show="showOutput" class="container-fluid">
+				<label>Result</label>
+				
+				<div  class="container-fluid">
+					<pre class="container-fluid " style="background-color: #eee; color: #d00; font-size: .9em; border: 1px solid #555; height: 250px; width: 100%;"><div>adfasdf</div><% result %></pre>
+				</div>
+			</div>
+			<div class="problem-details" ng-show="showProblem">
 				<h1>Problem Details</h1>
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

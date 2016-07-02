@@ -55,32 +55,60 @@ myApp.controller('codeController', ['$scope', 'codeModel',
 			codeLanguage: "C++",
 			newCode: {
 				codes: "#include int main(){ printf(\"Hello!\"); return 0; }",
-				langId: 1,
-				error: null,
-				statusId: null,
-				submitId:null,
-				showOutput: false,
-				showProblem: true,
-				compiling: false,
-				result: null
+				langId: 1
 			},
+			error: null,
+			statusId: null,
+			submitId:null,
+			result: null,
+			showOutput: false,
+			showProblem: true,
+			compiling: false
 		});
 		 
 		// functions
 		angular.extend($scope, {
+			getResultValue: function(id){
+				switch(id){
+					case 11: 
+						return "Compilation Error";
+					break;
+					case 12:
+						return "Runtime Error";
+					break;
+					case 13:
+						return "Time limit Exceeded";
+					break;
+					case 15: 
+						return "success";
+					break;
+					case 17: 
+						return "Memory Limit Exceeded";
+					break;
+					case 19:
+						return "Illegal System Call";
+					break;
+					case 20:
+						return "Internal Error";
+					break;
+				}
+			}
 			getSubmissionStatus: function(id){				
 				codeModel.submissionStatusModel(id).success(function(response){
 					console.log(response);
-					$scope.compiling = true;					
+					
 					$scope.statusId = response.status;
-		  			console.log($scope.statusId);
-		  			$scope.showOutput = false;
-		  			if($scope.statusId != 0){
+					var status_id = $scope.statusId;
+
+		  			if(status_id != 0){
+		  				if(status_id < 0)
+		  					$scope.result = "waiting for compilation...";
+		  				else if(status_id == 1)
+		  					$scope.result = "compilation...";
+		  				else if(status_id == 3)
+		  					$scope.result = "running...";
 		  				$scope.getSubmissionStatus($scope.submitId);
 		  			}
-		  			$scope.showOutput = true;
-
-		  			$scope.compiling = false;
 
 		  			if(response.cmpinfo){
 		  				$scope.error = true;
@@ -88,6 +116,7 @@ myApp.controller('codeController', ['$scope', 'codeModel',
 		  			}else{
 		  				$scope.result = response.output;
 		  			}
+
 
 
 				})
@@ -126,7 +155,8 @@ myApp.controller('codeController', ['$scope', 'codeModel',
 			toggleOutput: function(){
 				$scope.showOutput = $scope.showOutput === false ? true: false;
 			},
-			toggleProblem: function(){
+			toggleProblemDetails: function(){
+				console.log($scope.showProblem)
 				$scope.showProblem = $scope.showProblem === false ? true: false;
 			},
 			testError: function(){
