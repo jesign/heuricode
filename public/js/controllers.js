@@ -32,7 +32,6 @@ myApp.controller('navController', ['$scope',
 					sidebar.css('-webkit-transform', 'translate(0,0');	
 
 					content.css('padding-left', "260px");
-
 				}
 				sidebar.toggleClass("open");
 			},
@@ -46,21 +45,24 @@ myApp.controller('navController', ['$scope',
 
 				console.log('Not auth');
 			},
-			
-
 		});
 	}]);
 
 myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
 	function($scope, codeModel, problemModel){
+
+
 		problemModel.getProblem().success(function(response){
 			$scope.problemTitle = response.problem_title;
 			$scope.problemDescription = response.problem_description;
 			$scope.newCode.codes = response.code_cpp;
-			console.log(response.problem_title);
+			
+			var sc = $scope.newCode.codes;
+		    var editor = ace.edit("editor");
+		    editor.setTheme("ace/theme/monokai");
+		    editor.getSession().setValue(sc);
+		    editor.resize();
 		});
-	
-
 		// variables
 		angular.extend($scope, {
 			codeLanguage: "C++",
@@ -155,11 +157,14 @@ myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
 				})
 			},
 			runCode: function(editorForm){
+				var editor = ace.edit("editor");
+				var code = editor.getValue();
+				console.log("code " + code);
 				$.ajax({
 				  type: "POST",
 				  url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
 				  data: {
-				 		sourceCode: $scope.newCode.codes,
+				 		sourceCode: code,
 				 		language: $scope.newCode.langId
 				 	},
 				  success: function(result, data){
@@ -227,7 +232,6 @@ myApp.controller('problemController', ['$scope','problemModel',
 					});
 			}
 		});
-
 
 	}]);
 

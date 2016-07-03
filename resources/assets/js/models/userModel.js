@@ -1,4 +1,4 @@
-app.factory('taskModel', ['$http', function($http){
+myApp.factory('userModel', ['$http', function($http){
 	return {
 		
 	};

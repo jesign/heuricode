@@ -1,4 +1,3 @@
-
 var myApp = angular.module('myApp', ['ui.router']);
 
 myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$locationProvider','$httpProvider',
@@ -8,6 +7,12 @@ myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$
 
 		delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
+		$stateProvider.state({
+			templateUrl: 'templates/test.html',
+			controller: 'userController',
+			url: '/test',
+			name: 'testPage'
+		}),
 		$stateProvider.state({
 			templateUrl: 'templates/problem.html',
 			controller: 'userController',

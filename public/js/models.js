@@ -1,3 +1,8 @@
+myApp.factory('userModel', ['$http', function($http){
+	return {
+		
+	};
+}]);
 myApp.factory('codeModel', ['$http', function($http){
 	
 	var model = {};
@@ -71,5 +76,6 @@ myApp.factory('problemModel', ['$http', function($http){
 	}
 
 }]);	
+
 
 //# sourceMappingURL=models.js.map

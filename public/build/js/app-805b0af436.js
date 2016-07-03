@@ -8,6 +8,12 @@ myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$
 		delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 		$stateProvider.state({
+			templateUrl: 'templates/test.html',
+			controller: 'userController',
+			url: '/test',
+			name: 'testPage'
+		}),
+		$stateProvider.state({
 			templateUrl: 'templates/problem.html',
 			controller: 'userController',
 			url: '/problem',
@@ -21,6 +27,7 @@ myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$
 		}),
 
 		$urlRouterProvider.otherwise('/');
+
 
 	}
 ]);	 
