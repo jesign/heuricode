@@ -23,8 +23,11 @@ Route::get('#', function(){
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-
+Route::get('/testCases/{id}', 'TestCaseController@getTestCases');
 Route::get('/problem', 'ProblemController@getProblem');
+Route::get('/test', 'TestCaseController@testing');
+Route::post('/getSubmissionId', 'ProblemApiController@getSubmissionId');
+Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDetails');
 Route::get('/Help', function(){
 	return view('home');
 });

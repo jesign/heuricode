@@ -1,16 +1,20 @@
-myApp.controller('navController', ['$scope', 
-	function($scope){
+myApp.controller('navController', ['$scope', '$rootScope',
+	function($scope, $rootScope){
 
+		$rootScope.$on("GlobalToggleSidebar", function(){
+           $scope.hideSidebar();
+        });
 
 		// variables
 		angular.extend($scope, {
-
 			showNav: true
 		});
 		
 		// functions
 		angular.extend($scope, {
-			test: function(){
+
+			toggleSidebar: function(){
+				console.log('toggled');
 				var sidebar = $("#sidebar-wrapper");
 				var content = $("#page-content-wrapper");
 				if(sidebar.hasClass("open")){
@@ -18,12 +22,11 @@ myApp.controller('navController', ['$scope',
 					content.css('padding-left', "0%");
 				}else{
 					sidebar.css('-webkit-transform', 'translate(0,0');	
-
 					content.css('padding-left', "260px");
 				}
 				sidebar.toggleClass("open");
 			},
-			notAuth: function(){
+			hideSidebar: function(){
 				
 				var sidebar = $("#sidebar-wrapper");
 				var content = $("#page-content-wrapper");

@@ -10,19 +10,23 @@ myApp.controller('userController', ['$scope',
 		});
 
 	}]);
-myApp.controller('navController', ['$scope', 
-	function($scope){
+myApp.controller('navController', ['$scope', '$rootScope',
+	function($scope, $rootScope){
 
+		$rootScope.$on("GlobalToggleSidebar", function(){
+           $scope.hideSidebar();
+        });
 
 		// variables
 		angular.extend($scope, {
-
 			showNav: true
 		});
 		
 		// functions
 		angular.extend($scope, {
-			test: function(){
+
+			toggleSidebar: function(){
+				console.log('toggled');
 				var sidebar = $("#sidebar-wrapper");
 				var content = $("#page-content-wrapper");
 				if(sidebar.hasClass("open")){
@@ -30,12 +34,11 @@ myApp.controller('navController', ['$scope',
 					content.css('padding-left', "0%");
 				}else{
 					sidebar.css('-webkit-transform', 'translate(0,0');	
-
 					content.css('padding-left', "260px");
 				}
 				sidebar.toggleClass("open");
 			},
-			notAuth: function(){
+			hideSidebar: function(){
 				
 				var sidebar = $("#sidebar-wrapper");
 				var content = $("#page-content-wrapper");
@@ -48,11 +51,18 @@ myApp.controller('navController', ['$scope',
 		});
 	}]);
 
-myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
-	function($scope, codeModel, problemModel){
+myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problemModel',
+	function($scope,$rootScope, codeModel, problemModel){
 
 
 		problemModel.getProblem().success(function(response){
+
+			// console.log(response);
+
+			$rootScope.$emit("GlobalToggleSidebar", {});
+
+			$('.nav-tabs a[href="#problem_details"]').tab('show');
+
 			$scope.problemTitle = response.problem_title;
 			$scope.problemDescription = response.problem_description;
 			$scope.newCode.codes = response.code_cpp;
@@ -62,13 +72,15 @@ myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
 		    editor.setTheme("ace/theme/monokai");
 		    editor.getSession().setValue(sc);
 		    editor.resize();
+
 		});
 		// variables
 		angular.extend($scope, {
 			codeLanguage: "C++",
 			newCode: {
 				codes: null,
-				langId: 1,
+				langId: 1, 
+				input: null
 			}, 
 			error: null,
 			statusId: null,
@@ -85,7 +97,9 @@ myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
 			problemTitle: null,
 			problemDescription: null,
 			problemCodeCpp: null,
-			problemCodeJava: null
+			problemCodeJava: null,
+			
+			submitCodeId: null,
 		});
 		 
 		// functions
@@ -116,7 +130,8 @@ myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
 				}
 			},
 			getSubmissionStatus: function(id){				
-				codeModel.submissionStatusModel(id).success(function(response){
+				$('.nav-tabs a[href="#output"]').tab('show');
+				codeModel.submissionStatusModel(id).then(function(response){
 					$scope.output = "";
 					$scope.error = "";
 
@@ -157,24 +172,29 @@ myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
 				})
 			},
 			runCode: function(editorForm){
+
 				var editor = ace.edit("editor");
 				var code = editor.getValue();
 				console.log("code " + code);
 				$.ajax({
-				  type: "POST",
-				  url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
-				  data: {
+				  	type: "POST",
+				  	url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
+				  	// contentType: 'application/json',
+				  	data: 
+				  		// JSON.stringify(
+				  		{
 				 		sourceCode: code,
-				 		language: $scope.newCode.langId
-				 	},
-				  success: function(result, data){
-				  	var obj = JSON.parse(result);
-				  	$scope.submitId = obj.id;
-				  	console.log(obj.id);
-		  			
-		  			$scope.getSubmissionStatus($scope.submitId);
-				  }
-				  
+				 		language: $scope.newCode.langId,
+				 		input: $scope.newCode.input
+				 	}
+					 	// )
+					,
+				  	success: function(result, data){
+				  		var obj = JSON.parse(result);
+					  	$scope.submitId = obj.id;
+				  		console.log(obj.id);
+		  				$scope.getSubmissionStatus($scope.submitId);
+				  	}
 				});
 			},
 			languageToCpp: function(){
@@ -187,25 +207,59 @@ myApp.controller('codeController', ['$scope', 'codeModel', 'problemModel',
 				$scope.newCode.langId = 10;
 				console.log($scope.codeLanguage + " - " + $scope.newCode.langId );
 			},
-			submitCode: function(){
-				
-			},
-			toggleOutput: function(){
-				$scope.showOutput = $scope.showOutput === false ? true: false;
-			},
-			toggleProblemDetails: function(){
-				console.log($scope.showProblem);
-				$scope.showProblem = $scope.showProblem === false ? true: false;
-			},
-			testError: function(){
+			testError: function(){				
+				console.log('yeah');
 				$scope.getSubmissionStatus(47872263);
 			},
 			testSuccess: function(){
 				$scope.getSubmissionStatus(47900843);
 			},
-			
-			
-			
+			SubmitCode: function(){
+				var problemCode = "TEST_123";
+				var editor = ace.edit("editor");
+				var code = editor.getValue();
+
+				var codeData = {
+					problemCode: problemCode,
+					compilerId: $scope.newCode.langId,
+					source: code
+				}
+				var submissionId;
+
+				problemModel.getSubmissionId(codeData)
+					.then(function(response){
+
+						$scope.submitCodeId = response.data.submissionId;
+						$scope.testGetProblemDetails();
+					});
+			},
+			testGetProblemDetails: function(){
+				// var submitId = 80296;	
+				problemModel.getSubmissionDetails($scope.submitCodeId)
+					.success(function(response){
+						console.log(response);
+
+						var status_id = response.status;
+						if(status_id <= 9){
+							$scope.testGetProblemDetails();
+						}else{
+							if(status_id == 15){
+								if(response.result_score == 100){
+									console.log('Correct Code!! :D ');
+								}else{
+									console.log("Incorrect Code Dude!!!! >:( ");
+								}
+							}else{
+								console.log('There was an error with your code dude!');
+							}
+						}
+
+					});
+
+			},
+
+
+
 		});
 	}]);
 myApp.controller('problemController', ['$scope','problemModel',

@@ -15,9 +15,10 @@
 				  	</div>
 
 					<button type="submit" class="btn btn-warning btn-sm" ng-click="runCode(sourceCode)">Run</button>
-					<button  class="btn btn-primary btn-sm" ng-click="submitCode()">Submit</button>
+					<button  class="btn btn-primary btn-sm" ng-click="testSubmit()">Submit</button>
 					<button  class="btn btn-danger btn-sm" ng-click="testError()">Test Error</button>
 					<button  class="btn btn-success btn-sm" ng-click="testSuccess()">Test Success</button>
+					<button  class="btn btn-success btn-sm" ng-click="SubmitCode()"> TEst Submit Code</button>
 				</div>
 				<label class="control-label" style="font-size: 1.3em;"> Editor</label>
 	    		<div style="height: 500px;">
@@ -30,22 +31,28 @@
 			</div>
 		</div>
 		<div class="col-lg-6">
-			<div class="btn-group pull-right" role="group" aria-label="...">
-			  <button type="button" class="btn btn-default" ng-click="toggleOutput()">Output</button>
-			  <button type="button" class="btn btn-default" ng-click="toggleProblemDetails()">Problem Details</button>
-			</div>
-			
-			<div id="result" ng-show="showOutput">
 
-					<pre class="" style="background-color: #eee; font-size: .9em; border: 1px solid #555; height: 250px; width: 100%;"><span style="color: #fc9;"><% status %></span><span class="<% resultValueColor %>"><% resultValue %></span> - <span class="compilation-details" ng-hide="compiling">time: <% time %> memory: <% memory %> signal: <% signal %></span><br><span style="color: #000"><% output %></span><span style="color: #d00"><% error %></span></pre>
-			</div>
-			<div class="problem-details" ng-show="showProblem">
+			<ul class="nav nav-tabs">
+			  <li class="active"><a data-toggle="tab" href="#input">Input</a></li>
+			  <li><a data-toggle="tab" href="#output">Ouput</a></li>
+			  <li><a data-toggle="tab" href="#problem_details">Problem Details</a></li>
+			</ul>
+
+			<div class="tab-content">
+			  <div id="input" class="tab-pane fade in active">
+			  		<br>
+			    	<textarea style="padding: 5px;" class="form-control" rows="5" ng-model="newCode.input"></textarea>
+			  </div>
+			  <div id="output" class="tab-pane fade">
+			  		<br>
+					<pre style="background-color: #eee; font-size: .9em; border: 1px solid #555; height: 250px; width: 100%;"><span style="color: #fc9;"><% status %></span><span class="<% resultValueColor %>"><% resultValue %></span> - <span class="compilation-details" ng-hide="compiling">time: <% time %> memory: <% memory %> signal: <% signal %></span><br><span style="color: #000"><% output %></span><span style="color: #d00"><% error %></span></pre>
+			  </div>
+			  <div id="problem_details" class="tab-pane fade">
 				<h4><% problemTitle %></h4>
 				<pre style="width: 100%; height: auto"><% problemDescription %></pre>
 				
+			  </div>
 			</div>
-
-
 		</div>
 		
 	</div>

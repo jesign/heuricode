@@ -22,6 +22,7 @@
         #editor { 
             position: absolute;
             margin-top: 50px;
+            margin-left: 15px;
             top: 0;
             right: 0;
             bottom: 0;
@@ -59,7 +60,7 @@
                     @if(!Auth::guest())
                     <ul class="nav navbar-nav">
                         <li>
-                            <a id="menu-toggle" ng-click="test()">  
+                            <a id="menu-toggle" ng-click="toggleSidebar()">  
                                 <span class="glyphicon glyphicon-menu-hamburger" ></span>
                             </a>
                         </li>
@@ -101,7 +102,7 @@
             </ul>
         </div>
         @else
-            <% notAuth() %>
+            <% hideSidebar() %>
         @endif
     </div>
     <div id="page-content-wrapper">

@@ -35,7 +35,9 @@ myApp.factory('codeModel', ['$http', function($http){
 			},
 			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
 			method: "GET"
-		})
+		}).then(function(result){
+			return result.data;
+		});
 
 	}
 
@@ -45,7 +47,7 @@ myApp.factory('codeModel', ['$http', function($http){
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/test?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
+			url: 'http://db4262da.problems.sphere-engine.com/api/v3/compilers?access_token=53f4557da7338c7993a582b40614217ef2f73ddd',
 			method: "GET"
 		}).success(function(response){
 			console.log(response);

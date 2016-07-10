@@ -40,7 +40,9 @@ myApp.factory('codeModel', ['$http', function($http){
 			},
 			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
 			method: "GET"
-		})
+		}).then(function(result){
+			return result.data;
+		});
 
 	}
 
@@ -50,7 +52,7 @@ myApp.factory('codeModel', ['$http', function($http){
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/test?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
+			url: 'http://db4262da.problems.sphere-engine.com/api/v3/compilers?access_token=53f4557da7338c7993a582b40614217ef2f73ddd',
 			method: "GET"
 		}).success(function(response){
 			console.log(response);
@@ -72,10 +74,33 @@ myApp.factory('problemModel', ['$http', function($http){
 	return {
 		getProblem: function(){
 			return $http.get(baseUrl + 'problem');
+		},
+		getTestCases: function(problem_id){
+			return $http.get(baseUrl + 'testCases/' + problem_id);
+		},
+		getTesting: function(){
+			return $http.get(baseUrl + 'test');
+		},
+		getSubmissionDetails: function(submissionId){
+			return $http.get(baseUrl + 'getSubmissionDetails/' + submissionId);
+		},
+		getSubmissionId: function(codeData){
+			return $http({
+				headers:{
+					'Content-Type': 'application/json'
+				},
+				url: baseUrl + 'getSubmissionId',
+				method: "POST",
+				data: {
+					'problemCode': codeData.problemCode,
+					'compilerId': codeData.compilerId,
+					'source': codeData.source
+				}
+			});
 		}
 	}
 
 }]);	
 
-
+ 
 //# sourceMappingURL=models.js.map
