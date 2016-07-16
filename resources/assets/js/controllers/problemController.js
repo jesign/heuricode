@@ -1,26 +1,29 @@
-myApp.controller('problemController', ['$scope','problemModel',
-	function($scope, problemModel){
+myApp.controller('problemController', ['$scope','problemModel', '$location',
+	function($scope, problemModel, $location){
+
 		// variables
-		problemModel.getProblem().success(function(response){
-			$scope.problemTitle = response.problem_title;
-			$scope.problemDescription = response.problem_description;
-			console.log(response.problem_title);
-		});
-
 		angular.extend($scope, {
-			problemTitle: null,
-			problemDescription: null
+			problemCode: null,
 		});
-
+ 	
 		// functions
 		angular.extend($scope,{
-			getProblem: function(){
-					problemModel.getProblem().success(function(response){
-						$scope.problemTitle = response.problem_title;
-						$scope.problemDescription = response.problem_description;
-						console.log(response.problem_title);
-					});
+			getProblemCode: function(){
+				$scope.problemCode = 'TEST_123';
+				$scope.getProblem($scope.problemCode);
+			},
+			getProblem: function(problemCode){
+				problemModel.getProblem(problemCode).success(function(response){
+					$scope.problemTitle = response.name;
+					$scope.problemDescription = response.body;
+				});
+			},
+			solveIt: function(id){
+				$location.path('/coding/' + id);
 			}
+
 		});
 
+		// Activities
+		$scope.getProblemCode();
 	}]);

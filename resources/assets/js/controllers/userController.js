@@ -6,7 +6,8 @@ myApp.controller('userController', ['$scope',
 		angular.extend($scope, {
 			testFunction: function(){
 				alert('Yeah');
-			}
+			},
+
 		});
 
 	}]);

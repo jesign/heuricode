@@ -1,7 +1,7 @@
 myApp.factory('problemModel', ['$http', function($http){
 	return {
-		getProblem: function(){
-			return $http.get(baseUrl + 'problem');
+		getProblem: function(problem_id){
+			return $http.get(baseUrl + 'problem/' + problem_id);
 		},
 		getTestCases: function(problem_id){
 			return $http.get(baseUrl + 'testCases/' + problem_id);
@@ -13,7 +13,7 @@ myApp.factory('problemModel', ['$http', function($http){
 			return $http.get(baseUrl + 'getSubmissionDetails/' + submissionId);
 		},
 		getSubmissionId: function(codeData){
-			return $http({
+			return $http({ 
 				headers:{
 					'Content-Type': 'application/json'
 				},

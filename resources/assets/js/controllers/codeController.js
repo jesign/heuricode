@@ -1,26 +1,13 @@
-myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problemModel',
-	function($scope,$rootScope, codeModel, problemModel){
+myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problemModel', '$stateParams',
+	function($scope,$rootScope, codeModel, problemModel, $stateParams){
 
-
-		problemModel.getProblem().success(function(response){
+		// problemModel.getProblem().success(function(response){
 
 			// console.log(response);
 
-			$rootScope.$emit("GlobalToggleSidebar", {});
+		// });
 
-			$('.nav-tabs a[href="#problem_details"]').tab('show');
-
-			$scope.problemTitle = response.problem_title;
-			$scope.problemDescription = response.problem_description;
-			$scope.newCode.codes = response.code_cpp;
-			
-			var sc = $scope.newCode.codes;
-		    var editor = ace.edit("editor");
-		    editor.setTheme("ace/theme/monokai");
-		    editor.getSession().setValue(sc);
-		    editor.resize();
-
-		});
+		// if there is a parameter in a route
 		// variables
 		angular.extend($scope, {
 			codeLanguage: "C++",
@@ -41,13 +28,24 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 			memory: null,
 			signal: null,
 
+			problemCode: null,
 			problemTitle: null,
 			problemDescription: null,
 			problemCodeCpp: null,
 			problemCodeJava: null,
 			
 			submitCodeId: null,
-		});
+			submitStatusDescription: null,
+			checkingResult: false,
+			resultSubmissionColor: null,
+			errors: {
+				ms: 0,
+				se: 0,
+				pm: 0,
+				ree: 0,
+				re: 0				
+			}
+		}); 	
 		 
 		// functions
 		angular.extend($scope, {
@@ -114,6 +112,7 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 		  			}else{
 		  				$scope.resultValueColor = "resultValError";
 		  				$scope.error = response.cmpinfo;
+		  				$scope.getErrors();
 		  			}
 
 				})
@@ -154,18 +153,27 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 				$scope.newCode.langId = 10;
 				console.log($scope.codeLanguage + " - " + $scope.newCode.langId );
 			},
-			testError: function(){				
+			testError: function(){			
+				
+				// $('#myModal').modal('show')	
 				console.log('yeah');
 				$scope.getSubmissionStatus(47872263);
 			},
 			testSuccess: function(){
 				$scope.getSubmissionStatus(47900843);
 			},
+			testModal: function(){
+				// $scope.resultSubmissionColor = "submission-running";
+				// $scope.submitStatusDescription = "Accepted!";				
+				// $('#myModal').modal({ keyboard: false, backdrop: false, show: true });
+				$scope.testError();
+				
+			},
 			SubmitCode: function(){
-				var problemCode = "TEST_123";
+				var problemCode = $scope.problemCode;
 				var editor = ace.edit("editor");
 				var code = editor.getValue();
-
+				console.log(problemCode);
 				var codeData = {
 					problemCode: problemCode,
 					compilerId: $scope.newCode.langId,
@@ -176,36 +184,69 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 				problemModel.getSubmissionId(codeData)
 					.then(function(response){
 
+						$scope.checkingResult = false;
 						$scope.submitCodeId = response.data.submissionId;
+						$scope.resultSubmissionColor = "submission-running";
+						$scope.submitStatusDescription = "";
 						$scope.testGetProblemDetails();
 					});
+
 			},
 			testGetProblemDetails: function(){
-				// var submitId = 80296;	
+				$('#myModal').modal({ keyboard: false, backdrop: false, show: true })
 				problemModel.getSubmissionDetails($scope.submitCodeId)
 					.success(function(response){
-						console.log(response);
-
+						console.log(response.statusDescription);
 						var status_id = response.status;
-						if(status_id <= 9){
+						$scope.submitStatusDescription = response.statusDescription;
+						if(status_id < 9){
+
 							$scope.testGetProblemDetails();
 						}else{
+							$scope.checkingResult = true;
 							if(status_id == 15){
-								if(response.result_score == 100){
-									console.log('Correct Code!! :D ');
-								}else{
-									console.log("Incorrect Code Dude!!!! >:( ");
-								}
+								$scope.resultSubmissionColor = "submission-accepted";
+								$scope.submitStatusDescription = "Accepted!";
 							}else{
-								console.log('There was an error with your code dude!');
+								$scope.resultSubmissionColor = "submission-error";
 							}
 						}
 
-					});
+				});
 
 			},
+			getErrors: function(){
+				var str_error = $scope.error;
+				var array_error = str_error.split("\n");
 
-
-
+				for(i = 0; i < array_error.length; i ++){
+					console.log(array_error[i]);
+				}
+			}
 		});
+		if($stateParams.id){
+			$scope.problemCode = $stateParams.id;
+			problemModel.getProblem($stateParams.id)
+				.success(function(response){
+					console.log(response);
+		
+					$rootScope.$emit("GlobalToggleSidebar", {});
+
+					$('.nav-tabs a[href="#problem_details"]').tab('show');
+
+					$scope.problemTitle = response.name;
+					$scope.problemDescription = response.body;
+
+					$scope.newCode.codes = "#nothing yet";
+					
+					var sc = $scope.newCode.codes;
+				    var editor = ace.edit("editor");
+				    editor.setTheme("ace/theme/monokai");
+				    editor.getSession().setValue(sc);
+				    editor.resize();
+
+				});
+		}
+
+	
 	}]);

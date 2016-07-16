@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ui.router']);
+var myApp = angular.module('myApp', ['ui.router', 'ngSanitize']);
 
 myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$locationProvider','$httpProvider',
 	function($interpolateProvider, $stateProvider, $urlRouterProvider, $locationProvider,$httpProvider){
@@ -23,8 +23,14 @@ myApp.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$
 			templateUrl: 'templates/coding.html',
 			controller: 'codeController',
 			url: '/coding',
-			name: 'codingPage'
+			name: 'codingPageTest'
 		}),
+		$stateProvider.state({
+			templateUrl: 'templates/coding.html',
+			controller: 'codeController',
+			url: '/coding/:id',
+			name: 'codingPage'
+		})
 
 		$urlRouterProvider.otherwise('/');
 

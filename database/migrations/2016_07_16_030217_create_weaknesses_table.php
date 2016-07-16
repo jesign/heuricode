@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNewSubjectAreaTable extends Migration
+class CreateWeaknessesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,13 @@ class CreateNewSubjectAreaTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('subject_areas', function (Blueprint $table) {
+        Schema::create('weaknesses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('rank');
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
@@ -28,6 +26,6 @@ class CreateNewSubjectAreaTable extends Migration
      */
     public function down()
     {
-        Schema::drop('subject_areas');
+        Schema::drop('weaknesses');
     }
 }

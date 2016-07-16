@@ -23,9 +23,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    public function subjectAreas()
+    public function ranks()
     {
-        return $this->hasMany('App\SubjectArea');
+        return $this->hasMany('App\Rank');
     }
 
 }

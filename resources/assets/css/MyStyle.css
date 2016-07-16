@@ -1,0 +1,99 @@
+
+body {
+    font-family: 'Lato';
+    background-color: #FAFFFC;
+}
+
+#menu-toggle{
+	font-size: 20px;
+}
+
+#logo{
+	display: inline;
+	margin: -10px 10px;
+	height: 170%;
+}
+
+.auth-form{
+	margin-top: 5%;
+}
+
+/* sidebar */
+.navbar.navbar-default{
+		margin-bottom: 0px;
+}
+#sidebar-wrapper{
+	position: fixed;
+	height: 100%;
+	width: 250px;
+	overflow: hidden;
+	background: #15a589;	
+	-webkit-transform: translate(0, 0);
+	-webkit-transition: all 1s ease;
+}
+
+/*main Content*/
+#page-content-wrapper{
+	width: 100%;
+	margin-top: 60px;
+	padding-top: 0px;
+	padding-left: 260px;
+
+	-webkit-transition: all 1s ease;	
+}
+.sidebar-nav{
+	padding: 0;
+	list-style: none;
+}
+.sidebar-nav li{
+	text-indent: 20px;
+	line-height: 40px;
+	border-bottom: 1px solid #0a7762;
+}
+.sidebar-nav li a{
+	display: block;
+	text-decoration: none;
+	color: #ddd;
+}
+.sidebar-nav li:hover{
+	background: #16A085;
+}
+
+/* Coding */
+.compilation-details{
+  color:  #4d4d4d;
+}
+.resultValError{
+  color: #f00;
+}
+.resultValSuccess{
+  color: #00f;
+}
+  
+.submission-running{
+  color: #f90;
+}
+.submission-accepted{
+  font-style: bold;
+  color: #0f0;
+}
+.submission-error{
+  font-style: bold;
+  color: #f00;
+}
+
+/*submission modal*/
+div.modal-submission-result.modal-content{
+  background-color: #555;
+  font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: 400;  
+  color: #dcdcdc;
+}
+div.modal-submission-result.modal-content .modal-header{
+  border-bottom: 1px solid #323232;
+}
+
+div.modal-submission-result.modal-content .modal-footer {
+  padding: 15px;
+  border-top: 1px solid #323232;
+}

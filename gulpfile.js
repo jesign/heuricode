@@ -35,6 +35,12 @@ elixir(function(mix) {
         'models/problemModel.js'
 
         ], 'public/js/models.js');
+
+    mix.styles([
+        "MyStyle.css",
+        "loading.css"
+    ], 'public/build/css/all.css');
+
     mix.version([
         'js/app.js',
         'js/models.js',

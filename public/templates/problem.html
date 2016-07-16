@@ -7,12 +7,12 @@
 				</div>
 			</div>
 			<div class="col-lg-2">
-				<a ui-sref="codingPage" class="btn btn- btn-success">Solve it!</a>
+				<!-- <a ui-sref="codingPage" class="btn btn- btn-success">Solve it!</a> -->
+				<a ng-click="solveIt(problemCode)" class="btn btn- btn-success">Solve it!</a>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-12">
-				<pre><% problemDescription %></pre>
+			<div class="col-lg-12" ng-bind-html="problemDescription">
 			</div>
 		</div>
         

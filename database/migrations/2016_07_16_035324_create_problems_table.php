@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestCasesTable extends Migration
+class CreateProblemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,16 @@ class CreateTestCasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_cases', function (Blueprint $table) {
+        Schema::create('problems', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('problem_id')->references('id')->on('problems');
-            $table->string('input');
-            $table->string('output');
+            $table->string('problem_code');
+            $table->enum('difficulty', ['easy', 'medium', 'hard']);
             $table->timestamps();
+            
+            $table->integer('weakness_id')->unsigned();
+            $table->foreign('weakness_id')->references('id')->on('weaknesses');
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -28,6 +29,6 @@ class CreateTestCasesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('test_cases');
+        Schema::drop('problems');
     }
 }

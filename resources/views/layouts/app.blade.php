@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" type="text/css" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('build/css/all.css') }}">
 
     <style type="text/css" media="screen">
         #editor { 
@@ -51,7 +51,6 @@
                     <a class="navbar-brand" href="#/">
                         <img id="logo" src="{{ asset('img/heuricode-inverse-small.png') }}" >
                         HeuriCode
-
                     </a>
                 </div>
 
@@ -112,6 +111,7 @@
     <!-- JavaScripts Offline -->
     
     <script src="{{ asset('bower_components/angular/angular.js')}}"></script>
+    <script src="{{ asset('bower_components/angular-sanitize/angular-sanitize.js')}}"></script>
     <script src="{{ asset('bower_components/angular-route/angular-route.js') }}"></script>
     <script src="{{ asset('bower_components/angular-ui-router/release/angular-ui-router.js') }}"></script>
     <script src="{{ asset('js/app.js')}}"></script>
@@ -127,5 +127,6 @@
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>
+
 
 
