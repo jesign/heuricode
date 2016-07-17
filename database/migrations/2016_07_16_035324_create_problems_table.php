@@ -16,10 +16,14 @@ class CreateProblemsTable extends Migration
             $table->increments('id');
             $table->string('problem_code');
             $table->enum('difficulty', ['easy', 'medium', 'hard']);
-            $table->timestamps();
+            $table->text('skeleton_code_c');
+            $table->text('skeleton_code_cpp');
+            $table->text('skeleton_code_java');
             
             $table->integer('weakness_id')->unsigned();
             $table->foreign('weakness_id')->references('id')->on('weaknesses');
+
+            $table->timestamps();
         });
     }
     /**
@@ -31,4 +35,5 @@ class CreateProblemsTable extends Migration
     {
         Schema::drop('problems');
     }
+    
 }

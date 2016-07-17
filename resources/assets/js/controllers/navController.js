@@ -8,7 +8,7 @@ myApp.controller('navController', ['$scope', '$rootScope',
 		// variables
 		angular.extend($scope, {
 			showNav: true
-		});
+		}); 
 		
 		// functions
 		angular.extend($scope, {
@@ -33,8 +33,7 @@ myApp.controller('navController', ['$scope', '$rootScope',
 
 				sidebar.css('-webkit-transform', 'translate(-98%,0');
 				content.css('padding-left', "0%");
-
-				console.log('Not auth');
 			},
+			
 		});
 	}]);

@@ -26,6 +26,7 @@ myApp.factory('codeModel', ['$http', function($http){
 		  
 		});
 	};
+	
 	model.submissionStatusModel = function(id){
 		// return $http.get('http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2');
 
@@ -85,6 +86,15 @@ myApp.factory('problemModel', ['$http', function($http){
 		},
 		getSubmissionDetails: function(submissionId){
 			return $http.get(baseUrl + 'getSubmissionDetails/' + submissionId);
+		},
+		getSkeletonCode: function(problemCode, languageId){
+			if(languageId == 11) {
+				return $http.get(baseUrl + 'problem/sourceCode/C/' + problemCode);
+			} else if(languageId == 1) {
+				return $http.get(baseUrl + 'problem/sourceCode/Cpp/' + problemCode);
+			} else {
+				return $http.get(baseUrl + 'problem/sourceCode/Java/' + problemCode);
+			}
 		},
 		getSubmissionId: function(codeData){
 			return $http({ 

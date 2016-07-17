@@ -12,6 +12,15 @@ myApp.factory('problemModel', ['$http', function($http){
 		getSubmissionDetails: function(submissionId){
 			return $http.get(baseUrl + 'getSubmissionDetails/' + submissionId);
 		},
+		getSkeletonCode: function(problemCode, languageId){
+			if(languageId == 11) {
+				return $http.get(baseUrl + 'problem/sourceCode/C/' + problemCode);
+			} else if(languageId == 1) {
+				return $http.get(baseUrl + 'problem/sourceCode/Cpp/' + problemCode);
+			} else {
+				return $http.get(baseUrl + 'problem/sourceCode/Java/' + problemCode);
+			}
+		},
 		getSubmissionId: function(codeData){
 			return $http({ 
 				headers:{

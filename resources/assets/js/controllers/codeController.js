@@ -1,21 +1,14 @@
-myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problemModel', '$stateParams',
-	function($scope,$rootScope, codeModel, problemModel, $stateParams){
-
-		// problemModel.getProblem().success(function(response){
-
-			// console.log(response);
-
-		// });
-
+myApp.controller('codeController', ['$scope','$rootScope', 
+		'codeModel', 'problemModel', 'codeDetailsService',
+	function($scope,$rootScope, codeModel, problemModel, codeDetailsService){
 		// if there is a parameter in a route
 		// variables
 		angular.extend($scope, {
-			codeLanguage: "C++",
 			newCode: {
 				codes: null,
-				langId: 1, 
 				input: null
 			}, 
+			languageId: null,
 			error: null,
 			statusId: null,
 			submitId:null,
@@ -130,7 +123,7 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 				  		// JSON.stringify(
 				  		{
 				 		sourceCode: code,
-				 		language: $scope.newCode.langId,
+				 		language: $scope.languageId,
 				 		input: $scope.newCode.input
 				 	}
 					 	// )
@@ -143,16 +136,6 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 				  	}
 				});
 			},
-			languageToCpp: function(){
-				$scope.codeLanguage = "C++";
-				$scope.newCode.langId = 1;
-				console.log($scope.codeLanguage + " - " + $scope.newCode.langId );
-			},
-			languageToJava: function(){
-				$scope.codeLanguage = "Java";
-				$scope.newCode.langId = 10;
-				console.log($scope.codeLanguage + " - " + $scope.newCode.langId );
-			},
 			testError: function(){			
 				
 				// $('#myModal').modal('show')	
@@ -161,13 +144,13 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 			},
 			testSuccess: function(){
 				$scope.getSubmissionStatus(47900843);
+				console.log('');
 			},
 			testModal: function(){
 				// $scope.resultSubmissionColor = "submission-running";
 				// $scope.submitStatusDescription = "Accepted!";				
 				// $('#myModal').modal({ keyboard: false, backdrop: false, show: true });
-				$scope.testError();
-				
+				$scope.testError();			
 			},
 			SubmitCode: function(){
 				var problemCode = $scope.problemCode;
@@ -176,7 +159,7 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 				console.log(problemCode);
 				var codeData = {
 					problemCode: problemCode,
-					compilerId: $scope.newCode.langId,
+					compilerId: $scope.languageId,
 					source: code
 				}
 				var submissionId;
@@ -190,7 +173,6 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 						$scope.submitStatusDescription = "";
 						$scope.testGetProblemDetails();
 					});
-
 			},
 			testGetProblemDetails: function(){
 				$('#myModal').modal({ keyboard: false, backdrop: false, show: true })
@@ -213,7 +195,6 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 						}
 
 				});
-
 			},
 			getErrors: function(){
 				var str_error = $scope.error;
@@ -222,14 +203,33 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 				for(i = 0; i < array_error.length; i ++){
 					console.log(array_error[i]);
 				}
+			},
+			getSkeletonCode: function(problem_code, language_id){
+				problemModel.getSkeletonCode(problem_code, language_id) 
+					.success(function(response){
+						console.log(response);
+						
+						$scope.newCode.codes = response;
+						var sc = $scope.newCode.codes;
+					    var editor = ace.edit("editor");
+					    editor.setTheme("ace/theme/monokai");
+					    editor.getSession().setValue(sc);
+					    editor.resize();
+						});
 			}
 		});
-		if($stateParams.id){
-			$scope.problemCode = $stateParams.id;
-			problemModel.getProblem($stateParams.id)
-				.success(function(response){
-					console.log(response);
-		
+
+		// automatic activity
+		if(codeDetailsService.getIsEnableCode()){
+			// get problem details
+			var pCode = codeDetailsService.getProblemCode();
+			var langId = codeDetailsService.getLanguage();
+			// set problem details
+			$scope.problemCode = pCode;
+			$scope.languageId = langId;
+
+			problemModel.getProblem($scope.problemCode)
+				.success(function(response){		
 					$rootScope.$emit("GlobalToggleSidebar", {});
 
 					$('.nav-tabs a[href="#problem_details"]').tab('show');
@@ -237,16 +237,14 @@ myApp.controller('codeController', ['$scope','$rootScope', 'codeModel', 'problem
 					$scope.problemTitle = response.name;
 					$scope.problemDescription = response.body;
 
-					$scope.newCode.codes = "#nothing yet";
+					$scope.getSkeletonCode($scope.problemCode, $scope.languageId);
 					
-					var sc = $scope.newCode.codes;
-				    var editor = ace.edit("editor");
-				    editor.setTheme("ace/theme/monokai");
-				    editor.getSession().setValue(sc);
-				    editor.resize();
-
+				})
+				.error(function(result){
+					console.log(result);
 				});
-		}
-
-	
+			
+		}else{
+			console.log('unable to code');
+		}	
 	}]);

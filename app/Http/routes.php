@@ -26,7 +26,9 @@ Route::get('/home', 'HomeController@index');
 Route::get('/testCases/{id}', 'TestCaseController@getTestCases');
 Route::get('/problem', 'ProblemController@getProblem');
 Route::get('/problem/{id}', 'ProblemApiController@getProblem');
-
+Route::get('/problem/sourceCode/C/{id}', 'ProblemController@getSourceCodeC');
+Route::get('/problem/sourceCode/Cpp/{id}', 'ProblemController@getSourceCodeCpp');
+Route::get('/problem/sourceCode/Java/{id}', 'ProblemController@getSourceCodeJava');
 Route::get('/test', 'TestCaseController@testing');
 Route::post('/getSubmissionId', 'ProblemApiController@getSubmissionId');
 Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDetails');

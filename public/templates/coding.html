@@ -3,17 +3,7 @@
 		<div class="col-lg-6">
 			<div style="margin:10px">
 				<div class="btn-group pull-right ">
-					<div class="btn-group">
-				    	<button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown">
-				    	<% codeLanguage %>
-				    	<span class="caret"></span>
-				    	</button>
-				    	<ul class="dropdown-menu" role="menu">
-				      		<li><a ng-click="languageToCpp()">C++</a></li>
-				      		<li><a ng-click="languageToJava()">Java</a></li>
-				    	</ul>
-				  	</div>
-
+					
 					<button type="submit" class="btn btn-warning btn-sm" ng-click="runCode(sourceCode)">Run</button>
 					<button  class="btn btn-primary btn-sm" ng-click="SubmitCode()">Submit</button>
 					<button  class="btn btn-danger btn-sm" ng-click="testError()">Test Error</button>
@@ -26,7 +16,7 @@
 	    		</div>
 				<script src="/ace-builds/src-noconflict/ace.js"></script>
 				<script>
-
+ 
 				</script>
 			</div>
 		</div>
