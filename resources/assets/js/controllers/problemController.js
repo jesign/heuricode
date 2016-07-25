@@ -1,11 +1,12 @@
-myApp.controller('problemController', ['$scope','problemModel', '$state', 'codeDetailsService',
-	function($scope, problemModel, $state,codeDetailsService){
+myApp.controller('problemController', ['$scope','problemModel', '$state', 'codingService',
+	function($scope, problemModel, $state,codingService){
 
 		// variables
 		angular.extend($scope, {
 			problemCode: null,
 			language: "C",
-			languageId: 11
+			languageId: 11,
+			loadingProblem: true
 		});
 
 		// functions
@@ -16,6 +17,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codeD
 			},
 			getProblem: function(problemCode){
 				problemModel.getProblem(problemCode).success(function(response){
+					$scope.loadingProblem = false;
 					$scope.problemTitle = response.name;
 					$scope.problemDescription = response.body;
 				});
@@ -23,30 +25,30 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codeD
 			solveIt: function(id){
 				console.log(id);
 				console.log($scope.languageId);
-				codeDetailsService.setProblemCode(id);
-				codeDetailsService.setIsEnableCode(true);
+				codingService.setProblemCode(id);
+				codingService.setIsEnableCode(true);
 				$state.go('codingPage');
 				
 			},
 			languageToC: function(){
 				$scope.language = "C";
 				$scope.languageId = 11;
-				codeDetailsService.setLanguage(11);
+				codingService.setLanguage(11);
 			},
 			languageToCpp: function(){
 				$scope.language = "C++";
 				$scope.languageId = 1;
-				codeDetailsService.setLanguage(1);
+				codingService.setLanguage(1);
 			},
 			languageToJava: function(){
 				$scope.language = "Java";
 				$scope.languageId = 10;
-				codeDetailsService.setLanguage(10);
+				codingService.setLanguage(10);
 			}
 
 		});
 
 		// Activities
+		$scope.languageToCpp();	
 		$scope.getProblemCode();
-		$scope.languageToC();
 	}]);

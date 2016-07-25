@@ -1,8 +1,7 @@
 myApp.controller('codeController', ['$scope','$rootScope', 
-		'codeModel', 'problemModel', 'codeDetailsService',
-	function($scope,$rootScope, codeModel, problemModel, codeDetailsService){
-		// if there is a parameter in a route
-		// variables
+		'codeModel', 'problemModel', 'codingService', '$state',
+		'errorService',
+	function($scope,$rootScope, codeModel, problemModel, codingService,$state, errorService){
 		angular.extend($scope, {
 			newCode: {
 				codes: null,
@@ -37,7 +36,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				pm: 0,
 				ree: 0,
 				re: 0				
-			}
+			},
+			test_error_number: 0
 		}); 	
 		 
 		// functions
@@ -65,6 +65,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					case 20:
 						return "Internal Error";
 					break;
+					default: 
+						return 0;
 				}
 			},
 			getSubmissionStatus: function(id){				
@@ -78,7 +80,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					$scope.showProblem = true;
 					$scope.statusId = response.status;
 					var status_id = $scope.statusId;
-
+					console.log(status_id);
 		  			if(status_id != 0){
 		  				$scope.compiling = true;
 		  				if(status_id < 0)
@@ -98,20 +100,36 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		  			}
 
 		  			$scope.resultValue = $scope.getResultValue(response.result);
+		  			console.log(response.result);
 		  			console.log($scope.getResultValue(response.result));
+		  			
+	  			
 		  			if(response.result == 15){
 		  				$scope.resultValueColor = "resultValSuccess";
 		  				$scope.output = response.output;
+		  			}else if(response.result == 12){
+		  				errorService.addErrorCountRE(1);
 		  			}else{
 		  				$scope.resultValueColor = "resultValError";
 		  				$scope.error = response.cmpinfo;
-		  				$scope.getErrors();
-		  			}
+		  				// Missing Semicolon Error
+		  				$scope.getErrorsMS();
+						$scope.getErrorsSE();
+						$scope.getErrorsPM();
+						$scope.getErrorsREE();
 
-				})
+						$scope.errors.ms = errorService.getErrorCountMS();
+						$scope.errors.se = errorService.getErrorCountSE();
+						$scope.errors.pm = errorService.getErrorCountPM();
+						$scope.errors.ree = errorService.getErrorCountREE();
+						$scope.errors.re = errorService.getErrorCountRE();
+						// count error here. call error service
+		  			}
+	  			
+
+				});
 			},
 			runCode: function(editorForm){
-
 				var editor = ace.edit("editor");
 				var code = editor.getValue();
 				console.log("code " + code);
@@ -144,13 +162,109 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			},
 			testSuccess: function(){
 				$scope.getSubmissionStatus(47900843);
-				console.log('');
 			},
-			testModal: function(){
-				// $scope.resultSubmissionColor = "submission-running";
-				// $scope.submitStatusDescription = "Accepted!";				
-				// $('#myModal').modal({ keyboard: false, backdrop: false, show: true });
-				$scope.testError();			
+			testing1: function(){
+				$scope.getSubmissionStatus(48791363);
+				
+			},
+			testing2: function(){
+				$scope.getSubmissionStatus(48791371);
+				
+			},
+			testing3: function(){
+				$scope.getSubmissionStatus(47900843);
+				
+			},
+			getErrorsMS: function(){
+				var str_error = $scope.error;
+				var array_error = str_error.split("prog.");
+				var number_of_errors = 0;
+				switch($scope.languageId){
+					case 1:
+						for(i = 0; i < array_error.length; i ++){
+							var str = array_error[i];
+								if(str.includes("expected ';' before")){
+									number_of_errors ++;
+								} 
+						}
+						errorService.addErrorCountMS(number_of_errors);		 
+						break;
+					case 10:
+						break;
+					case 11:
+				}
+				
+			},
+			getErrorsSE: function(){
+				var str_error = $scope.error;
+				var array_error = str_error.split("prog.");
+				var number_of_errors = 0;
+
+				switch($scope.languageId){
+					case 1:
+						for(i = 0; i < array_error.length; i ++){
+							var str = array_error[i];
+							if(str.includes("was not declared in this scope")){
+								number_of_errors ++;
+							} 
+						}
+						errorService.addErrorCountSE(number_of_errors);		 
+						break;
+					case 10:
+						
+						break;
+					case 11:
+				}
+			},
+			getErrorsPM: function(){
+				var str_error = $scope.error;
+				var array_error = str_error.split("prog.");
+				var number_of_errors = 0;
+
+				switch($scope.languageId){
+					case 1:
+						for(i = 0; i < array_error.length; i ++){
+							var str = array_error[i];
+							if(str.includes("expected ')'")){
+								number_of_errors ++;
+							} else if(str.includes("expected ']'")){
+								number_of_errors ++;
+							} else if(str.includes("expected '}'")){
+								number_of_errors ++;
+							} else if(str.includes("expected '('")){
+								number_of_errors ++;
+							} else if(str.includes("expected '{'")){
+								number_of_errors ++;
+							}else if(str.includes("expected '['")){
+								number_of_errors ++;
+							} 
+						}
+						errorService.addErrorCountPM(number_of_errors);		 
+						break;
+					case 10:
+						
+						break;
+					case 11:
+				}					
+			},
+			getErrorsREE: function(){
+				var str_error = $scope.error;
+				var array_error = str_error.split("prog.");
+				var number_of_errors = 0;
+				switch($scope.languageId){
+					case 1:
+						for(i = 0; i < array_error.length; i ++){
+							var str = array_error[i];
+								if(str.includes("expected primary-expression before")){
+									number_of_errors ++;
+								} 
+						}
+						errorService.addErrorCountREE(number_of_errors);		 
+						break;
+					case 10:
+						break;
+					case 11:
+				}
 			},
 			SubmitCode: function(){
 				var problemCode = $scope.problemCode;
@@ -193,16 +307,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								$scope.resultSubmissionColor = "submission-error";
 							}
 						}
-
 				});
-			},
-			getErrors: function(){
-				var str_error = $scope.error;
-				var array_error = str_error.split("\n");
-
-				for(i = 0; i < array_error.length; i ++){
-					console.log(array_error[i]);
-				}
 			},
 			getSkeletonCode: function(problem_code, language_id){
 				problemModel.getSkeletonCode(problem_code, language_id) 
@@ -218,12 +323,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						});
 			}
 		});
-
 		// automatic activity
-		if(codeDetailsService.getIsEnableCode()){
+		if(codingService.getIsEnableCode()){
 			// get problem details
-			var pCode = codeDetailsService.getProblemCode();
-			var langId = codeDetailsService.getLanguage();
+			var pCode = codingService.getProblemCode();
+			var langId = codingService.getLanguage();
 			// set problem details
 			$scope.problemCode = pCode;
 			$scope.languageId = langId;
@@ -243,8 +347,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				.error(function(result){
 					console.log(result);
 				});
-			
 		}else{
+			$state.go('problemPage');
 			console.log('unable to code');
 		}	
 	}]);

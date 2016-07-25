@@ -8,7 +8,7 @@
 					<button  class="btn btn-primary btn-sm" ng-click="SubmitCode()">Submit</button>
 					<button  class="btn btn-danger btn-sm" ng-click="testError()">Test Error</button>
 					<button  class="btn btn-success btn-sm" ng-click="testSuccess()">Test Success</button>
-					<button type="button" class="btn btn-success btn-sm" ng-click="testModal()"> TEsting</button>
+					<button type="button" class="btn btn-success btn-sm" ng-click="testing()"> TEsting</button>
 				</div>
 				<label class="control-label" style="font-size: 1.3em;"> Editor</label>
 	    		<div style="height: 500px;">
@@ -26,6 +26,7 @@
 			  <li class="active"><a data-toggle="tab" href="#input">Input</a></li>
 			  <li><a data-toggle="tab" href="#output">Ouput</a></li>
 			  <li><a data-toggle="tab" href="#problem_details">Problem Details</a></li>
+			  <li><a data-toggle="tab" href="#testing">For Testing</a></li>
 			</ul>
 
 			<div class="tab-content">
@@ -41,6 +42,19 @@
 				<h4><% problemTitle %></h4>
 				<!-- <pre style="width: 100%; height: auto"><% problemDescription %></pre> -->
 				<div style="overflow:scroll; height:500px; padding-bottom: 50px;" ng-bind-html="problemDescription"></div>
+			  </div>
+			  <div id="testing" class="tab-pane fade">
+			  	<div class="btn-group btn-sm">
+			  		<button type="button" class="btn btn-primary" ng-click="testing1()">Test 1</button>
+			  		<button type="button" class="btn btn-primary" ng-click="testing2()">Test 2</button>
+			  		<button type="button" class="btn btn-primary" ng-click="testing3()">Test 3</button>
+			  		MS: <span ng-bind="errors.ms"></span><br>
+			  		SE: <span ng-bind="errors.se"></span><br>
+			  		PM: <span ng-bind="errors.pm"></span><br>
+			  		REE: <span ng-bind="errors.ree"></span><br>
+			  		RE: <span ng-bind="errors.re"></span><br>
+			  		
+			  	</div>
 			  </div>
 			</div>
 		</div>

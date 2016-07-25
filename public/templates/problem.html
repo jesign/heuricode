@@ -1,6 +1,13 @@
 <div class="container-fluid" ng-controller="problemController">
 
-		<div class="row">
+		<div ng-show="loadingProblem">
+			<div class="spinner">
+			  <div class="double-bounce1"></div>
+			  <div class="double-bounce2"></div>
+			</div>
+		</div>
+
+		<div class="row" ng-hide="loadingProblem">
 			<div class="col-lg-9">
 				<h3><% problemTitle %></h3>
 				<div class="col-lg-12" ng-bind-html="problemDescription">

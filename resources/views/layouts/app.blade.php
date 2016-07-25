@@ -117,6 +117,7 @@
     <script src="{{ asset('js/app.js')}}"></script>
     <script src="{{ asset('js/controllers.js')}}"></script>
     <script src="{{ asset('js/models.js')}}"></script>
+    <script src="{{ asset('js/services.js')}}"></script>
     <script src="{{ asset('js/custom.js')}}"></script>
     
   

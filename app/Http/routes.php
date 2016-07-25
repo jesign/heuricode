@@ -24,14 +24,22 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/testCases/{id}', 'TestCaseController@getTestCases');
+
+// Problem
 Route::get('/problem', 'ProblemController@getProblem');
 Route::get('/problem/{id}', 'ProblemApiController@getProblem');
 Route::get('/problem/sourceCode/C/{id}', 'ProblemController@getSourceCodeC');
 Route::get('/problem/sourceCode/Cpp/{id}', 'ProblemController@getSourceCodeCpp');
 Route::get('/problem/sourceCode/Java/{id}', 'ProblemController@getSourceCodeJava');
-Route::get('/test', 'TestCaseController@testing');
-Route::post('/getSubmissionId', 'ProblemApiController@getSubmissionId');
+
+
+// Submissions
 Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDetails');
+Route::post('/getSubmissionId', 'ProblemApiController@getSubmissionId');
+
+// Help
 Route::get('/Help', function(){
 	return view('home');
 });
+// test
+Route::get('/test', 'TestCaseController@testing');
