@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Rank;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -28,7 +29,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/#/home';
 
     /**
      * Create a new authentication controller instance.
@@ -63,10 +64,20 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $rank = [
+            new Rank(['weakness_id' => 1, 'rank' => 1]),
+            new Rank(['weakness_id' => 2, 'rank' => 1]),
+            new Rank(['weakness_id' => 3, 'rank' => 1])
+        ];
+
+        $user->ranks()->saveMany($rank);
+
+        return $user;
     }
 }

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     <title>HeuriCode</title>
     <link rel="icon" href="{{ asset('img/heuricode-small.png') }}">
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous"> --}}
+    
+    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700"> --}}
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> --}}
+
+    
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" type="text/css" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('build/css/all.css') }}">
@@ -34,7 +36,7 @@
     <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.js')}}"></script>
     <script>var baseUrl = "{{ url('/') }}/";</script>
 </head>
-<body id="app-layout" ng-app="myApp">
+<body id="app-layout" ng-controller="globalController">
     <div ng-controller="navController">
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" ng-show="showNav">
             <div class="container-fluid">
@@ -48,7 +50,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="#/">
+                    <a class="navbar-brand" ui-sref="homePage">
                         <img id="logo" src="{{ asset('img/heuricode-inverse-small.png') }}" >
                         HeuriCode
                     </a>
@@ -94,10 +96,10 @@
         <div id="sidebar-wrapper" class="open">
             <ul class="sidebar-nav">
                 <li><a ui-sref="problemPage">Self-Train</a></li>
-                <li><a ui-sref="testPage">Find Match</a></li>
-                <li><a href="{{ url('Stats-Progress') }}">Statistical Progress</a></li>
-                <li><a href="{{ url('Settings') }}">Settings</a></li>
-                <li><a href="{{ url('Help') }}">Help</a></li>
+                <li><a ui-sref="multiplayerPage">Find Match</a></li>
+                <li><a ui-sref="statProgPage">Statistical Progress</a></li>
+                <li><a ui-sref="settingPage">Settings</a></li>
+                <li><a ui-sref="helpPage">Help</a></li>
             </ul>
         </div>
         @else
@@ -109,19 +111,19 @@
     </div>
 
     <!-- JavaScripts Offline -->
-    
     <script src="{{ asset('bower_components/angular/angular.js')}}"></script>
+    <script src="{{ asset('bower_components/firebase/firebase.js') }}"></script>
+    <script src="{{ asset('bower_components/angularfire/dist/angularfire.js') }}"></script>
     <script src="{{ asset('bower_components/angular-sanitize/angular-sanitize.js')}}"></script>
-    <script src="{{ asset('bower_components/angular-route/angular-route.js') }}"></script>
     <script src="{{ asset('bower_components/angular-ui-router/release/angular-ui-router.js') }}"></script>
+    <script src="{{ asset('bower_components/chart.js/dist/chart.js') }}"></script>
     <script src="{{ asset('js/app.js')}}"></script>
     <script src="{{ asset('js/controllers.js')}}"></script>
     <script src="{{ asset('js/models.js')}}"></script>
     <script src="{{ asset('js/services.js')}}"></script>
     <script src="{{ asset('js/custom.js')}}"></script>
-    
-  
 
+  
     <!-- JavaScripts Online-->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->

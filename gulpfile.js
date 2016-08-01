@@ -20,6 +20,7 @@ elixir(function(mix) {
     	'app.js'
     	], 'public/js/app.js');
 	mix.scripts([
+        'services/rankService.js',
         'services/codingService.js',
         'services/errorService.js'
         ], 'public/js/services.js');
@@ -27,10 +28,13 @@ elixir(function(mix) {
     	'custom.js'
     	], 'public/js/custom.js');
     mix.scripts([ 
+        'controllers/multiplayerController.js',
+        'controllers/globalController.js',
     	'controllers/userController.js',
         'controllers/navController.js',
         'controllers/codeController.js',
-        'controllers/problemController.js'
+        'controllers/problemController.js',
+        'controllers/resultController.js'
     	], 'public/js/controllers.js');
     mix.scripts([
         'models/userModel.js',

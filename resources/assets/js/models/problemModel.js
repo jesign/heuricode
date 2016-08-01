@@ -34,6 +34,21 @@ myApp.factory('problemModel', ['$http', function($http){
 					'source': codeData.source
 				}
 			});
+		},
+		getWeaknessRank: function(weakness){
+			return $http.get(baseUrl + 'rank/' + weakness);
+		},
+		getRandomProblem: function(weakness){
+			return $http({
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				url: baseUrl + 'randomProblem',
+				method: "POST",
+				data: {
+					'weakness_id': weakness
+				}
+			});
 		}
 	}
 

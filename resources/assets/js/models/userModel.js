@@ -1,7 +1,7 @@
 myApp.factory('userModel', ['$http', function($http){
 	return {
-		getProblem: function(){
-			return $http.get(baseUrl + 'problem');
-		},
+		checkAuth: function(){
+			return $http.get(baseUrl + 'checkAuth');
+		}
 	};
 }]);

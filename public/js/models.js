@@ -1,8 +1,8 @@
 myApp.factory('userModel', ['$http', function($http){
 	return {
-		getProblem: function(){
-			return $http.get(baseUrl + 'problem');
-		},
+		checkAuth: function(){
+			return $http.get(baseUrl + 'checkAuth');
+		}
 	};
 }]);
 myApp.factory('codeModel', ['$http', function($http){
@@ -27,6 +27,57 @@ myApp.factory('codeModel', ['$http', function($http){
 		});
 	};
 	
+	model.addRound = function(problemCode){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			data: {
+				'problemCode' : problemCode
+			},
+			url: baseUrl + "round/add",
+			method: "POST"
+		});
+	};
+
+	model.setRound = function(round_id){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'	
+			},
+			data: {
+				'round_id' : round_id
+			},
+			url: baseUrl + "round/set",
+			method: "POST"
+		});		
+	}
+
+	model.rankUp = function(weakness_id){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'	
+			},
+			data: {
+				'weakness_id' : weakness_id
+			},
+			url: baseUrl + "rank/up",
+			method: "POST"
+		});			
+	}
+	model.rankDown = function(weakness_id){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'	
+			},
+			data: {
+				'weakness_id' : weakness_id
+			},
+			url: baseUrl + "rank/down",
+			method: "POST"
+		});			
+	}
+
 	model.submissionStatusModel = function(id){
 		// return $http.get('http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2');
 
@@ -91,6 +142,21 @@ myApp.factory('problemModel', ['$http', function($http){
 					'problemCode': codeData.problemCode,
 					'compilerId': codeData.compilerId,
 					'source': codeData.source
+				}
+			});
+		},
+		getWeaknessRank: function(weakness){
+			return $http.get(baseUrl + 'rank/' + weakness);
+		},
+		getRandomProblem: function(weakness){
+			return $http({
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				url: baseUrl + 'randomProblem',
+				method: "POST",
+				data: {
+					'weakness_id': weakness
 				}
 			});
 		}

@@ -15,31 +15,33 @@ Route::get('/', function () {
     return view('home');
 })->middleware('auth');
 
-Route::get('#', function(){
+Route::get('#/home', function(){
 	return view('home');
 }); 
 
-
 Route::auth();
-
+Route::get('/checkAuth', 'UserController@checkAuth');
 Route::get('/home', 'HomeController@index');
-Route::get('/testCases/{id}', 'TestCaseController@getTestCases');
-
+// rounds
+Route::post('/round/add', 'RoundController@addRound');
+Route::post('/round/set', 'RoundController@setRound');
 // Problem
 Route::get('/problem', 'ProblemController@getProblem');
 Route::get('/problem/{id}', 'ProblemApiController@getProblem');
 Route::get('/problem/sourceCode/C/{id}', 'ProblemController@getSourceCodeC');
 Route::get('/problem/sourceCode/Cpp/{id}', 'ProblemController@getSourceCodeCpp');
 Route::get('/problem/sourceCode/Java/{id}', 'ProblemController@getSourceCodeJava');
-
+Route::post('/randomProblem', 'ProblemController@getRandomProblem');
 
 // Submissions
 Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDetails');
 Route::post('/getSubmissionId', 'ProblemApiController@getSubmissionId');
 
+// weaknesses rank
+Route::get('rank/{id}', 'RankController@getRank');
+Route::post('rank/up', 'RankController@rankUp');
+Route::post('rank/down', 'RankController@rankDown');
 // Help
-Route::get('/Help', function(){
-	return view('home');
-});
-// test
-Route::get('/test', 'TestCaseController@testing');
+Route::get('/help', function(){
+	echo 'help';
+})->middleware('auth');

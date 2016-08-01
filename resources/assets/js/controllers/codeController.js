@@ -2,15 +2,22 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		'codeModel', 'problemModel', 'codingService', '$state',
 		'errorService',
 	function($scope,$rootScope, codeModel, problemModel, codingService,$state, errorService){
+
+		// global variables
+		var g_languageId = null,
+			g_statusId = null,
+			g_submitId = null,
+			g_array_errors = [],
+			round = 0;
+
+
+		// scoped variables
 		angular.extend($scope, {
 			newCode: {
 				codes: null,
 				input: null
 			}, 
-			languageId: null,
 			error: null,
-			statusId: null,
-			submitId:null,
 			showOutput: false,
 			showProblem: true,
 			compiling: true,
@@ -23,22 +30,23 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			problemCode: null,
 			problemTitle: null,
 			problemDescription: null,
-			problemCodeCpp: null,
-			problemCodeJava: null,
+			isCorrect : false,
 			
 			submitCodeId: null,
 			submitStatusDescription: null,
 			checkingResult: false,
 			resultSubmissionColor: null,
+			
+			// temporary
 			errors: {
 				ms: 0,
 				se: 0,
 				pm: 0,
-				ree: 0,
+				ee: 0,
 				re: 0				
-			},
-			test_error_number: 0
+			}
 		}); 	
+
 		 
 		// functions
 		angular.extend($scope, {
@@ -78,8 +86,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					$scope.showOutput = true;
 					console.log(response);
 					$scope.showProblem = true;
-					$scope.statusId = response.status;
-					var status_id = $scope.statusId;
+					var status_id = response.status;
 					console.log(status_id);
 		  			if(status_id != 0){
 		  				$scope.compiling = true;
@@ -89,7 +96,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		  					$scope.status = "Compilation...";
 		  				else if(status_id == 3)
 		  					$scope.status = "Running...";
-		  				$scope.getSubmissionStatus($scope.submitId);
+		  				$scope.getSubmissionStatus(g_submitId);
 		  			}else{
 		  				$scope.status = "";
 		  				$scope.compiling = false;
@@ -112,18 +119,34 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		  			}else{
 		  				$scope.resultValueColor = "resultValError";
 		  				$scope.error = response.cmpinfo;
-		  				// Missing Semicolon Error
+
+		  				switch(g_languageId){
+							case 1: //C++
+								g_array_errors = $scope.error.split("prog.cpp:");
+								break;
+							case 11: // C
+								g_array_errors = $scope.error.split("prog.c:");
+								break;
+							case 10: // Java
+								g_array_errors = $scope.error.split("Main.java:");
+								break; 
+						}
+
+		  				errorService.setErrors(g_array_errors);
+		  				
 		  				$scope.getErrorsMS();
 						$scope.getErrorsSE();
 						$scope.getErrorsPM();
-						$scope.getErrorsREE();
+						$scope.getErrorsEE();
 
+
+						// temporary display error counts
 						$scope.errors.ms = errorService.getErrorCountMS();
 						$scope.errors.se = errorService.getErrorCountSE();
 						$scope.errors.pm = errorService.getErrorCountPM();
-						$scope.errors.ree = errorService.getErrorCountREE();
+						$scope.errors.ee = errorService.getErrorCountEE();
 						$scope.errors.re = errorService.getErrorCountRE();
-						// count error here. call error service
+					
 		  			}
 	  			
 
@@ -141,24 +164,23 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				  		// JSON.stringify(
 				  		{
 				 		sourceCode: code,
-				 		language: $scope.languageId,
+				 		language: g_languageId,
 				 		input: $scope.newCode.input
 				 	}
 					 	// )
 					,
 				  	success: function(result, data){
 				  		var obj = JSON.parse(result);
-					  	$scope.submitId = obj.id;
+					  	g_submitId = obj.id;
 				  		console.log(obj.id);
-		  				$scope.getSubmissionStatus($scope.submitId);
+		  				$scope.getSubmissionStatus(g_submitId);
 				  	}
 				});
 			},
 			testError: function(){			
 				
-				// $('#myModal').modal('show')	
-				console.log('yeah');
 				$scope.getSubmissionStatus(47872263);
+			
 			},
 			testSuccess: function(){
 				$scope.getSubmissionStatus(47900843);
@@ -176,10 +198,9 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				
 			},
 			getErrorsMS: function(){
-				var str_error = $scope.error;
-				var array_error = str_error.split("prog.");
+				var array_error = g_array_errors;
 				var number_of_errors = 0;
-				switch($scope.languageId){
+				switch(g_languageId){
 					case 1:
 						for(i = 0; i < array_error.length; i ++){
 							var str = array_error[i];
@@ -196,11 +217,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				
 			},
 			getErrorsSE: function(){
-				var str_error = $scope.error;
-				var array_error = str_error.split("prog.");
+				
+				var array_error = g_array_errors;
 				var number_of_errors = 0;
 
-				switch($scope.languageId){
+				switch(g_languageId){
 					case 1:
 						for(i = 0; i < array_error.length; i ++){
 							var str = array_error[i];
@@ -217,11 +238,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				}
 			},
 			getErrorsPM: function(){
-				var str_error = $scope.error;
-				var array_error = str_error.split("prog.");
+				var array_error = g_array_errors;
 				var number_of_errors = 0;
 
-				switch($scope.languageId){
+				switch(g_languageId){
 					case 1:
 						for(i = 0; i < array_error.length; i ++){
 							var str = array_error[i];
@@ -247,11 +267,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					case 11:
 				}					
 			},
-			getErrorsREE: function(){
-				var str_error = $scope.error;
-				var array_error = str_error.split("prog.");
+			getErrorsEE: function(){
+				var array_error = g_array_errors;
 				var number_of_errors = 0;
-				switch($scope.languageId){
+				switch(g_languageId){
 					case 1:
 						for(i = 0; i < array_error.length; i ++){
 							var str = array_error[i];
@@ -259,7 +278,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 									number_of_errors ++;
 								} 
 						}
-						errorService.addErrorCountREE(number_of_errors);		 
+						errorService.addErrorCountEE(number_of_errors);		 
 						break;
 					case 10:
 						break;
@@ -273,7 +292,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				console.log(problemCode);
 				var codeData = {
 					problemCode: problemCode,
-					compilerId: $scope.languageId,
+					compilerId: g_languageId,
 					source: code
 				}
 				var submissionId;
@@ -301,8 +320,15 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						}else{
 							$scope.checkingResult = true;
 							if(status_id == 15){
+								$scope.isCorrect = true;
 								$scope.resultSubmissionColor = "submission-accepted";
 								$scope.submitStatusDescription = "Accepted!";
+								codeModel.setRound(round)
+									.success(function(){
+										console.log('problem set to solve');
+									});
+
+								codeModel.rankUp(codingService.getWeaknessId());
 							}else{
 								$scope.resultSubmissionColor = "submission-error";
 							}
@@ -321,6 +347,12 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					    editor.getSession().setValue(sc);
 					    editor.resize();
 						});
+			},
+			giveUp: function(){
+				$state.go('resultPage');
+			},
+			proceed: function(){
+				$state.go('resultPage');
 			}
 		});
 		// automatic activity
@@ -330,7 +362,14 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			var langId = codingService.getLanguage();
 			// set problem details
 			$scope.problemCode = pCode;
-			$scope.languageId = langId;
+			g_languageId = langId;
+			console.log(pCode);
+			codeModel.addRound(pCode)
+				.success(function (response){
+					// round ID
+					round = response;
+					console.log(response);
+				});
 
 			problemModel.getProblem($scope.problemCode)
 				.success(function(response){		
@@ -340,9 +379,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 					$scope.problemTitle = response.name;
 					$scope.problemDescription = response.body;
-
-					$scope.getSkeletonCode($scope.problemCode, $scope.languageId);
-					
+					$scope.getSkeletonCode($scope.problemCode, g_languageId);
 				})
 				.error(function(result){
 					console.log(result);

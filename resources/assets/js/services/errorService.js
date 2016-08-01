@@ -2,8 +2,11 @@ myApp.service('errorService', function() {
   	var errorMS = 0;
     var errorSE = 0;
     var errorPM = 0;
-    var errorREE = 0;
+    var errorEE = 0;
     var errorRE = 0;
+    var errors = [];
+    var errorQuotient = 0;
+
 
     var addErrorCountMS = function($count){
       errorMS += $count;
@@ -23,11 +26,11 @@ myApp.service('errorService', function() {
     var getErrorCountPM = function(){
       return errorPM;
     }
-    var addErrorCountREE = function($count){
-      errorREE += $count;
+    var addErrorCountEE = function($count){
+      errorEE += $count;
     }
-    var getErrorCountREE = function(){
-      return errorREE;
+    var getErrorCountEE = function(){
+      return errorEE;
     }
     var addErrorCountRE = function($count){
       errorRE += $count;
@@ -35,21 +38,27 @@ myApp.service('errorService', function() {
     var getErrorCountRE = function(){
       return errorRE;
     }
+    var setErrors = function(error){
+      errors = error;
+    }
+    var getErrors = function(){
+      return errors;
+    }
 
 	return {
 		  addErrorCountMS: addErrorCountMS,
       getErrorCountMS: getErrorCountMS,
-
       addErrorCountSE: addErrorCountSE,
       getErrorCountSE: getErrorCountSE,
-
       addErrorCountPM: addErrorCountPM,
       getErrorCountPM: getErrorCountPM,
-
-      addErrorCountREE: addErrorCountREE,
-      getErrorCountREE: getErrorCountREE,
-
+      addErrorCountEE: addErrorCountEE,
+      getErrorCountEE: getErrorCountEE,
       addErrorCountRE: addErrorCountRE,
       getErrorCountRE: getErrorCountRE,
+      
+      setErrors: setErrors,
+      getErrors: getErrors
+
   	};
 });

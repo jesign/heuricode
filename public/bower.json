@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
+    "angularfire": "^2.0.1",
     "angular-route": "^1.5.7",
     "angular-ui-router": "ui-router#^0.3.1"
   }

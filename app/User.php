@@ -27,5 +27,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Rank');
     }
-
+    public function rounds(){
+        return $this->hasMany('App\Round');
+    }
 }

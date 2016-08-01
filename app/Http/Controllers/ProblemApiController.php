@@ -8,7 +8,6 @@ use GuzzleHttp\Client;
 
 class ProblemApiController extends Controller
 { 
-
 	public function getProblem($code){
 		$base_url = "http://db4262da.problems.sphere-engine.com";
 		$client = new Client(['base_url' => $base_url]);
