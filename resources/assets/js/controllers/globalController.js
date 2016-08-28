@@ -11,30 +11,23 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 			setRank: function(){
 				problemModel.getWeaknessRank(1)
 					.success(function(response){
-						$scope.rankSCS = response;
-						rankService.setRankSCS(response);
-						console.log(response);
-					});
-				problemModel.getWeaknessRank(2)
-					.success(function(response){
-						$scope.rankRCS = response;
-						rankService.setRankRCS(response);
-						console.log(response);
-				});
-				problemModel.getWeaknessRank(3)
-					.success(function(response){
-						$scope.rankARR = response;
-						rankService.setRankARR(response);
-					console.log(response);
-				});
+						$scope.rankSCS = response[0];
+						$scope.rankRCS = response[1];
+						$scope.rankARR = response[2];
+						
+						rankService.setRankSCS(response[0]);
+						rankService.setRankRCS(response[1]);
+						rankService.setRankARR(response[2]);
 
+						console.log($scope.rankSCS + " " + $scope.rankRCS + " " + $scope.rankARR);
+					});
 			}
 		});
 
 		userModel.checkAuth()
 			.success(function(response){
 				if(response == 1){
-					$scope.setRank();					
+					$scope.setRank();	
 				}
 			});
 

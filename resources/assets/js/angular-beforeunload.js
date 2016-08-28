@@ -60,4 +60,3 @@ app.provider('BeforeUnload', function() {
 
 
 }(angular.module('angular-beforeunload')));
-//# sourceMappingURL=custom.js.map

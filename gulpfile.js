@@ -25,8 +25,8 @@ elixir(function(mix) {
         'services/errorService.js'
         ], 'public/js/services.js');
 	mix.scripts([
-    	'custom.js'
-    	], 'public/js/custom.js');
+    	'angular-beforeunload.js'
+    	], 'public/js/angular-beforeunload.js');
     mix.scripts([ 
         'controllers/multiplayerController.js',
         'controllers/globalController.js',

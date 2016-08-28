@@ -3,6 +3,18 @@ myApp.factory('problemModel', ['$http', function($http){
 		getProblem: function(problem_id){
 			return $http.get(baseUrl + 'problem/' + problem_id);
 		},
+		getProblemDetails: function(id){
+			return $http({
+				headers:{
+					'Content-Type' : 'application/json'
+				},
+				url: baseUrl + 'problem/description',
+				method: "POST",
+				data: {
+					'problem_code' : id
+				}
+			});
+		},
 		getTestCases: function(problem_id){
 			return $http.get(baseUrl + 'testCases/' + problem_id);
 		},
@@ -35,8 +47,8 @@ myApp.factory('problemModel', ['$http', function($http){
 				}
 			});
 		},
-		getWeaknessRank: function(weakness){
-			return $http.get(baseUrl + 'rank/' + weakness);
+		getWeaknessRank: function(){
+			return $http.get(baseUrl + 'ranks');
 		},
 		getRandomProblem: function(weakness){
 			return $http({

@@ -1,13 +1,61 @@
-<ul>
-  <li ng-repeat="message in messages">
-    <!-- edit a message -->
-    <input ng-model="message.text" ng-change="messages.$save(message)" />
-    <!-- delete a message -->
-    <button ng-click="messages.$remove(message)">Delete Message</button>
-  </li>
-</ul>
-<!-- push a new message onto the array -->
-<form ng-submit="addMessage()">
-  <input ng-model="newMessageText" />
-  <button type="submit">Add Message</button>
-</form>
+
+<div class="container-fluid">
+	<div ng-show="hasRoom">
+		<div style="margin-top: 50px" class="row">
+			<div class="col-lg-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">Player 1</div>
+					<div class="panel-body">
+						<label>Name: </label><label ng-bind="p1_name"></label><br>
+						<label>Subject: </label> <label ng-bind="subject"></label><br>
+						<label>Level: </label> <label ng-bind="p1_level"></label><br>
+
+						<button ng-hide="p1_ready" class="btn btn-danger btn-sm" ng-click="ready1()">Not Ready</button>
+						<button ng-show="p1_ready" class="btn btn-success btn-sm" ng-click="ready1()">Ready</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6" ng-show="hasOpponent">
+				<div class="panel panel-default">
+					<div class="panel-heading">Player 2</div>
+					<div class="panel-body">
+						<label>Name: </label><label ng-bind="p2_name"></label><br>
+						<label>Subject: </label> <label ng-bind="subject"></label><br>
+						<label>Level: </label> <label ng-bind="p2_level"></label><br>
+
+						<button ng-hide="p2_ready" class="btn btn-danger btn-sm" ng-click="ready2()">Not Ready</button>
+						<button ng-show="p2_ready" class="btn btn-success btn-sm" ng-click="ready2()">Ready</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 
+		<div class="col-lg-">
+			<div class="panel panel-default">
+			  <div class="panel-heading" ng-bind="rankSCS"></div>
+			  <div class="panel-body">Panel Content</div>
+			  <button class="btn btn-primary btn-block" ng-click="test()">Testing</button>
+			</div>
+		</div> -->
+
+		<!-- 
+		<div class="col-lg-6">
+			<div class="panel panel-default">
+			  <div class="panel-heading">Panel Heading</div>
+			  <div class="panel-body">Panel Content</div>
+
+			    <ul>
+			      <li ng-repeat="message in messages">
+			        <input ng-model="message.text" ng-change="messages.$save(message)" />
+			        <button ng-click="messages.$remove(message)">Delete Message</button>
+			      </li>
+			    </ul>			    
+			    <form ng-submit="addMessage()">
+			      <input ng-model="newMessageText" />
+			      <button type="submit">Add Message</button>
+			    </form>
+			</div>
+		</div> -->
+	

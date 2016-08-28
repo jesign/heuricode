@@ -25,6 +25,10 @@ class ProblemController extends Controller
     	$problem = Problem::where('problem_code', $id)->first();
     	return $problem->skeleton_code_java;
     }
+    public function getProblemDescription(Request $request){
+        $problem_code = $request->input('problem_code');
+        return Problem::where('problem_code', $problem_code)->first();
+    }
     public function getRandomProblem(Request $request){
         // set weakness
         $weakness_id = $request->input('weakness_id');

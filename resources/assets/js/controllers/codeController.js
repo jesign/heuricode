@@ -1,16 +1,16 @@
 myApp.controller('codeController', ['$scope','$rootScope', 
 		'codeModel', 'problemModel', 'codingService', '$state',
-		'errorService',
-	function($scope,$rootScope, codeModel, problemModel, codingService,$state, errorService){
+		'errorService', 'rankService',
+	function($scope,$rootScope, codeModel, problemModel, codingService,$state, errorService, rankService){
 
+		
 		// global variables
 		var g_languageId = null,
 			g_statusId = null,
 			g_submitId = null,
 			g_array_errors = [],
 			round = 0;
-
-
+ 
 		// scoped variables
 		angular.extend($scope, {
 			newCode: {
@@ -299,7 +299,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 				problemModel.getSubmissionId(codeData)
 					.then(function(response){
-
 						$scope.checkingResult = false;
 						$scope.submitCodeId = response.data.submissionId;
 						$scope.resultSubmissionColor = "submission-running";
@@ -323,12 +322,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								$scope.isCorrect = true;
 								$scope.resultSubmissionColor = "submission-accepted";
 								$scope.submitStatusDescription = "Accepted!";
+								codingService.setSuccess(true);
 								codeModel.setRound(round)
 									.success(function(){
 										console.log('problem set to solve');
 									});
-
-								codeModel.rankUp(codingService.getWeaknessId());
 							}else{
 								$scope.resultSubmissionColor = "submission-error";
 							}
@@ -339,25 +337,43 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				problemModel.getSkeletonCode(problem_code, language_id) 
 					.success(function(response){
 						console.log(response);
-						
 						$scope.newCode.codes = response;
 						var sc = $scope.newCode.codes;
 					    var editor = ace.edit("editor");
 					    editor.setTheme("ace/theme/monokai");
 					    editor.getSession().setValue(sc);
 					    editor.resize();
-						});
+
+					});
 			},
-			giveUp: function(){
-				$state.go('resultPage');
+
+			updateRankProceed: function(weakness,rank){
+				$scope.setRank().then(function(){
+					$state.go('resultPage');
+				});
 			},
 			proceed: function(){
-				$state.go('resultPage');
+				var weakness = codingService.getWeaknessId();
+
+				if($scope.isCorrect)
+					codeModel.rankUp(weakness)
+						. success(function(response){
+							$scope.updateRankProceed(weakness, response);
+						});	
+				else{
+					codeModel.rankDown(weakness)
+						. success (function(response){
+							$scope.updateRankProceed(weakness, response);
+						});
+					codingService.setSuccess(false);
+				}
+
 			}
 		});
 		// automatic activity
 		if(codingService.getIsEnableCode()){
 			// get problem details
+			codingService.setSuccess(false);
 			var pCode = codingService.getProblemCode();
 			var langId = codingService.getLanguage();
 			// set problem details
@@ -384,6 +400,30 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				.error(function(result){
 					console.log(result);
 				});
+
+			function startTimer(duration,display) {
+			    var timer = duration, minutes, seconds;
+			    var timerId = setInterval(function () {
+			        hours = parseInt((timer / 60) / 60, 10);
+			        minutes = parseInt((timer / 60) % 60, 10);
+			        seconds = parseInt(timer % 60, 10);
+
+			        hours = hours < 10 ? "0" + hours : hours;
+			        minutes = minutes < 10 ? "0" + minutes : minutes;
+			        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+			        display.textContent = hours + ":" + minutes + ":" + seconds;
+
+			        if (--timer < 0) {
+			            clearInterval(timerId);
+			            $('#myTimeUpModal').modal({ keyboard: false, backdrop: false, show: true })
+			            console.log("Time's Up!!!");
+			        }
+			    }, 1000);
+			}
+			display = document.querySelector('#time');
+		    var timeLimit = codingService.getTimeLimit();
+		    startTimer(timeLimit, display);
 		}else{
 			$state.go('problemPage');
 			console.log('unable to code');

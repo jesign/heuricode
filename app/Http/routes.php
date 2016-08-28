@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -19,9 +18,14 @@ Route::get('#/home', function(){
 	return view('home');
 }); 
 
+// User
 Route::auth();
 Route::get('/checkAuth', 'UserController@checkAuth');
+Route::post('/userId', 'UserController@getUserId');
 Route::get('/home', 'HomeController@index');
+Route::post('/findMatch', 'UserController@findMatch');
+Route::post('/getPlayerDetails', 'UserController@getPlayerDetails');
+Route::post('/checkIfMatch', 'UserController@checkIfMatch');
 // rounds
 Route::post('/round/add', 'RoundController@addRound');
 Route::post('/round/set', 'RoundController@setRound');
@@ -31,6 +35,7 @@ Route::get('/problem/{id}', 'ProblemApiController@getProblem');
 Route::get('/problem/sourceCode/C/{id}', 'ProblemController@getSourceCodeC');
 Route::get('/problem/sourceCode/Cpp/{id}', 'ProblemController@getSourceCodeCpp');
 Route::get('/problem/sourceCode/Java/{id}', 'ProblemController@getSourceCodeJava');
+Route::post('/problem/description', 'ProblemController@getProblemDescription');
 Route::post('/randomProblem', 'ProblemController@getRandomProblem');
 
 // Submissions
@@ -38,7 +43,7 @@ Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDeta
 Route::post('/getSubmissionId', 'ProblemApiController@getSubmissionId');
 
 // weaknesses rank
-Route::get('rank/{id}', 'RankController@getRank');
+Route::get('ranks', 'RankController@getRanks');
 Route::post('rank/up', 'RankController@rankUp');
 Route::post('rank/down', 'RankController@rankDown');
 // Help

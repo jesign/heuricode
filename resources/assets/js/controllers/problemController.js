@@ -7,7 +7,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 		angular.extend($scope, {
 			language: "C",
 			languageId: 11,
-			loadingProblem: true
+			loadingProblem: true,
+			loadSuccess: false
 		});
 
 		// functions
@@ -15,11 +16,40 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			getProblemCode: function(){
 			},
 			getProblem: function(){
-				problemModel.getProblem(problem_code).success(function(response){
-					$scope.loadingProblem = false;
-					$scope.problemTitle = response.name;
-					$scope.problemDescription = response.body;
-				});
+				problemModel.getProblem(problem_code)
+					.success(function(response){
+						$scope.loadingProblem = false;
+						$scope.problemTitle = response.name;
+						$scope.problemDescription = response.body;
+					}) 
+					. error(function(response){
+						$scope.loadingProblem = false;
+						$scope.problemTitle = "Failed to load problem.";
+					});
+				problemModel.getProblemDetails(problem_code)
+					.success(function(response){
+						codingService.setTimeLimit(response.time_limit);
+						var time = response.time_limit;
+						var hr = parseInt((time / 60) / 60, 10);
+						var min = parseInt((time / 60) % 60, 10);
+						var sec = parseInt(time % 60, 10);
+
+						$scope.loadSuccess = true;
+						$scope.difficulty = response.difficulty;
+						$scope.time_limit = hr + "hr/s and " + min + "min/s"
+
+						switch(response.weakness_id){
+							case 1: 
+								$scope.subject_area = "Selection Control Structure";
+								break;
+							case 2: 
+							$scope.subject_area = "Repetition Control Structure";
+							break;
+							case 3: 
+							$scope.subject_area = "Array";
+							break;
+						}
+					});
 			},
 			solveIt: function(){
 				console.log(problem_code);
@@ -75,10 +105,13 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				}
 				selected ++;
 
+				// temporary
+				selected = 1;
+
 				codingService.setWeaknessId(selected);
 
 				// problemModel.getRandomProblem(selected)
-				problemModel.getRandomProblem(1)
+				problemModel.getRandomProblem(selected)
 					.success(function(response){
 						console.log(response);
 						if(response != 0){

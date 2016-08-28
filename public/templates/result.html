@@ -1,7 +1,36 @@
 <div class="container-fluid">
-	<div >
-		
-		<canvas id="myChart" width="500px" height="400px"></canvas>
-
+	
+	<div style="margin-top: 20px;">
+		<h1 style="display: inline;" ng-show="isSuccess">Great Job! </h1>
+		<h1 style="display: inline;"" ng-hide="isSuccess">Wahaha tanga! </h1>
+		<div class="pull-right">
+			<button ui-sref="problemPage" class="btn btn-success">Next Problem <span class="glyphicon glyphicon-forward"></span></button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6">
+			<center>
+				<canvas id="myChart" width="500px" height="400px"></canvas>
+			</center>
+		</div>
+		<div class="col-lg-6">
+			<h3 ng-show="isSuccess">Rank Up!</h3>
+			<h3 ng-hide="isSuccess">Rank Down...</h3>
+			<table class="rank_table">
+				<tr>
+					<th>Subject Area</th>
+					<th>Rank</th>
+				</tr>
+				<tr ng-repeat=" r in ranks">
+					<td><% r.SubjectArea %></td>
+					<td>Rank <% r.Rank %></td>
+					<td>
+						<span ng-show="<% r.Action == 'up'%>">Rank Up</span>
+						<span ng-show="<% r.Action == 'down'%>">Rank Down</span>
+					</td>
+				</tr>
+				
+			</table>
+		</div>
 	</div>
 </div>

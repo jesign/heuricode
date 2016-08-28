@@ -3,7 +3,8 @@ myApp.service('codingService', function() {
   	var problemCode = null;
   	var languageId = null;
     var weaknessId = null;
-
+    var success = false;
+    var time_limit = 0;
   	var setIsEnableCode = function(isEnable){
   		enableCode = isEnable;
   	}
@@ -22,12 +23,25 @@ myApp.service('codingService', function() {
   	var getLanguage = function(){
   		return languageId;
   	}
-    var setWeaknessId = function($id){
-      weaknessId = $id;
+    var setWeaknessId = function(id){
+      weaknessId = id;
     }
     var getWeaknessId = function(){
       return weaknessId;
     }
+    var setSuccess = function(isSuccess){
+      success = isSuccess;
+    }
+    var getSuccess = function(){
+      return success;
+    }
+    var setTimeLimit = function(time){
+      time_limit = time;
+    }
+    var getTimeLimit = function(){
+      return time_limit;
+    }
+
 
 	return {
   		setIsEnableCode: setIsEnableCode,
@@ -37,7 +51,10 @@ myApp.service('codingService', function() {
     	setLanguage: setLanguage,
     	getLanguage: getLanguage,
       setWeaknessId: setWeaknessId,
-      getWeaknessId: getWeaknessId
-
+      getWeaknessId: getWeaknessId,
+      setSuccess: setSuccess,
+      getSuccess: getSuccess,
+      setTimeLimit: setTimeLimit,
+      getTimeLimit: getTimeLimit
   };
 });

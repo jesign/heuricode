@@ -21,7 +21,7 @@ class ProblemApiController extends Controller
 		$response = $client->get('/api/v3/problems?access_token=53f4557da7338c7993a582b40614217ef2f73ddd');
 		return $response->getBody();
 	}
-
+	
     public function getSubmissionId(Request $request){
 
 		$client = new Client;
@@ -40,7 +40,7 @@ class ProblemApiController extends Controller
 		
 		return $response->getBody();
     }
-
+    
     public function getSubmissionDetails($submissionid){
     	$base_url = "http://db4262da.problems.sphere-engine.com";
     	$client = new Client(['base_url' => $base_url]);

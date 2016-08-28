@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('content')
-
-<div ui-view>
-</div>
+	<div ui-view>
+	</div>
 @endsection

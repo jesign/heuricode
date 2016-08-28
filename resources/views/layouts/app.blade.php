@@ -62,7 +62,7 @@
                     <ul class="nav navbar-nav">
                         <li>
                             <a id="menu-toggle" ng-click="toggleSidebar()">  
-                                <span class="glyphicon glyphicon-menu-hamburger" ></span>
+                                <span class="glyphicon glyphicon-menu-hamburger" style="cursor: pointer;"></span>
                             </a>
                         </li>
 
@@ -117,11 +117,11 @@
     <script src="{{ asset('bower_components/angular-sanitize/angular-sanitize.js')}}"></script>
     <script src="{{ asset('bower_components/angular-ui-router/release/angular-ui-router.js') }}"></script>
     <script src="{{ asset('bower_components/chart.js/dist/chart.js') }}"></script>
+    <script src="{{ asset('bower_components/lodash/dist/lodash.js') }}"></script>
     <script src="{{ asset('js/app.js')}}"></script>
     <script src="{{ asset('js/controllers.js')}}"></script>
     <script src="{{ asset('js/models.js')}}"></script>
     <script src="{{ asset('js/services.js')}}"></script>
-    <script src="{{ asset('js/custom.js')}}"></script>
 
   
     <!-- JavaScripts Online-->

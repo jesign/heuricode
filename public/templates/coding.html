@@ -9,7 +9,7 @@
 					<button  class="btn btn-success btn-sm" ng-click="testError()">Test Error</button>
 					<button  class="btn btn-success btn-sm" ng-click="testSuccess()">Test Success</button>
 					<button type="button" class="btn btn-success btn-sm" ng-click="testing()"> TEsting</button>
-					<button type="button" class="btn btn-danger btn-sm" ng-click="giveUp()"> Give Up</button>
+					<button type="button" class="btn btn-danger btn-sm" ng-click="proceed()"> Give Up</button>
 				</div>
 				<label class="control-label" style="font-size: 1.3em;"> Editor</label>
 	    		<div style="height: 500px;">
@@ -22,7 +22,9 @@
 			</div>
 		</div>
 		<div class="col-lg-6">
-
+			<div class="pull-right">
+				<span style="font-size: 20px;">Time Left: <span id="time">00:00:00</span></span>
+			</div>
 			<ul class="nav nav-tabs">
 			  <li class="active"><a data-toggle="tab" href="#input">Input</a></li>
 			  <li><a data-toggle="tab" href="#output">Ouput</a></li>
@@ -40,8 +42,6 @@
 					<pre style="background-color: #eee; font-size: .9em; border: 1px solid #555; height: 250px; width: 100%;"><span style="color: #fc9;"><% status %></span><span class="<% resultValueColor %>"><% resultValue %></span> - <span class="compilation-details" ng-hide="compiling">time: <% time %> memory: <% memory %> signal: <% signal %></span><br><span style="color: #000"><% output %></span><span style="color: #d00"><% error %></span></pre>
 			  </div>
 			  <div id="problem_details" class="tab-pane fade">
-				<h4><% problemTitle %></h4>
-				<!-- <pre style="width: 100%; height: auto"><% problemDescription %></pre> -->
 				<div style="overflow:scroll; height:500px; padding-bottom: 50px;" ng-bind-html="problemDescription"></div>
 			  </div>
 			  <div id="testing" class="tab-pane fade">
@@ -91,12 +91,27 @@
 		        
 		        <button type="button" class="btn btn-warning btn-block" data-dismiss="modal" ng-hide="isCorrect">	Close
 		        </button>
-		        <a type="button" class="btn btn-primary btn-block" data-dismiss="modal" ng-show="isCorrect">	Proceed
+		        <a type="button" class="btn btn-primary btn-block" data-dismiss="modal" ng-show="isCorrect" ng-click="proceed()">	Proceed
 		        </a>
 		      </div>
 		    </div>
 		  </div>
 		</div>
-		
+		<div class="modal fade" id="myTimeUpModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-submission-result modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title" >You have'nt solved the problem on time!</h4>
+		      </div>
+		      <div class="modal-body">
+		      		<h1>Time's Up!!!</h1>
+		      </div>	
+		      <div class="modal-footer">
+		        <a type="button" class="btn btn-primary btn-block" data-dismiss="modal" ng-click="proceed()"> Proceed
+		        </a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	</div>
 </div>

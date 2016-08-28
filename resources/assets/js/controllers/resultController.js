@@ -1,16 +1,47 @@
-myApp.controller('resultController', ['$scope', 'errorService', 
-	function($scope, errorService){
+myApp.controller('resultController', ['$scope', 'errorService', 'codingService', 'rankService',
+	function($scope, errorService,codingService, rankService){
 		{
+			$scope.isSuccess = codingService.getSuccess();
+			var subject_area = codingService.getWeaknessId();
+			
+			var getAction = function(sa){
+				if(subject_area == sa){
+					if($scope.isSuccess)
+						return "up";
+					else 
+						return "down";
+				}
+				return "none";
+			}
+			$scope.ranks = [
+				{
+					"SubjectArea": "Selection Control Structure",
+					"Rank": rankService.getRankSCS(),
+					"Action" : getAction(1)
+				},
+				{
+					"SubjectArea": "Repetition Control Structure",
+					"Rank": rankService.getRankRCS(),
+					"Action" : getAction(2)
+				},
+				{
+					"SubjectArea": "Array",
+					"Rank": rankService.getRankARR(),
+					"Action" : getAction(3)
+				}
+			]
+			
+			// bar graph
+
 			var getBarColor = function(num){
-				if( num > 10){
+				if( num > 15){
 					return "rgba(255, 0, 0, 0.8)";
-				} else if( num <= 10 && num > 5){
+				} else if( num <= 15 && num > 8){
 					return "rgba(255, 153, 0, 0.8)"
 				} else{
 					return "rgba(0, 255, 0, 0.8)"
 				}
 			}
-
 			var ctx = document.getElementById("myChart");
 			
 			var barColor = [];
@@ -19,16 +50,16 @@ myApp.controller('resultController', ['$scope', 'errorService',
 			barColor.push(getBarColor(errorService.getErrorCountPM()));
 			barColor.push(getBarColor(errorService.getErrorCountRE()));
 			barColor.push(getBarColor(errorService.getErrorCountEE()));			
+			
 
 			var myChart = new Chart(ctx, {
 			    type: 'bar',
 			    data: {
-			        labels: ["Missing Semicolon", "Scoping Error", "Parenthesis Matching", "Runtime Error", "Expression Error"],
+			        labels: ["Missing Semicolon", "Scoping Error", "Parenthesis Matching", "Identifier Error"],
 			        datasets: [{
 			            label: '# of Errors',
 			            data: [errorService.getErrorCountMS(), errorService.getErrorCountSE(), errorService.getErrorCountPM(), 
 			            		errorService.getErrorCountRE(), errorService.getErrorCountEE()],
-			           
 			            backgroundColor: barColor
 			          
 			        }]
@@ -38,7 +69,7 @@ myApp.controller('resultController', ['$scope', 'errorService',
 			            yAxes: [{
 			                ticks: {
 			                    beginAtZero:true,
-			                    max: 50			                    
+			                    max: 40
 			                }
 			            }]
 			        },
@@ -53,6 +84,8 @@ myApp.controller('resultController', ['$scope', 'errorService',
 			        }
 			    }
 			});
+
+
 
 		}
 	}]);

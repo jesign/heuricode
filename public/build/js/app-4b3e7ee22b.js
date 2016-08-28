@@ -9,9 +9,6 @@ myApp
 		    storageBucket: "heuricode.appspot.com",
 		};
 	  	firebase.initializeApp(config);
-
-	  	
-	
 	})
 	.config(['$interpolateProvider', '$stateProvider', '$urlRouterProvider', '$locationProvider','$httpProvider',
 		function($interpolateProvider, $stateProvider, $urlRouterProvider, $locationProvider,$httpProvider){

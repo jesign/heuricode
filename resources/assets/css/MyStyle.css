@@ -97,3 +97,10 @@ div.modal-submission-result.modal-content .modal-footer {
   padding: 15px;
   border-top: 1px solid #323232;
 }
+
+.rank_table {
+	font-size: 12pt;
+}
+.rank_table td {
+	padding: 2px 20px 5px 0px;
+}
