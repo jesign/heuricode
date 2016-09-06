@@ -31,7 +31,7 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		var d = $q.defer();
 
 		if(rooms.length == 0){
-			d.reject();			
+			d.reject();
 		}
 
 		for(var x = 0; x < rooms.length; x ++){
@@ -69,6 +69,8 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 				}
 			}				
 		}
+		
+		d.reject();
 
 		return d.promise;
 	}
@@ -275,10 +277,21 @@ myApp.factory('problemModel', ['$http', function($http){
 					'weakness_id': weakness
 				}
 			});
+		},
+		getPlayersProblem: function (p1, p2, subj){
+			return $http({
+				headers: {
+					'Content-Type' :'application/json'
+				}, 
+				url: baseUrl + 'getPlayersProblem',
+				method: "POST",
+				data: {
+					player1_id: p1,
+					player2_id: p2, 
+					subject: subj
+				}
+			});
 		}
 	}
-
-}]);	
-
- 
+}]);
 //# sourceMappingURL=models.js.map

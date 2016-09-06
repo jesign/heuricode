@@ -37,8 +37,23 @@ myApp.service('codingService', function() {
   	var problemCode = null;
   	var languageId = null;
     var weaknessId = null;
+    var isMultiplayer = false;
     var success = false;
     var time_limit = 0;
+    var roomKey = null;
+    
+    var setIsMultiplayer = function(isMulti){
+      isMultiplayer = isMulti;
+    }
+    var getIsMultiplayer = function(){
+      return isMultiplayer;
+    }
+    var setRoomKey = function(rk){
+      roomKey = rk;
+    }
+    var getRoomKey = function(){
+      return roomKey;
+    }
   	var setIsEnableCode = function(isEnable){
   		enableCode = isEnable;
   	}
@@ -78,6 +93,10 @@ myApp.service('codingService', function() {
 
 
 	return {
+      setRoomKey: setRoomKey,
+      getRoomKey: getRoomKey,
+      setIsMultiplayer: setIsMultiplayer,
+      getIsMultiplayer: getIsMultiplayer,
   		setIsEnableCode: setIsEnableCode,
   		getIsEnableCode: getIsEnableCode,
 	    setProblemCode: setProblemCode,

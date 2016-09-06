@@ -13,23 +13,27 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 				}
 				return "none";
 			}
-			$scope.ranks = [
-				{
-					"SubjectArea": "Selection Control Structure",
-					"Rank": rankService.getRankSCS(),
-					"Action" : getAction(1)
-				},
-				{
-					"SubjectArea": "Repetition Control Structure",
-					"Rank": rankService.getRankRCS(),
-					"Action" : getAction(2)
-				},
-				{
-					"SubjectArea": "Array",
-					"Rank": rankService.getRankARR(),
-					"Action" : getAction(3)
-				}
-			]
+			setTimeout(function(){
+				$scope.$apply(function(){
+					$scope.ranks = [
+						{
+							"SubjectArea": "Selection Control Structure",
+							"Rank": rankService.getRankSCS(),
+							"Action" : getAction(1)
+						},
+						{
+							"SubjectArea": "Repetition Control Structure",
+							"Rank": rankService.getRankRCS(),
+							"Action" : getAction(2)
+						},
+						{
+							"SubjectArea": "Array",
+							"Rank": rankService.getRankARR(),
+							"Action" : getAction(3)
+						}
+					]
+				});
+			}, 2000);
 			
 			// bar graph
 

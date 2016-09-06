@@ -3,6 +3,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 
 		var weaknesses = [];
 		var problem_code = null;
+
 		// variables
 		angular.extend($scope, {
 			language: "C",
@@ -16,16 +17,18 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			getProblemCode: function(){
 			},
 			getProblem: function(){
+				/* From Shere Engine API */
 				problemModel.getProblem(problem_code)
 					.success(function(response){
 						$scope.loadingProblem = false;
 						$scope.problemTitle = response.name;
 						$scope.problemDescription = response.body;
-					}) 
+					})
 					. error(function(response){
 						$scope.loadingProblem = false;
 						$scope.problemTitle = "Failed to load problem.";
 					});
+				/* From My API */
 				problemModel.getProblemDetails(problem_code)
 					.success(function(response){
 						codingService.setTimeLimit(response.time_limit);
@@ -33,7 +36,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						var hr = parseInt((time / 60) / 60, 10);
 						var min = parseInt((time / 60) % 60, 10);
 						var sec = parseInt(time % 60, 10);
-
+						
 						$scope.loadSuccess = true;
 						$scope.difficulty = response.difficulty;
 						$scope.time_limit = hr + "hr/s and " + min + "min/s"
@@ -56,6 +59,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				console.log($scope.languageId);
 				codingService.setProblemCode(problem_code);
 				codingService.setIsEnableCode(true);
+				codingService.setIsMultiplayer(false);
 				$state.go('codingPage');
 				
 			},
@@ -105,12 +109,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				}
 				selected ++;
 
-				// temporary
-				selected = 1;
-
 				codingService.setWeaknessId(selected);
 
-				// problemModel.getRandomProblem(selected)
 				problemModel.getRandomProblem(selected)
 					.success(function(response){
 						console.log(response);
@@ -120,7 +120,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						}else{
 							alert('There is no more problem to fetch');
 						}
-					})
+					})	
 					.error(function(){
 						alert('There was an error fetching a problem');
 					});
@@ -148,7 +148,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					rank2 = rankService.getRankRCS();
 					rank3 = rankService.getRankARR();
 					if(rank1 == 0 || rank2 == 0 || rank3 == 0){
-						setTimeout(initialize, 100);
+						setTimeout(initialize, 1000);
 					}else{
 						weaknesses.push(rank1);
 						weaknesses.push(rank2);
@@ -158,11 +158,15 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				}
 				initialize();
 			}
-
 		});
 
+		if(codingService.getIsMultiplayer()){
+
+		}else{
+			$scope.setRanks();
+		}
+
 		// Activities
-		$scope.setRanks();
 		$scope.languageToCpp();	
 		
 

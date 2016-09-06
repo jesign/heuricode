@@ -1,6 +1,7 @@
-myApp.controller("multiplayerController",["$scope", "$rootScope", 
-	"$firebaseArray", "userModel", "rankService", 
-	function($scope, $rootScope, $firebaseArray, userModel, rankService) {
+myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
+	"$firebaseArray", "userModel", "rankService", "problemModel", "codingService",
+	function($scope, $rootScope, $state, $firebaseArray, userModel, rankService, 
+		problemModel, codingService) {
 		
 		$rootScope.$emit("GlobalToggleSidebar", {});
 
@@ -18,6 +19,12 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 	  	var roomKey = 0;
 		var playerKey = 0;
 		var userId = 0;
+	  	var problemIsSet = false;
+	  	var p1_id = 0;
+	  	var p2_id = 0;
+	  	var subj_id = 0;
+	  	var problemCode = null;
+	  	var leaveState = false;
 
 		$scope.hasRoom = false;
 		$scope.hasOpponent = false;
@@ -28,9 +35,10 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 		$scope.p1_level = 0;
 		$scope.p2_level = 0;
 		$scope.subject = "undecided";
-	  	
 	  	$scope.roomIndex = null;
 		$scope.timerIndex = null;
+
+		$scope.loadProblemSuccess = false;
 
 		function setLevel(player, subj){
 			var lvl;
@@ -66,31 +74,32 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 	  					default: 
 	  				}
 		}
-		function checkOpponent(){
-	  		var r = $scope.rooms.$getRecord(roomKey);
-	  		if(!r.player2){
-	  			console.log('waiting for Opponent...');
-	  			setTimeout(checkOpponent, 1000);
-	  			return;
-	  		}
 
-	  		$scope.$apply(function(){
-	  			$scope.hasOpponent = true;
-	  			userModel.getPlayerDetails(r.player2, r.subject)
-	  			.success(function(response){
-	  				$scope.p2_name = response[0];
-	  				$scope.p2_level = response[1];
-	  				$scope.p1_btn = "active";
+		function setProblem(){
+			problemModel.getProblem(problemCode)
+					.success(function(response){
+						$scope.loadProblemSuccess = false;
+						$scope.problemTitle = response.name;
+						$scope.problemDescription = response.body;
+					})
+					. error(function(response){
+						$scope.loadProblemSuccess = false;
+						$scope.problemTitle = "Failed to load problem.";
+					});
+			problemModel.getProblemDetails(problemCode)
+					.success(function(response){
+						codingService.setTimeLimit(response.time_limit);
+						var time = response.time_limit;
+						var hr = parseInt((time / 60) / 60, 10);
+						var min = parseInt((time / 60) % 60, 10);
+						var sec = parseInt(time % 60, 10);
+						
+						$scope.difficulty = response.difficulty;
+						$scope.time_limit = hr + "hr/s and " + min + "min/s"
+					});
+		}
 
-	  				setLevel(1, r.subject);
-	  				setSubject(r.subject);
-
-	  				createTimer();
-	  			});
-	        });
-	  		return;
-	  	}
-
+	  	/* player1 creating a room - Step 1*/
 		function createRoom(){
 			var scs = rankService.getRankSCS();
 			var rcs = rankService.getRankRCS();
@@ -105,12 +114,17 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 					rcs: rcs,
 					arr: arr
 				},
+				problemCode: null,
 				ready1: false,
 				ready2: false,
+				lang1: "not set",
+				lang2: "not set", 
 				subject: 0,
-				timerIdx: null,
-				status: "waiting"
+				time: 5,
+				status: 0,
+				winner: 0
 			}) .then(function(ref){
+				p1_id = userId;
 				roomKey = ref.key;
 				roomId = true;
 				$scope.roomIndex = $scope.rooms.$indexFor(roomKey);
@@ -126,20 +140,158 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 				});
 			});
 		}
+		/*player1 checking for opponent - Step 2*/
+		function checkOpponent(){
+	  		var r = $scope.rooms.$getRecord(roomKey);
+	  		if(!r.player2){
+	  			console.log('waiting for Opponent...');
+	  			setTimeout(checkOpponent, 1000);
+	  			return;
+	  		}
 
+	  		p2_id = r.player2;
+	  		subj_id = r.subject;
+
+	  		$scope.$apply(function(){
+	  			userModel.getPlayerDetails(r.player2, r.subject)
+	  			.success(function(response){
+	  				$scope.p2_name = response[0];
+	  				$scope.p2_level = response[1];
+	  				$scope.p1_btn = "active";
+	  				
+	  				setLevel(1, r.subject);
+	  				setSubject(r.subject);
+	  				getProblem();
+	  				
+	  			});
+	        });
+	  		return;
+	  	}
+	  	/* player1 get suitable problems for the 2 players*/
+	  	function getProblem(){
+			problemModel.getPlayersProblem(p1_id, p2_id, subj_id)
+			.success(function(response){
+				console.log(response);
+				if(response != 0){
+					problemCode = response;
+					codingService.setProblemCode(response)
+					problemIsSet = true;
+
+					var r = $scope.rooms.$getRecord(roomKey);
+					r.problemCode = response;
+					$scope.rooms.$save(r);
+
+
+					console.log("Problem has set.");
+					updateRoomStatus();
+				}else{
+					alert('There is no more problem to fetch');
+				}
+			})
+			.error(function(){
+				alert('There was an error fetching a problem');
+			});
+	  	}
+
+	  	/* player1 update room status to 1 - Step 3*/
+	  	function updateRoomStatus(){ 
+			var r = $scope.rooms.$getRecord(roomKey);
+			r.status = 1;
+  			setProblem();
+
+			$scope.rooms.$save(r).then(function(res){
+				$scope.hasOpponent = true;
+  				waitPlayerReady();
+  				console.log("waiting for players");
+  			});			
+		
+	  	}
+
+	  	/* player1 wait for players to get ready - Step 4*/
+	  	function waitPlayerReady(){
+	  		var r = $scope.rooms.$getRecord(roomKey);
+
+	  		if(!r.ready1 || !r.ready2){
+
+	  			setTimeout(waitPlayerReady, 1000);
+	  			return;
+	  		}
+  			startTimer();
+	  		return;
+	  	}
+
+	  	/* player1 start the timer and set
+			to 2 after 5 seconds 			- Step 5a */ 
+
+	  	function startTimer(){
+	  		var r = $scope.rooms.$getRecord(roomKey);
+
+	  		if(r.time != 0){
+		  		r.time = r.time - 1;
+
+	  			$scope.rooms.$save(r);
+
+	  			setTimeout(startTimer, 1000);
+	  			return;
+	  		}
+
+  			r.status = 2;
+  			$scope.rooms.$save(r);
+			leaveState = true;
+			codingService.setWeaknessId(subj_id);
+			codingService.setIsEnableCode(true);
+			codingService.setIsMultiplayer(true);
+			codingService.setRoomKey(roomKey);
+			$state.go('codingPage');
+		
+  			return;
+
+	  	}
+	  	
+
+		/* player2 wait for the room status to turn to 1 - Step 2*/
 		function waitRoomReady(){
 			var r = $scope.rooms.$getRecord(roomKey);
 
-			if(r.status != "in progress"){
+			if(r.status == 0){
 				console.log("waiting for room to get ready");
 				setTimeout(waitRoomReady, 1000);
 				return;
 			}
-			$scope.hasRoom = true;
-			$scope.hasOpponent = true;
+
+			problemCode = r.problemCode;
+			console.log("room available");
+			codingService.setProblemCode(problemCode);
+			setProblem();
+			$scope.$apply(function(){
+				$scope.hasOpponent = true;
+			});
+
+			waitGameStart();
 			return;
 		}
 
+		/* player 2 wait for the game to start
+	  		or wait for the room status to turn to 2 - Step 3*/
+		function waitGameStart(){
+			var r = $scope.rooms.$getRecord(roomKey);
+
+			if(r.status != 2){
+				setTimeout(waitGameStart, 1000);
+				return;
+			}	
+			
+			leaveState = true;
+			codingService.setWeaknessId(subj_id);
+			codingService.setIsEnableCode(true);
+			codingService.setIsMultiplayer(true);
+			codingService.setRoomKey(roomKey);
+			$state.go('codingPage');	
+
+			return;
+		}
+
+		/* load authenticated user and check for vancant room.*/
 		userModel.getUserId()
 			.success(function(response){
 				userId = response;
@@ -163,10 +315,19 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 							edit.player2 = userId;
 							edit.subject = response.subject;
 
-							/* join a room */
+							p1_id = edit.player1;
+							p2_id = userId;
+
+							setTimeout(function(){
+									if($scope.hasOpponent == false){
+										alert("The rooom has expired.. please refresh the page..");
+									}
+								}, 10000);
+
+							/* player 2 joined a room - Step 1*/
 							$scope.rooms.$save(edit).then(function(ref){
 								console.log('You have joined a room');
-							
+								$scope.hasRoom = true;
 								waitRoomReady();
 
 								var r = $scope.rooms.$getRecord(ref.key);
@@ -188,93 +349,92 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 								$scope.p2_btn = "active";
 							});		
 							roomId = true;
-
 						})
 						.catch(function(response){
-							roomId = true;
 							console.log("No room yet.")
 							createRoom();
 						});
-
-						setTimeout(function(){
-							if(!roomId){
-								console.log("there is no matching player..")
-								createRoom();
-							}
-						}, 20000);
 				});		
-
 			});
+
+		$scope.ready1 = function(){
+			if(p1_id == userId){
+				var edit = $scope.rooms.$getRecord(roomKey);
+				if(edit.lang1 != "not set"){
+					edit.ready1 = true;
+					$scope.rooms.$save(edit).then(function(){
+						console.log("player1 is ready");
+					});				
+				}else{
+					alert("language not set");
+				}
+			}
+		}
+
+		/* Ready buttons */
+		$scope.ready2 = function(){
+			if(p2_id == userId){
+				var edit = $scope.rooms.$getRecord(roomKey);
+				if(edit.lang2 != "not set"){
+					edit.ready2 = true;
+					$scope.rooms.$save(edit).then(function(){
+						console.log("player2 is ready");				
+					});
+				}else {
+					alert("language not set");
+				}
+			}
+		}
+
+		/* Player1 dropdown button - choose language */
+		$scope.p1_switchLanguage = function(l_code){
+			if(p1_id == userId){
+				var edit = $scope.rooms.$getRecord(roomKey);
+				if(l_code == 11){
+					edit.lang1 = "C";
+				} else if(l_code == 1){
+					edit.lang1 = "C++";
+				} else if(l_code == 10){
+					edit.lang1 = "Java";
+				}
+
+				codingService.setLanguage(l_code);
+
+				$scope.rooms.$save(edit).then(function(){
+					console.log("player2 is ready");				
+				});
+			}else{
+				alert("you cannot set language from other player.")
+			}
+			
+		}
+		/* Player2 dropdown button - choose language */
+		$scope.p2_switchLanguage = function(l_code){
+			if(p2_id == userId){
+				var edit = $scope.rooms.$getRecord(roomKey);
+				if(l_code == 11){
+					edit.lang2 = "C";
+				} else if(l_code == 1){
+					edit.lang2 = "C++";
+				} else if(l_code == 10){
+					edit.lang2 = "Java";
+				}
+
+				codingService.setLanguage(l_code);
+
+				$scope.rooms.$save(edit).then(function(){
+					console.log("player2 is ready");				
+				});
+			}else{
+				alert("you cannot set language from other player.")
+			}
+		}
+
 		$scope.test = function(){
 			userModel.getPlayerDetails(1, 3, 1) 
 					.success(function(response){
 						console.log(response);
 					});
-		}
-
-	  	$scope.timer = 0;
-	  	function createTimer(){ 
-	  		console.log("timer created");
-	  		$scope.timers.$add({
-	  			time: 120
-	  		}).then(function(response){
-	  				$scope.timerIndex = response.key;
-
-	  				var r = $scope.rooms.$getRecord(roomKey);
-	  				r.timerIdx = $scope.timers.$indexFor(response.key);
-	  				r.status = "in progress";
-	  				$scope.rooms.$save(r).then(function(res){
-		  				startTimer();
-		  				console.log("timer has started");
-		  			});			
-	  			});
-	  	}
-	  	function startTimer(){
-	  		var r = $scope.rooms.$getRecord(roomKey);
-	  		var t = $scope.timers.$getRecord($scope.timerIndex);
-
-	  		if(!r.ready1 || !r.ready2){
-	  			t.time = t.time - 1;
-
-	  			console.log(t.time);
-	  			$scope.timers.$save(t);		
-
-	  			setTimeout(startTimer, 1000);
-	  			return;
-	  		}
-
-	  		if(t.time == 0){
-	  			alert("The game has started!");
-	  		}
-
-			t.time = 5;
-
-  			console.log(t.time);
-  			$scope.timers.$save(t).then(){
-
-  			};	  		
-
-	  		return;
-	  	}
-
-		$scope.ready1 = function(){
-			var edit = $scope.rooms.$getRecord(roomKey);
-
-			edit.ready1 = true;
-
-			$scope.rooms.$save(edit).then(function(){
-				console.log("player1 is ready");
-			});
-		}
-
-		$scope.ready2 = function(){
-			var edit = $scope.rooms.$getRecord(roomKey);
-
-			edit.ready2 = true;
-
-			$scope.rooms.$save(edit).then(function(){
-				console.log("player2 is ready");				
-			});
 		}
 
 	  	$scope.addMessage = function() {
@@ -288,12 +448,14 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 	  	$scope.$on('$stateChangeStart', function( event ) {
 	  		is_able = false;	
 		    
-		    if(roomKey){
-				$scope.rooms.$remove($scope.rooms.$indexFor(roomKey))
-				.then(function(ref){
-					console.log("Room was deleted");
-				});
-  			}
+		    if(!leaveState){
+			    if(roomKey){
+					$scope.rooms.$remove($scope.rooms.$indexFor(roomKey))
+					.then(function(ref){
+						console.log("Room was deleted");
+					});
+	  			}
+		    }
 		});
 
 		window.onbeforeunload = function() { 
@@ -317,3 +479,13 @@ myApp.controller("multiplayerController",["$scope", "$rootScope",
 		});
 		
 }]); 
+
+/*
+	Room status
+		0 = waiting for player2
+		1 = waiting for player1 respond
+		2 = game has started
+		3 = game finished
+
+
+*/

@@ -31,7 +31,7 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		var d = $q.defer();
 
 		if(rooms.length == 0){
-			d.reject();			
+			d.reject();
 		}
 
 		for(var x = 0; x < rooms.length; x ++){
@@ -69,6 +69,8 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 				}
 			}				
 		}
+		
+		d.reject();
 
 		return d.promise;
 	}

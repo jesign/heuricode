@@ -61,9 +61,20 @@ myApp.factory('problemModel', ['$http', function($http){
 					'weakness_id': weakness
 				}
 			});
+		},
+		getPlayersProblem: function (p1, p2, subj){
+			return $http({
+				headers: {
+					'Content-Type' :'application/json'
+				}, 
+				url: baseUrl + 'getPlayersProblem',
+				method: "POST",
+				data: {
+					player1_id: p1,
+					player2_id: p2, 
+					subject: subj
+				}
+			});
 		}
 	}
-
-}]);	
-
- 
+}]);

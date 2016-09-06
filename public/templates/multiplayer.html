@@ -1,8 +1,7 @@
 
 <div class="container-fluid">
 	<div ng-show="hasRoom">
-		<h1 ng-bind="timers[rooms[roomIndex].timerIdx].time"></h1>
-		<h2 ng-bind="rooms[roomIndex].timerKey"></h2>
+		<h1 ng-bind="rooms[roomIndex].time"></h1>
 		<div style="margin-top: 50px" class="row">
 			<div class="col-lg-6">
 				<div class="panel panel-default">
@@ -11,24 +10,47 @@
 						<label>Name: </label><label ng-bind="p1_name"></label><br>
 						<label>Subject: </label> <label ng-bind="subject"></label><br>
 						<label>Level: </label> <label ng-bind="p1_level"></label><br>
-						<input type="text" ng-change="rooms[roomIndex].$save(rooms[roomIndex])" ng-model="rooms[roomIndex].status">
-
+						<div class="dropdown" style="margin-bottom: 5px;">
+							Language: 
+						  	<button class="btn btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+						  		<% rooms[roomIndex].lang1 %>
+						  		<span class="caret"></span>
+						  	</button>
+						  	<ul class="dropdown-menu">
+							    <li><a ng-click="p1_switchLanguage(11)">C</a></li>
+							    <li><a ng-click="p1_switchLanguage(1)">C++</a></li>
+							    <li><a ng-click="p1_switchLanguage(10)">Java</a></li>
+						  	</ul>				  	
+						</div>
 						<button ng-hide="rooms[roomIndex].ready1" class="btn btn-danger btn-sm <% p1_btn %>" ng-click="ready1()">Not Ready</button>
 						<button ng-show="rooms[roomIndex].ready1" class="btn btn-success btn-sm <% p1_btn %>">Ready</button>
 					</div>
 				</div>
-			</div>
-			<div class="col-lg-6" ng-show="hasOpponent">
-				<div class="panel panel-default">
+				<div class="panel panel-default" ng-show="hasOpponent">
 					<div class="panel-heading">Player 2</div>
 					<div class="panel-body">
 						<label>Name: </label><label ng-bind="p2_name"></label><br>
 						<label>Subject: </label> <label ng-bind="subject"></label><br>
 						<label>Level: </label> <label ng-bind="p2_level"></label><br>
-						
+						<div class="dropdown" style="margin-bottom: 5px;">
+							Language: 
+						  	<button class="btn btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+						  		<% rooms[roomIndex].lang2 %>
+						  		<span class="caret"></span>
+						  	</button>
+						  	<ul class="dropdown-menu">
+							    <li><a ng-click="p2_switchLanguage(11)">C</a></li>
+							    <li><a ng-click="p2_switchLanguage(1)">C++</a></li>
+							    <li><a ng-click="p2_switchLanguage(10)">Java</a></li>
+						  	</ul>				  	
+						</div>
 						<button ng-hide="rooms[roomIndex].ready2" class="btn btn-danger btn-sm <% p2_btn %>" ng-click="ready2()">Not Ready</button>
 						<button ng-show="rooms[roomIndex].ready2" class="btn btn-success btn-sm <% p2_btn %>">Ready</button>
 					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="col-lg-12" ng-bind-html="problemDescription">
 				</div>
 			</div>
 		</div>

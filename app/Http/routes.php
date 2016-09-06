@@ -37,6 +37,7 @@ Route::get('/problem/sourceCode/Cpp/{id}', 'ProblemController@getSourceCodeCpp')
 Route::get('/problem/sourceCode/Java/{id}', 'ProblemController@getSourceCodeJava');
 Route::post('/problem/description', 'ProblemController@getProblemDescription');
 Route::post('/randomProblem', 'ProblemController@getRandomProblem');
+Route::post('/getPlayersProblem', 'ProblemController@getPlayersProblem');
 
 // Submissions
 Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDetails');
