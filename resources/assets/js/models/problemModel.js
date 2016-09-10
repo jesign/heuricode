@@ -75,6 +75,21 @@ myApp.factory('problemModel', ['$http', function($http){
 					subject: subj
 				}
 			});
+		},
+		setWeakness: function(w){
+			return $http({
+				headers: {
+					'Content-Type' :'application/json'
+				},
+				url: baseUrl + 'setWeakness',
+				method: "POST",
+				data:{
+					weakness: w
+				}
+			});
+		},
+		checkHasWeakness: function(){
+			return $http.get(baseUrl + 'hasWeakness');
 		}
 	}
 }]);

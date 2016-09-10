@@ -34,7 +34,8 @@ elixir(function(mix) {
         'controllers/navController.js',
         'controllers/codeController.js',
         'controllers/problemController.js',
-        'controllers/resultController.js'
+        'controllers/resultController.js',
+        'controllers/statprogController.js'
     	], 'public/js/controllers.js');
     mix.scripts([
         'models/userModel.js',

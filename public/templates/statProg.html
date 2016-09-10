@@ -1,1 +1,31 @@
 <H1>STATISTICAL PROGRESS</H1>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-10">
+			<ul class="nav nav-tabs">
+			  <li class="active"><a data-toggle="tab" href="#sp">Single Player</a></li>
+			  <li><a data-toggle="tab" href="#mp">Multiplayer</a></li>
+			</ul>
+
+			<div class="tab-content">
+			  <div id="sp" class="tab-pane fade in active">
+				<center ng-show="noProgress_single">
+					<h1>You Have no progress Single Player yet. :)</h1>
+				</center>
+				<center ng-show="hasProgress_single">
+					<canvas id="statistical_progress_single" max-width="850px" max-height="750px"></canvas>
+				</center>
+			  </div>
+			  <div id="mp" class="tab-pane fade ">
+			  	<center ng-show="noProgress_multi">
+					<h1>You Have no progress in Multiplayer yet. :)</h1>
+				</center>
+				<center ng-show="hasProgress_multi">
+					<canvas id="statistical_progress_multi" max-width="850px" max-height="750px"></canvas>
+				</center>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>

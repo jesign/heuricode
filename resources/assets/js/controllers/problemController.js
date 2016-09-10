@@ -9,7 +9,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			language: "C",
 			languageId: 11,
 			loadingProblem: true,
-			loadSuccess: false
+			loadSuccess: false,
+			hasWeakness: false
 		});
 
 		// functions
@@ -26,7 +27,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					})
 					. error(function(response){
 						$scope.loadingProblem = false;
-						$scope.problemTitle = "Failed to load problem.";
+						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 				/* From My API */
 				problemModel.getProblemDetails(problem_code)
@@ -52,6 +53,10 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 							$scope.subject_area = "Array";
 							break;
 						}
+					})
+					.error(function(response){
+						$scope.loadingProblem = false;
+						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 			},
 			solveIt: function(){
@@ -62,6 +67,21 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				codingService.setIsMultiplayer(false);
 				$state.go('codingPage');
 				
+			},
+			getRandomProblems: function(w){
+				problemModel.getRandomProblem(w)
+					.success(function(response){
+						console.log(response);
+						if(response != 0){
+							problem_code = response;
+							$scope.getProblem();
+						}else{
+							alert('There is no more problem to fetch');
+						}
+					})	
+					.error(function(){
+						alert('There was an error fetching a problem');
+					});
 			},
 			getRandomWeakness: function(){
 				var included = [];
@@ -110,21 +130,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				selected ++;
 
 				codingService.setWeaknessId(selected);
-
-				problemModel.getRandomProblem(selected)
-					.success(function(response){
-						console.log(response);
-						if(response != 0){
-							problem_code = response;
-							$scope.getProblem();
-						}else{
-							alert('There is no more problem to fetch');
-						}
-					})	
-					.error(function(){
-						alert('There was an error fetching a problem');
-					});
-			},
+				$scope.getRandomProblems(selected);
+			},	
 			languageToC: function(){
 				$scope.language = "C";
 				$scope.languageId = 11;
@@ -162,8 +169,17 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 
 		if(codingService.getIsMultiplayer()){
 
-		}else{
-			$scope.setRanks();
+		}else{	
+			problemModel.checkHasWeakness()
+				.success(function(response){
+					if(response == 0){
+						$scope.setRanks();
+					}else{
+						console.log("You have a problem in subject area -> " + response);
+						codingService.setWeaknessId(response);
+						$scope.getRandomProblems(response);
+					}
+				});
 		}
 
 		// Activities

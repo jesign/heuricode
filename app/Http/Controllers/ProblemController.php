@@ -37,25 +37,29 @@ class ProblemController extends Controller
         $p2_id = $request->input('player2_id');
 
         /* getting player1's rank */
-        $p1_rank = User::find($p1_id)->ranks()->where('weakness_id', $weakness_id)->first();
+        // $p1_rank = User::find($p1_id)->ranks()->where('weakness_id', $weakness_id)->first();
 
         /* setting the difficulty */
-        $p1_rank = $p1_rank->rank;
-        if($p1_rank >=1 && $p1_rank <= 10){
-            $difficulty = "easy";
-        }else if($p1_rank >= 11 && $p1_rank <= 25){
-            $difficulty = "average";
-        }else if($p1_rank >= 26 && $p1_rank <= 40){
-            $difficulty = "problem";
-        }
+        // $p1_rank = $p1_rank->rank;
+        // if($p1_rank >=1 && $p1_rank <= 10){
+        //     $difficulty = "easy";
+        // }else if($p1_rank >= 11 && $p1_rank <= 25){
+        //     $difficulty = "average";
+        // }else if($p1_rank >= 26 && $p1_rank <= 40){
+        //     $difficulty = "problem";
+        // }
 
         /* getting all the solved problems of the players */
 
         $p1_solved_rounds = User::find($p1_id)->rounds()
-                ->where('is_solved', '!=', '0')->get();
+                ->where('is_solved', '!=', '0')
+                ->where('mode', 'multiplayer')
+                ->get();
 
         $p2_solved_rounds = User::find($p2_id)->rounds()
-                ->where('is_solved', '!=', '0')->get();
+                ->where('is_solved', '!=', '0')
+                ->where('mode', 'multiplayer')
+                ->get();
 
         /* setting query to exclude the solved problems */
         $solved = array();
@@ -68,7 +72,10 @@ class ProblemController extends Controller
             array_push($solved, $new_array);
         }
         /* getting all the unsolved problems based on weakness and difficulty*/
-        $problems = DB::table('problems')->where($solved)->where('weakness_id', $weakness_id)->where('difficulty', $difficulty)->get();
+        // $problems = DB::table('problems')->where($solved)->where('weakness_id', $weakness_id)->where('difficulty', $difficulty)->get();
+
+        /* getting all the unsolved problem in new multiplayer mode */
+        $problems = DB::table('problems')->where($solved)->where('mode', 'multiplayer')->get();        
 
         /* get random problems */
         $problem_code_array = [];

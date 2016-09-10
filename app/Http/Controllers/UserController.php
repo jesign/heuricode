@@ -88,24 +88,29 @@ class UserController extends Controller
     		$result = array(0,0);
     	}
 
-
-    	
 		return $result;
     }
     public function getUserId(){
     	return Auth::user()->id;
     }
     public function getPlayerDetails(Request $request){
-            // get players id both 1 and 2
-            $user1 = $request->input('user_id');
-            $subject = $request->input('subject');
+        // get players id both 1 and 2
+        $user1 = $request->input('user_id');
+        $subject = $request->input('subject');
 
-            // get user details
-            $u1 = User::find($user1);
-            
-            // get user ranks
-            $u1_r = $u1->ranks()->where('weakness_id', $subject)->first()->rank;
-            
-            return array($u1->name, $u1_r);
+        // get user details
+        $u1 = User::find($user1);
+        
+        // get user ranks
+        $u1_r = $u1->ranks()->where('weakness_id', $subject)->first()->rank;
+        
+        return array($u1->name, $u1_r);
+    }
+    public function setWeakness(Request $request){
+        Auth::user()->update(['weakness' => $request->input('weakness')]);
+        return;
+    }
+    public function hasWeakness(){
+        return Auth::user()->weakness;
     }
 }

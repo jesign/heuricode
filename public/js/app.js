@@ -40,6 +40,7 @@ myApp
 			}),
 			$stateProvider.state({
 				templateUrl: 'templates/statProg.html',
+				controller: 'statprogController',
 				url: '/statisticalProgress',
 				name: 'statProgPage'
 			}),

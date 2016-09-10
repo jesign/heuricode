@@ -14,12 +14,10 @@ class CreateErrorsTable extends Migration
     {
         Schema::create('errors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('problem_id')->unsigned();
-            $table->foreign('problem_id')->references('id')->on('problems');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('type')->unsigned();
             $table->foreign('type')->references('id')->on('error_types');
-            $table->integer('round_id')->unsigned();
-            $table->foreign('round_id')->references('id')->on('rounds');
             $table->integer('count');
             $table->timestamps();
         });

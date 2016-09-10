@@ -19,7 +19,7 @@ myApp.factory('codeModel', ['$http', function($http){
 		  
 		});
 	};
-	
+
 	model.addRound = function(problemCode){
 		return $http({
 			headers: {
@@ -58,22 +58,24 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: "POST"
 		});			
 	}
-	model.rankDown = function(weakness_id){
+	model.saveErrors = function(ms, se, pm, ie, mode){
 		return $http({
 			headers: {
-				'Content-Type' : 'application/json'	
+				'Content-Type' : 'application/json'
 			},
 			data: {
-				'weakness_id' : weakness_id
+				MS: ms,
+				SE: se, 
+				PM: pm,
+				IE: ie,
+				mode: mode
 			},
-			url: baseUrl + "rank/down",
+			url: baseUrl + "saveError",
 			method: "POST"
-		});			
-	}
+		});
+	}	
 
 	model.submissionStatusModel = function(id){
-		// return $http.get('http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2');
-
 		return $http({
 			headers: {
 				'Content-Type': 'application/json'

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateProblemsTable extends Migration
+class UpdateErrorsTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class UpdateProblemsTable extends Migration
      */
     public function up()
     {
-        Schema::table('problems', function ($table) {
-            $table->bigInteger('time_limit');
+        Schema::table('errors', function ($table) {
+            $table->enum('mode', ['single', 'multiplayer']);
         });
     }
 
@@ -24,6 +24,6 @@ class UpdateProblemsTable extends Migration
      */
     public function down()
     {
-        $table->dropColumn('time_limit');
+        $table->dropColumn('mode');
     }
 }

@@ -6,7 +6,8 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		checkAuth: checkAuth,
 		getMatchedUser: getMatchedUser,
 		checkVacantRoom: checkVacantRoom,
-		checkIfMatchingUser: checkIfMatchingUser
+		checkIfMatchingUser: checkIfMatchingUser,
+		getAllErrorsCount: getAllErrorsCount,
 	};
 
 	function checkAuth(){
@@ -38,35 +39,39 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 			console.log("looking for vacant room");
 			// check if vacant room
 			if(rooms[x].player2 == 0){
-				console.log("checking if is a matching user");
-				/* check if player 1 is a matching user */
 				
-				var p2_scs = rooms[x].level.scs;
-				var p2_rcs = rooms[x].level.rcs;
-				var p2_arr = rooms[x].level.arr;
+				d.resolve({
+					roomKey: rooms[x].$id
+				})
 
-				if(scs == p2_scs || Math.abs(scs - p2_scs) == 1){
-					d.resolve({
-						roomKey: rooms[x].$id,
-						player_id: rooms[x].player1,
-						subject: 1,
-						level: p2_scs
-					});
-				}
-				if(rcs == p2_rcs || Math.abs(rcs - p2_rcs) == 1){
-					d.resolve({
-						roomKey: rooms[x].$id,
-						subject: 2,
-						level: p2_rcs
-					});
-				}
-				if(arr == p2_arr || Math.abs(arr - p2_arr) == 1){
-					d.resolve({
-						roomKey: rooms[x].$id,
-						subject: 3,
-						level: p2_arr
-					});
-				}
+				// /* check if player 1 is a matching user */
+				
+				// var p2_scs = rooms[x].level.scs;
+				// var p2_rcs = rooms[x].level.rcs;
+				// var p2_arr = rooms[x].level.arr;
+
+				// if(scs == p2_scs || Math.abs(scs - p2_scs) == 1){
+				// 	d.resolve({
+				// 		roomKey: rooms[x].$id,
+				// 		player_id: rooms[x].player1,
+				// 		subject: 1,
+				// 		level: p2_scs
+				// 	});
+				// }
+				// if(rcs == p2_rcs || Math.abs(rcs - p2_rcs) == 1){
+				// 	d.resolve({
+				// 		roomKey: rooms[x].$id,
+				// 		subject: 2,
+				// 		level: p2_rcs
+				// 	});
+				// }
+				// if(arr == p2_arr || Math.abs(arr - p2_arr) == 1){
+				// 	d.resolve({
+				// 		roomKey: rooms[x].$id,
+				// 		subject: 3,
+				// 		level: p2_arr
+				// 	});
+				// }
 			}				
 		}
 		
@@ -110,6 +115,11 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 			method: "POST"
 		})
 	}
+
+	function getAllErrorsCount(e_id){
+		return $http.get(baseUrl + 'getAllError/' + e_id);
+	}
+
 }]);
 myApp.factory('codeModel', ['$http', function($http){
 	
@@ -132,7 +142,7 @@ myApp.factory('codeModel', ['$http', function($http){
 		  
 		});
 	};
-	
+
 	model.addRound = function(problemCode){
 		return $http({
 			headers: {
@@ -171,22 +181,24 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: "POST"
 		});			
 	}
-	model.rankDown = function(weakness_id){
+	model.saveErrors = function(ms, se, pm, ie, mode){
 		return $http({
 			headers: {
-				'Content-Type' : 'application/json'	
+				'Content-Type' : 'application/json'
 			},
 			data: {
-				'weakness_id' : weakness_id
+				MS: ms,
+				SE: se, 
+				PM: pm,
+				IE: ie,
+				mode: mode
 			},
-			url: baseUrl + "rank/down",
+			url: baseUrl + "saveError",
 			method: "POST"
-		});			
-	}
+		});
+	}	
 
 	model.submissionStatusModel = function(id){
-		// return $http.get('http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2');
-
 		return $http({
 			headers: {
 				'Content-Type': 'application/json'
@@ -291,6 +303,21 @@ myApp.factory('problemModel', ['$http', function($http){
 					subject: subj
 				}
 			});
+		},
+		setWeakness: function(w){
+			return $http({
+				headers: {
+					'Content-Type' :'application/json'
+				},
+				url: baseUrl + 'setWeakness',
+				method: "POST",
+				data:{
+					weakness: w
+				}
+			});
+		},
+		checkHasWeakness: function(){
+			return $http.get(baseUrl + 'hasWeakness');
 		}
 	}
 }]);

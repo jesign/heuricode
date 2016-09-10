@@ -26,9 +26,15 @@ Route::get('/home', 'HomeController@index');
 Route::post('/findMatch', 'UserController@findMatch');
 Route::post('/getPlayerDetails', 'UserController@getPlayerDetails');
 Route::post('/checkIfMatch', 'UserController@checkIfMatch');
+Route::post('/setWeakness', 'UserController@setWeakness');
+Route::get('/hasWeakness', 'UserController@hasWeakness');
+
 // rounds
 Route::post('/round/add', 'RoundController@addRound');
 Route::post('/round/set', 'RoundController@setRound');
+Route::post('/saveError', 'RoundController@saveError');
+Route::get('/getAllError/{mode}', 'RoundController@getAllError');
+
 // Problem
 Route::get('/problem', 'ProblemController@getProblem');
 Route::get('/problem/{id}', 'ProblemApiController@getProblem');
@@ -38,6 +44,7 @@ Route::get('/problem/sourceCode/Java/{id}', 'ProblemController@getSourceCodeJava
 Route::post('/problem/description', 'ProblemController@getProblemDescription');
 Route::post('/randomProblem', 'ProblemController@getRandomProblem');
 Route::post('/getPlayersProblem', 'ProblemController@getPlayersProblem');
+
 
 // Submissions
 Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDetails');

@@ -60,20 +60,20 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 			}
 		}
 
-		function setSubject(subj){
-			switch(subj){
-	  					case 1: 
-	  						$scope.subject = "Selection Control Structure";
-	  						break;
-	  					case 2:
-	  						$scope.subject = "Repetition Control Structure";
-	  						break;
-	  					case 3: 
-	  						$scope.subject = "Array";
-	  						break;
-	  					default: 
-	  				}
-		}
+		// function setSubject(subj){
+		// 	switch(subj){
+	 //  					case 1: 
+	 //  						$scope.subject = "Selection Control Structure";
+	 //  						break;
+	 //  					case 2:
+	 //  						$scope.subject = "Repetition Control Structure";
+	 //  						break;
+	 //  					case 3: 
+	 //  						$scope.subject = "Array";
+	 //  						break;
+	 //  					default: 
+	 //  				}
+		// }
 
 		function setProblem(){
 			problemModel.getProblem(problemCode)
@@ -160,7 +160,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  				$scope.p1_btn = "active";
 	  				
 	  				setLevel(1, r.subject);
-	  				setSubject(r.subject);
+	  				// setSubject(r.subject);
 	  				getProblem();
 	  				
 	  			});
@@ -313,7 +313,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 							var edit = $scope.rooms.$getRecord(response.roomKey);
 
 							edit.player2 = userId;
-							edit.subject = response.subject;
+							// edit.subject = response.subject;
 
 							p1_id = edit.player1;
 							p2_id = userId;
@@ -345,7 +345,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 									$scope.p2_name = response[0];
 									$scope.p2_level = response[1];
 								});			
-								setSubject(r.subject);
+								// setSubject(r.subject);
 								$scope.p2_btn = "active";
 							});		
 							roomId = true;
@@ -526,8 +526,6 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 
 myApp.controller('userController', ['$scope', 
 	function($scope){
-
-
 		//function
 		angular.extend($scope, {
 			testFunction: function(){
@@ -592,7 +590,12 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			roomKey = null,
 			userId = 0,
 			leaveState = false,
-			isLose = false;
+			isLose = false,
+			hasNewWeakness = false,
+			wrongAnswer = 0,
+			rank1 = 0,
+			rank2 = 0,
+			rank3 = 0;
 
 		// scoped variables
 		angular.extend($scope, {
@@ -635,6 +638,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		 
 		// functions
 		angular.extend($scope, {
+			/* Results value or details */
 			getResultValue: function(id){
 				switch(id){
 					case 11: 
@@ -662,8 +666,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						return 0;
 				}
 			},
+
+			/* Getting Submission Status will loop until status_id is = 0*/
 			getSubmissionStatus: function(id){				
 				$('.nav-tabs a[href="#output"]').tab('show');
+				/* request to API the status of submission */
 				codeModel.submissionStatusModel(id).then(function(response){
 					$scope.output = "";
 					$scope.error = "";
@@ -673,6 +680,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					$scope.showProblem = true;
 					var status_id = response.status;
 					console.log(status_id);
+
 		  			if(status_id != 0){
 		  				$scope.compiling = true;
 		  				if(status_id < 0)
@@ -694,14 +702,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		  			$scope.resultValue = $scope.getResultValue(response.result);
 		  			console.log(response.result);
 		  			console.log($scope.getResultValue(response.result));
-		  			
-	  			
+	  				
 		  			if(response.result == 15){
 		  				$scope.resultValueColor = "resultValSuccess";
 		  				$scope.output = response.output;
 		  			}else if(response.result == 12){
-		  				errorService.addErrorCountRE(1);
-		  			}else{
+		  				$scope.resultValueColor = "resultValError";
+		  			}else if(response.result == 11){
 		  				$scope.resultValueColor = "resultValError";
 		  				$scope.error = response.cmpinfo;
 
@@ -722,15 +729,16 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		  				$scope.getErrorsMS();
 						$scope.getErrorsSE();
 						$scope.getErrorsPM();
-						$scope.getErrorsEE();
+						$scope.getErrorsIE();
 
 
 						// temporary display error counts
 						$scope.errors.ms = errorService.getErrorCountMS();
 						$scope.errors.se = errorService.getErrorCountSE();
 						$scope.errors.pm = errorService.getErrorCountPM();
-						$scope.errors.ee = errorService.getErrorCountEE();
-						$scope.errors.re = errorService.getErrorCountRE();
+						$scope.errors.ee = errorService.getErrorCountIE();
+		  			}else{
+		  				$scope.resultValueColor = "resultValError";
 		  			}
 	  			
 
@@ -740,19 +748,17 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				var editor = ace.edit("editor");
 				var code = editor.getValue();
 				console.log("code " + code);
+				
+				/* Submit the code to API and get its status */
 				$.ajax({
 				  	type: "POST",
 				  	url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
-				  	// contentType: 'application/json',
 				  	data: 
-				  		// JSON.stringify(
 				  		{
 				 		sourceCode: code,
 				 		language: g_languageId,
 				 		input: $scope.newCode.input
-				 	}
-					 	// )
-					,
+				 	},
 				  	success: function(result, data){
 				  		var obj = JSON.parse(result);
 					  	g_submitId = obj.id;
@@ -762,9 +768,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				});
 			},
 			testError: function(){			
-				
 				$scope.getSubmissionStatus(47872263);
-			
 			},
 			testSuccess: function(){
 				$scope.getSubmissionStatus(47900843);
@@ -792,6 +796,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						errorService.addErrorCountMS(number_of_errors);		 
 						break;
 					case 10:
+
+						// ';' expected
 						break;
 					case 11:
 				}
@@ -824,7 +830,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 				switch(g_languageId){
 					case 1:
-						for(i = 0; i < array_error.length; i ++){
+						for(i = 0; i < array_error.length; i++){
 							var str = array_error[i];
 							if(str.includes("expected ')'")){
 								number_of_errors ++;
@@ -843,23 +849,38 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						errorService.addErrorCountPM(number_of_errors);		 
 						break;
 					case 10:
-						
+						for(i = 0; i < array_error.length; i++){
+							var str = array_error[i];
+							if(str.includes("expected ')'")){
+								number_of_errors ++;
+							} else if(str.includes("expected ']'")){
+								number_of_errors ++;
+							} else if(str.includes("expected '}'")){
+								number_of_errors ++;
+							} else if(str.includes("expected '('")){
+								number_of_errors ++;
+							} else if(str.includes("expected '{'")){
+								number_of_errors ++;
+							}else if(str.includes("expected '['")){
+								number_of_errors ++;
+							} 	
+						}
 						break;
 					case 11:
 				}					
 			},
-			getErrorsEE: function(){
+			getErrorsIE: function(){
 				var array_error = g_array_errors;
 				var number_of_errors = 0;
 				switch(g_languageId){
 					case 1:
 						for(i = 0; i < array_error.length; i ++){
 							var str = array_error[i];
-								if(str.includes("expected primary-expression before")){
+								if(str.includes("expected initializer")){
 									number_of_errors ++;
 								} 
 						}
-						errorService.addErrorCountEE(number_of_errors);		 
+						errorService.addErrorCountIE(number_of_errors);		 
 						break;
 					case 10:
 						break;
@@ -887,11 +908,62 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						$scope.testGetProblemDetails();
 					});
 			},
+			checkRankForWeakness: function(w){
+				switch(w){
+					case 1:
+						if(rank1 >= 10){
+							if(rank2 <= 10 || rank3 <= 10){
+								return true;
+							}
+						}else if(rank1 >= 25){
+							if(rank2 <= 25 || rank3 <= 25){
+								return true;
+							}
+						}else{
+							if(rank2 <= 40 || rank3 <= 40){
+								return true;
+							}
+						}
+						break;
+					case 2:
+						if(rank2 >= 10){
+							if(rank1 <= 10 || rank3 <= 10){
+								return true;
+							}
+						}else if(rank2 >= 25){
+							if(rank1 <= 25 || rank3 <= 25){
+								return true;
+							}
+						}else{
+							if(rank1 <= 40 || rank3 <= 40){
+								return true;
+							}
+						}
+						break;
+					case 3:
+						if(rank3 >= 10){
+							if(rank1 <= 10 || rank2 <= 10){
+								return true;
+							}
+						}else if(rank3 >= 25){
+							if(rank1 <= 25 || rank2 <= 25){
+								return true;
+							}
+						}else{
+							if(rank1 <= 40 || rank2 <= 40){
+								return true;
+							}
+						}
+						break;
+				}
+				return false;
+
+			},
 			testGetProblemDetails: function(){
 				$('#myModal').modal({ keyboard: false, backdrop: false, show: true })
 				problemModel.getSubmissionDetails($scope.submitCodeId)
 					.success(function(response){
-						console.log(response.statusDescription);
+						console.log(response);
 						var status_id = response.status;
 						$scope.submitStatusDescription = response.statusDescription;
 						if(status_id < 9){
@@ -910,6 +982,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										console.log('problem set to solve');
 									});
 
+								/* set to no weakness */
+								if( !hasNewWeakness || checkRankForWeakness(weakness) ){
+									problemModel.setWeakness(0);
+								}
+
 								if($scope.isMultiplayer){
 									var r = $scope.rooms.$getRecord(roomKey);
 									var opponent;	
@@ -927,14 +1004,22 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										$scope.winOrLoseMessage = "You lose against player " + opponent;
 									}
 								}
-
-
 							}else{
+								wrongAnswer++;
+								if(wrongAnswer == 3){
+									problemModel.setWeakness(codingService.getWeaknessId())
+									.success(function(){
+										hasNewWeakness = true;
+										console.log("weakness set to " + codingService.getWeaknessId());
+									});
+								}
+
 								$scope.resultSubmissionColor = "submission-error";
 							}
 						}
 					});
 			},
+			
 			getSkeletonCode: function(problem_code, language_id){
 				problemModel.getSkeletonCode(problem_code, language_id) 
 					.success(function(response){
@@ -946,32 +1031,47 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					    editor.getSession().setValue(sc);
 					    editor.resize();
 					});
-			},
-			updateRankProceed: function(weakness,rank){
+			},			
+			updateRankProceed: function(){
+				
 				$scope.setRank();
 				leaveState = true;
 				$state.go('resultPage');
 			},
 			proceed: function(){
+				/* set error counts in each subj from this round */
+				codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
+					errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" )
+				.success(function(){
+					console.log("Error counts are set.");
+				});
+
 				var weakness = codingService.getWeaknessId();
-
-				if($scope.isCorrect)
+				if($scope.isCorrect){
 					codeModel.rankUp(weakness)
-						. success(function(response){
-							$scope
-							.updateRankProceed(weakness, response);
-						});	
-				else{
-					codeModel.rankDown(weakness)
-						. success (function(response){
-							$scope.updateRankProceed(weakness, response);
+						.success(function(response){
+							codingService.setIsEnableCode(false);
+							$scope.updateRankProceed();
+						})
+						.error(function(){
+							$scope.proceed();
 						});
+				} else {
+					codingService.setIsEnableCode(false);
 					codingService.setSuccess(false);
+					problemModel.setWeakness(weakness)
+					.success(function(){
+						$scope.updateRankProceed();
+					});
+					
 				}
-
 			}
 		});
 		// automatic activity
+		rank1 = rankService.getRankSCS();
+		rank2 = rankService.getRankRCS();
+		rank3 = rankService.getRankARR();
+
 		if(codingService.getIsEnableCode()){
 			// get problem details
 			codingService.setSuccess(false);
@@ -998,7 +1098,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					$scope.problemDescription = response.body;
 					$scope.getSkeletonCode($scope.problemCode, g_languageId);
 				})
-
 				.error(function(result){
 					console.log(result);
 				});
@@ -1074,13 +1173,19 @@ myApp.controller('codeController', ['$scope','$rootScope',
 	  		is_able_c = false;	
 		    
 		    if(!leaveState){
-				alert("You have given up.");				
+	    		if(confirm('Are you sure you want to leave? this will be considere that you have given up the problem.')) {           			
+           			codingService.setIsEnableCode(false);
+			    } else {
+			    	is_able_c = true;
+			   		event.preventDefault();
+			    }
 		    }
 		});
 
 		window.onbeforeunload = function() { 
 	  		if(is_able_c){
-			      if(confirm('Your rank will down if you dont finish coding. Are you sure you want to leave?')) {
+			      if(confirm('Are you sure you want to leave? this will be considere that you have given up the problem.')) {
+			      	codingService.setIsEnableCode(false);
            			return true; 
 			      }
 			      else {
@@ -1106,7 +1211,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			language: "C",
 			languageId: 11,
 			loadingProblem: true,
-			loadSuccess: false
+			loadSuccess: false,
+			hasWeakness: false
 		});
 
 		// functions
@@ -1123,7 +1229,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					})
 					. error(function(response){
 						$scope.loadingProblem = false;
-						$scope.problemTitle = "Failed to load problem.";
+						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 				/* From My API */
 				problemModel.getProblemDetails(problem_code)
@@ -1149,6 +1255,10 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 							$scope.subject_area = "Array";
 							break;
 						}
+					})
+					.error(function(response){
+						$scope.loadingProblem = false;
+						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 			},
 			solveIt: function(){
@@ -1159,6 +1269,21 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				codingService.setIsMultiplayer(false);
 				$state.go('codingPage');
 				
+			},
+			getRandomProblems: function(w){
+				problemModel.getRandomProblem(w)
+					.success(function(response){
+						console.log(response);
+						if(response != 0){
+							problem_code = response;
+							$scope.getProblem();
+						}else{
+							alert('There is no more problem to fetch');
+						}
+					})	
+					.error(function(){
+						alert('There was an error fetching a problem');
+					});
 			},
 			getRandomWeakness: function(){
 				var included = [];
@@ -1207,21 +1332,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				selected ++;
 
 				codingService.setWeaknessId(selected);
-
-				problemModel.getRandomProblem(selected)
-					.success(function(response){
-						console.log(response);
-						if(response != 0){
-							problem_code = response;
-							$scope.getProblem();
-						}else{
-							alert('There is no more problem to fetch');
-						}
-					})	
-					.error(function(){
-						alert('There was an error fetching a problem');
-					});
-			},
+				$scope.getRandomProblems(selected);
+			},	
 			languageToC: function(){
 				$scope.language = "C";
 				$scope.languageId = 11;
@@ -1259,8 +1371,17 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 
 		if(codingService.getIsMultiplayer()){
 
-		}else{
-			$scope.setRanks();
+		}else{	
+			problemModel.checkHasWeakness()
+				.success(function(response){
+					if(response == 0){
+						$scope.setRanks();
+					}else{
+						console.log("You have a problem in subject area -> " + response);
+						codingService.setWeaknessId(response);
+						$scope.getRandomProblems(response);
+					}
+				});
 		}
 
 		// Activities
@@ -1279,8 +1400,6 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 				if(subject_area == sa){
 					if($scope.isSuccess)
 						return "up";
-					else 
-						return "down";
 				}
 				return "none";
 			}
@@ -1323,9 +1442,7 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			barColor.push(getBarColor(errorService.getErrorCountMS()));
 			barColor.push(getBarColor(errorService.getErrorCountSE()));
 			barColor.push(getBarColor(errorService.getErrorCountPM()));
-			barColor.push(getBarColor(errorService.getErrorCountRE()));
-			barColor.push(getBarColor(errorService.getErrorCountEE()));			
-			
+			barColor.push(getBarColor(errorService.getErrorCountIE()));			
 
 			var myChart = new Chart(ctx, {
 			    type: 'bar',
@@ -1333,10 +1450,9 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			        labels: ["Missing Semicolon", "Scoping Error", "Parenthesis Matching", "Identifier Error"],
 			        datasets: [{
 			            label: '# of Errors',
-			            data: [errorService.getErrorCountMS(), errorService.getErrorCountSE(), errorService.getErrorCountPM(), 
-			            		errorService.getErrorCountRE(), errorService.getErrorCountEE()],
+			            data: [errorService.getErrorCountMS(), errorService.getErrorCountSE(), 
+			            		errorService.getErrorCountPM(), errorService.getErrorCountIE()],
 			            backgroundColor: barColor
-			          
 			        }]
 			    },
 			    options: {
@@ -1363,5 +1479,116 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 
 
 		}
+	}]);
+myApp.controller('statprogController', ['$scope', 'userModel',
+	function($scope, userModel){
+		
+		
+
+		angular.extend($scope, {
+			hasProgress_single: false,
+			noProgress_single: false,
+			hasProgress_multi: false,
+			noProgress_multi: false
+		});
+
+		angular.extend($scope, {
+			getData: function(label, data, r, g , b){
+				var data_object = {
+						            label: label,
+						            lineTension: 0.1,
+						            backgroundColor: "rgba("+ r + "," + g + "," + b + ",0.1)",
+						            borderColor: "rgba("+ r + "," + g + "," + b + ",1)",
+						            borderCapStyle: 'butt',
+						            borderDash: [],
+						            borderDashOffset: 0.0,
+						            borderJoinStyle: 'miter',
+						            pointBorderColor: "rgba("+ r + "," + g + "," + b + ",1)",
+						            pointBackgroundColor: "#fff",
+						            pointBorderWidth: 1,
+						            pointHoverRadius: 5,
+						            pointHoverBackgroundColor: "rgba("+ r + "," + g + "," + b + ",1)",
+						            pointHoverBorderColor: "rgba(220,220,220,1)",
+						            pointHoverBorderWidth: 2,
+						            pointRadius: 1,
+						            pointHitRadius: 10,
+						            data: data,
+						            spanGaps: false,
+						        }
+				return data_object;
+			},
+			showGraph: function(response, mode){
+				if(response != 0){
+					
+					if(mode == "single"){
+						$scope.hasProgress_single = true;
+						var ctx = document.getElementById("statistical_progress_single");
+					}
+					else{
+						$scope.hasProgress_multi = true;
+						var ctx = document.getElementById("statistical_progress_multi");
+					}
+
+					var errs = response;
+					var lbl_i = 1;
+					var label = [];
+					var ms = [], se = [],
+					pm = [], ie = [];
+					
+					for(var x = 0; x < errs.length; x++){
+						if(errs[x].type == 1){
+							label.push(lbl_i);
+							ms.push(errs[x].count);
+							lbl_i++;
+						}
+						else if(errs[x].type == 2)
+							se.push(errs[x].count);
+						else if(errs[x].type == 3)
+							pm.push(errs[x].count);
+						else if(errs[x].type == 4)
+							ie.push(errs[x].count);
+					}
+					var data = {
+					    labels: label,
+					    datasets: [
+					        $scope.getData("Missing Semicolon", ms, 255, 51, 51),
+					        $scope.getData("Scoping Error", se, 192, 75, 192),
+					        $scope.getData("Parenthesis Matching", pm, 51, 255, 51),
+					        $scope.getData("Initializer Error", ie, 255, 255, 51),
+					    ]
+					};
+
+					var myLineChart = new Chart(ctx, {
+					    type: 'line',
+					    data: data
+					});
+
+					console.log(ms);
+					console.log(se);
+					console.log(pm);
+					console.log(ie);
+				}else{
+					if(mode == "single"){
+						$scope.noProgress_single = true;
+					}else{
+						$scope.noProgress_multi = true;
+					}
+				}
+			},
+			getErrorsCount: function(){
+				userModel.getAllErrorsCount('single')
+					.success(function(response){
+						$scope.showGraph(response, 'single');
+					});	
+				userModel.getAllErrorsCount('multiplayer')
+					.success(function(response){
+						$scope.showGraph(response, 'multi');
+					});	
+
+			}
+		});
+
+		$scope.getErrorsCount();
+
 	}]);
 //# sourceMappingURL=controllers.js.map

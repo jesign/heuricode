@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateProblemsTable extends Migration
+class UpdateErrorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,7 @@ class UpdateProblemsTable extends Migration
      */
     public function up()
     {
-        Schema::table('problems', function ($table) {
-            $table->bigInteger('time_limit');
-        });
+        
     }
 
     /**
@@ -24,6 +22,6 @@ class UpdateProblemsTable extends Migration
      */
     public function down()
     {
-        $table->dropColumn('time_limit');
+        
     }
 }

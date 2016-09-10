@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'weakness',
     ];
 
     /**
@@ -30,5 +30,8 @@ class User extends Authenticatable
     }
     public function rounds(){
         return $this->hasMany('App\Round');
+    }
+    public function errors(){
+        return $this->hasMany('App\Error');
     }
 }

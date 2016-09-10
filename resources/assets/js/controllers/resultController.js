@@ -8,8 +8,6 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 				if(subject_area == sa){
 					if($scope.isSuccess)
 						return "up";
-					else 
-						return "down";
 				}
 				return "none";
 			}
@@ -52,9 +50,7 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			barColor.push(getBarColor(errorService.getErrorCountMS()));
 			barColor.push(getBarColor(errorService.getErrorCountSE()));
 			barColor.push(getBarColor(errorService.getErrorCountPM()));
-			barColor.push(getBarColor(errorService.getErrorCountRE()));
-			barColor.push(getBarColor(errorService.getErrorCountEE()));			
-			
+			barColor.push(getBarColor(errorService.getErrorCountIE()));			
 
 			var myChart = new Chart(ctx, {
 			    type: 'bar',
@@ -62,10 +58,9 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			        labels: ["Missing Semicolon", "Scoping Error", "Parenthesis Matching", "Identifier Error"],
 			        datasets: [{
 			            label: '# of Errors',
-			            data: [errorService.getErrorCountMS(), errorService.getErrorCountSE(), errorService.getErrorCountPM(), 
-			            		errorService.getErrorCountRE(), errorService.getErrorCountEE()],
+			            data: [errorService.getErrorCountMS(), errorService.getErrorCountSE(), 
+			            		errorService.getErrorCountPM(), errorService.getErrorCountIE()],
 			            backgroundColor: barColor
-			          
 			        }]
 			    },
 			    options: {

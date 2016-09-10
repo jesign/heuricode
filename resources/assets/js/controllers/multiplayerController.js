@@ -60,20 +60,20 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 			}
 		}
 
-		function setSubject(subj){
-			switch(subj){
-	  					case 1: 
-	  						$scope.subject = "Selection Control Structure";
-	  						break;
-	  					case 2:
-	  						$scope.subject = "Repetition Control Structure";
-	  						break;
-	  					case 3: 
-	  						$scope.subject = "Array";
-	  						break;
-	  					default: 
-	  				}
-		}
+		// function setSubject(subj){
+		// 	switch(subj){
+	 //  					case 1: 
+	 //  						$scope.subject = "Selection Control Structure";
+	 //  						break;
+	 //  					case 2:
+	 //  						$scope.subject = "Repetition Control Structure";
+	 //  						break;
+	 //  					case 3: 
+	 //  						$scope.subject = "Array";
+	 //  						break;
+	 //  					default: 
+	 //  				}
+		// }
 
 		function setProblem(){
 			problemModel.getProblem(problemCode)
@@ -160,7 +160,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  				$scope.p1_btn = "active";
 	  				
 	  				setLevel(1, r.subject);
-	  				setSubject(r.subject);
+	  				// setSubject(r.subject);
 	  				getProblem();
 	  				
 	  			});
@@ -313,7 +313,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 							var edit = $scope.rooms.$getRecord(response.roomKey);
 
 							edit.player2 = userId;
-							edit.subject = response.subject;
+							// edit.subject = response.subject;
 
 							p1_id = edit.player1;
 							p2_id = userId;
@@ -345,7 +345,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 									$scope.p2_name = response[0];
 									$scope.p2_level = response[1];
 								});			
-								setSubject(r.subject);
+								// setSubject(r.subject);
 								$scope.p2_btn = "active";
 							});		
 							roomId = true;
