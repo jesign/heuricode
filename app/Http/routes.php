@@ -23,9 +23,7 @@ Route::auth();
 Route::get('/checkAuth', 'UserController@checkAuth');
 Route::post('/userId', 'UserController@getUserId');
 Route::get('/home', 'HomeController@index');
-Route::post('/findMatch', 'UserController@findMatch');
 Route::post('/getPlayerDetails', 'UserController@getPlayerDetails');
-Route::post('/checkIfMatch', 'UserController@checkIfMatch');
 Route::post('/setWeakness', 'UserController@setWeakness');
 Route::get('/hasWeakness', 'UserController@hasWeakness');
 
@@ -34,6 +32,8 @@ Route::post('/round/add', 'RoundController@addRound');
 Route::post('/round/set', 'RoundController@setRound');
 Route::post('/saveError', 'RoundController@saveError');
 Route::get('/getAllError/{mode}', 'RoundController@getAllError');
+Route::post('/addBattle','RoundController@addBattle');
+Route::post('/battleSolved', 'RoundController@battleSolved');
 
 // Problem
 Route::get('/problem', 'ProblemController@getProblem');

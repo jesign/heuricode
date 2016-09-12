@@ -19,10 +19,8 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  	var roomKey = 0;
 		var playerKey = 0;
 		var userId = 0;
-	  	var problemIsSet = false;
 	  	var p1_id = 0;
 	  	var p2_id = 0;
-	  	var subj_id = 0;
 	  	var problemCode = null;
 	  	var leaveState = false;
 
@@ -32,48 +30,11 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		$scope.p2_btn = "disabled";
 		$scope.p1_name = 0;
 		$scope.p2_name = 0;
-		$scope.p1_level = 0;
-		$scope.p2_level = 0;
-		$scope.subject = "undecided";
 	  	$scope.roomIndex = null;
 		$scope.timerIndex = null;
+		$scope.enableFindMatch = false;
 
 		$scope.loadProblemSuccess = false;
-
-		function setLevel(player, subj){
-			var lvl;
-			switch(subj){
-				case 1: 
-					lvl = rankService.getRankSCS();;
-					break;
-				case 2: 
-					lvl = rankService.getRankRCS();;
-					break;
-				case 3:
-					lvl = rankService.getRankARR();;
-					break;
-			}
-			if(player === 1){
-				$scope.p1_level = lvl;
-			}else{
-				$scope.p2_level = lvl;
-			}
-		}
-
-		// function setSubject(subj){
-		// 	switch(subj){
-	 //  					case 1: 
-	 //  						$scope.subject = "Selection Control Structure";
-	 //  						break;
-	 //  					case 2:
-	 //  						$scope.subject = "Repetition Control Structure";
-	 //  						break;
-	 //  					case 3: 
-	 //  						$scope.subject = "Array";
-	 //  						break;
-	 //  					default: 
-	 //  				}
-		// }
 
 		function setProblem(){
 			problemModel.getProblem(problemCode)
@@ -101,42 +62,32 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 
 	  	/* player1 creating a room - Step 1*/
 		function createRoom(){
-			var scs = rankService.getRankSCS();
-			var rcs = rankService.getRankRCS();
-			var arr = rankService.getRankARR();
-
 			console.log("creating room");
 			$scope.rooms.$add({
 				player1: userId,
 				player2: 0,
-				level: {
-					scc: scs,
-					rcs: rcs,
-					arr: arr
-				},
 				problemCode: null,
 				ready1: false,
 				ready2: false,
 				lang1: "not set",
 				lang2: "not set", 
-				subject: 0,
 				time: 5,
 				status: 0,
-				winner: 0
+				winner: 0,
+				giveup: 0
 			}) .then(function(ref){
 				p1_id = userId;
 				roomKey = ref.key;
-				roomId = true;
+
 				$scope.roomIndex = $scope.rooms.$indexFor(roomKey);
 				$scope.hasRoom = true;
+
 				checkOpponent();
 				console.log("Room has created");
 
-				userModel.getPlayerDetails(userId, 1)
+				userModel.getPlayerDetails(userId)
 				.success(function(response){
-					console.log(response);
-					$scope.p1_name = response[0];
-					$scope.p1_level = 0;
+					$scope.p1_name = response;
 				});
 			});
 		}
@@ -150,61 +101,40 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  		}
 
 	  		p2_id = r.player2;
-	  		subj_id = r.subject;
 
 	  		$scope.$apply(function(){
-	  			userModel.getPlayerDetails(r.player2, r.subject)
+	  			userModel.getPlayerDetails(r.player2)
 	  			.success(function(response){
-	  				$scope.p2_name = response[0];
-	  				$scope.p2_level = response[1];
+	  				$scope.p2_name = response;
 	  				$scope.p1_btn = "active";
-	  				
-	  				setLevel(1, r.subject);
-	  				// setSubject(r.subject);
-	  				getProblem();
-	  				
+	  			
+	  				getProblem();	
 	  			});
 	        });
 	  		return;
 	  	}
-	  	/* player1 get suitable problems for the 2 players*/
+	  	/* player1 get problem for both players*/
 	  	function getProblem(){
-			problemModel.getPlayersProblem(p1_id, p2_id, subj_id)
+			problemModel.getPlayersProblem(p1_id, p2_id)
 			.success(function(response){
 				console.log(response);
-				if(response != 0){
-					problemCode = response;
-					codingService.setProblemCode(response)
-					problemIsSet = true;
+				
+				problemCode = response;
+				codingService.setProblemCode(response)
+  				setProblem();
 
-					var r = $scope.rooms.$getRecord(roomKey);
-					r.problemCode = response;
-					$scope.rooms.$save(r);
-
-
-					console.log("Problem has set.");
-					updateRoomStatus();
-				}else{
-					alert('There is no more problem to fetch');
-				}
+				var r = $scope.rooms.$getRecord(roomKey);
+				r.problemCode = response;
+				r.status = 1;
+				$scope.rooms.$save(r).then(function(){
+					$scope.hasOpponent = true;
+	  				waitPlayerReady();
+	  				console.log("waiting for players");
+	  			});
 			})
 			.error(function(){
 				alert('There was an error fetching a problem');
 			});
-	  	}
-
-	  	/* player1 update room status to 1 - Step 3*/
-	  	function updateRoomStatus(){ 
-			var r = $scope.rooms.$getRecord(roomKey);
-			r.status = 1;
-  			setProblem();
-
-			$scope.rooms.$save(r).then(function(res){
-				$scope.hasOpponent = true;
-  				waitPlayerReady();
-  				console.log("waiting for players");
-  			});			
-		
 	  	}
 
 	  	/* player1 wait for players to get ready - Step 4*/
@@ -238,16 +168,12 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
   			r.status = 2;
   			$scope.rooms.$save(r);
 			leaveState = true;
-			codingService.setWeaknessId(subj_id);
 			codingService.setIsEnableCode(true);
 			codingService.setIsMultiplayer(true);
 			codingService.setRoomKey(roomKey);
 			$state.go('codingPage');
-		
   			return;
-
 	  	}
-	  	
 
 		/* player2 wait for the room status to turn to 1 - Step 2*/
 		function waitRoomReady(){
@@ -258,7 +184,6 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 				setTimeout(waitRoomReady, 1000);
 				return;
 			}
-
 			problemCode = r.problemCode;
 			console.log("room available");
 			codingService.setProblemCode(problemCode);
@@ -282,30 +207,17 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 			}	
 			
 			leaveState = true;
-			codingService.setWeaknessId(subj_id);
+			
 			codingService.setIsEnableCode(true);
 			codingService.setIsMultiplayer(true);
 			codingService.setRoomKey(roomKey);
 			$state.go('codingPage');	
-
 			return;
 		}
 
-		/* load authenticated user and check for vancant room.*/
-		userModel.getUserId()
-			.success(function(response){
-				userId = response;
-				$scope.rooms.$loaded() .then(function(room){
-				/* look for vacant room*/
-					console.log("Checking Vacant Room");
-
-					var scs = rankService.getRankSCS();
-					var rcs = rankService.getRankRCS();
-					var arr = rankService.getRankARR();
-
-					var roomId = false;
-
-					userModel.checkVacantRoom(room, scs, rcs, arr)
+		$scope.findMatch = function(){
+			$scope.enableFindMatch = false;
+			userModel.checkVacantRoom($scope.rooms)
 						.then(function(response){
 							roomKey = response.roomKey;
 							$scope.roomIndex = $scope.rooms.$indexFor(roomKey);
@@ -314,7 +226,6 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 
 							edit.player2 = userId;
 							// edit.subject = response.subject;
-
 							p1_id = edit.player1;
 							p2_id = userId;
 
@@ -332,28 +243,34 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 
 								var r = $scope.rooms.$getRecord(ref.key);
 
-								userModel.getPlayerDetails(r.player1, r.subject)
+								userModel.getPlayerDetails(r.player1)
 								.success(function(response){
 									console.log(response);
-									$scope.p1_name = response[0];
-									$scope.p1_level = response[1];
+									$scope.p1_name = response;
 								});			
 
-								userModel.getPlayerDetails(userId, r.subject)
+								userModel.getPlayerDetails(userId)
 								.success(function(response){
 									console.log(response);
-									$scope.p2_name = response[0];
-									$scope.p2_level = response[1];
+									$scope.p2_name = response;
 								});			
-								// setSubject(r.subject);
+								
 								$scope.p2_btn = "active";
 							});		
-							roomId = true;
 						})
 						.catch(function(response){
 							console.log("No room yet.")
 							createRoom();
 						});
+		}
+		/* load authenticated user and check for vancant room.*/
+		userModel.getUserId()
+			.success(function(response){
+				userId = response;
+				$scope.rooms.$loaded() 
+				.then(function(room){
+				/* look for vacant room*/
+					$scope.enableFindMatch = true;
 				});		
 			});
 
@@ -430,13 +347,6 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 			}
 		}
 
-		$scope.test = function(){
-			userModel.getPlayerDetails(1, 3, 1) 
-					.success(function(response){
-						console.log(response);
-					});
-		}
-
 	  	$scope.addMessage = function() {
 		    $scope.messages.$add({
 		      text: $scope.newMessageText
@@ -470,7 +380,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		};	  		
 
 		$(window).on('unload', function(e) {
-  			if(roomKey){
+  			if(roomKey && !leaveState){
 				$scope.rooms.$remove($scope.rooms.$indexFor(roomKey))
 				.then(function(ref){
 					console.log("Room was deleted");

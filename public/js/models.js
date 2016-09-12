@@ -4,9 +4,7 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		getPlayerDetails: getPlayerDetails,
 		getUserId: getUserId,
 		checkAuth: checkAuth,
-		getMatchedUser: getMatchedUser,
 		checkVacantRoom: checkVacantRoom,
-		checkIfMatchingUser: checkIfMatchingUser,
 		getAllErrorsCount: getAllErrorsCount,
 	};
 
@@ -14,20 +12,7 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		return $http.get(baseUrl + 'checkAuth');
 	}
 
-	function checkIfMatchingUser(player1){
-		return $http ({
-			headers: {
-				'Content-Type' : 'application/json'
-			},
-			url: baseUrl + 'checkIfMatch', 
-			data: {
-				player1_id: player1
-			},
-			method: "POST"
-		});
-	}
-
-	function checkVacantRoom(rooms, scs, rcs, arr){
+	function checkVacantRoom(rooms){
 
 		var d = $q.defer();
 
@@ -38,40 +23,11 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		for(var x = 0; x < rooms.length; x ++){
 			console.log("looking for vacant room");
 			// check if vacant room
-			if(rooms[x].player2 == 0){
+			if(rooms[x].player2 === 0){
 				
 				d.resolve({
 					roomKey: rooms[x].$id
 				})
-
-				// /* check if player 1 is a matching user */
-				
-				// var p2_scs = rooms[x].level.scs;
-				// var p2_rcs = rooms[x].level.rcs;
-				// var p2_arr = rooms[x].level.arr;
-
-				// if(scs == p2_scs || Math.abs(scs - p2_scs) == 1){
-				// 	d.resolve({
-				// 		roomKey: rooms[x].$id,
-				// 		player_id: rooms[x].player1,
-				// 		subject: 1,
-				// 		level: p2_scs
-				// 	});
-				// }
-				// if(rcs == p2_rcs || Math.abs(rcs - p2_rcs) == 1){
-				// 	d.resolve({
-				// 		roomKey: rooms[x].$id,
-				// 		subject: 2,
-				// 		level: p2_rcs
-				// 	});
-				// }
-				// if(arr == p2_arr || Math.abs(arr - p2_arr) == 1){
-				// 	d.resolve({
-				// 		roomKey: rooms[x].$id,
-				// 		subject: 3,
-				// 		level: p2_arr
-				// 	});
-				// }
 			}				
 		}
 		
@@ -88,21 +44,7 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 			method: "POST"
 		});
 	}
-	function getMatchedUser(online_users, except_users){
-		return $http ({
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			url: baseUrl + 'findMatch',
-			data: {
-				online_users,
-				users: online_users,
-				excepts: except_users
-			},
-			method: "POST"
-		});
-	}
-	function getPlayerDetails(user_id,subj){
+	function getPlayerDetails(user_id){
 		return $http ({
 			headers: {
 				'Content-Type': 'application/json'
@@ -110,7 +52,6 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 			url: baseUrl + 'getPlayerDetails',
 			data: {
 				user_id: user_id,
-				subject: subj
 			},
 			method: "POST"
 		})
@@ -141,7 +82,7 @@ myApp.factory('codeModel', ['$http', function($http){
 		  }
 		  
 		});
-	};
+	}
 
 	model.addRound = function(problemCode){
 		return $http({
@@ -154,8 +95,7 @@ myApp.factory('codeModel', ['$http', function($http){
 			url: baseUrl + "round/add",
 			method: "POST"
 		});
-	};
-
+	}
 	model.setRound = function(round_id){
 		return $http({
 			headers: {
@@ -168,6 +108,32 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: "POST"
 		});		
 	}
+	model.addBattle = function(opp, pcode){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			data: {
+				'opponent_id' : opp,
+				'problemCode' : pcode
+			},
+			url: baseUrl + 'addBattle',
+			method: 'POST'
+		});	
+	}
+	model.battle_setSolved = function(battle_id, isWin){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'	
+			},
+			data: {
+				'battle_id' : battle_id,
+				'isWinner': isWin 
+			},
+			url: baseUrl + "battleSolved",
+			method: "POST"
+		});		
+	}	
 
 	model.rankUp = function(weakness_id){
 		return $http({
@@ -181,7 +147,7 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: "POST"
 		});			
 	}
-	model.saveErrors = function(ms, se, pm, ie, mode){
+	model.saveErrors = function(ms, se, pm, ie, modes){
 		return $http({
 			headers: {
 				'Content-Type' : 'application/json'
@@ -191,14 +157,14 @@ myApp.factory('codeModel', ['$http', function($http){
 				SE: se, 
 				PM: pm,
 				IE: ie,
-				mode: mode
+				mode: modes
 			},
 			url: baseUrl + "saveError",
 			method: "POST"
 		});
 	}	
 
-	model.submissionStatusModel = function(id){
+	model.submissionStatusModel = function(id, token){
 		return $http({
 			headers: {
 				'Content-Type': 'application/json'
@@ -210,7 +176,7 @@ myApp.factory('codeModel', ['$http', function($http){
 				withStderr: true,
 				withCmpinfo: true
 			},
-			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
+			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=' + token,
 			method: "GET"
 		}).then(function(result){
 			return result.data;
@@ -290,7 +256,7 @@ myApp.factory('problemModel', ['$http', function($http){
 				}
 			});
 		},
-		getPlayersProblem: function (p1, p2, subj){
+		getPlayersProblem: function (p1, p2){
 			return $http({
 				headers: {
 					'Content-Type' :'application/json'
@@ -300,7 +266,6 @@ myApp.factory('problemModel', ['$http', function($http){
 				data: {
 					player1_id: p1,
 					player2_id: p2, 
-					subject: subj
 				}
 			});
 		},

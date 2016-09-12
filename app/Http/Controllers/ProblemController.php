@@ -32,33 +32,16 @@ class ProblemController extends Controller
     }
     public function getPlayersProblem(Request $request){
         /* getting data from the request*/
-        $weakness_id = $request->input('subject');
+        
         $p1_id = $request->input('player1_id');
         $p2_id = $request->input('player2_id');
 
-        /* getting player1's rank */
-        // $p1_rank = User::find($p1_id)->ranks()->where('weakness_id', $weakness_id)->first();
-
-        /* setting the difficulty */
-        // $p1_rank = $p1_rank->rank;
-        // if($p1_rank >=1 && $p1_rank <= 10){
-        //     $difficulty = "easy";
-        // }else if($p1_rank >= 11 && $p1_rank <= 25){
-        //     $difficulty = "average";
-        // }else if($p1_rank >= 26 && $p1_rank <= 40){
-        //     $difficulty = "problem";
-        // }
-
-        /* getting all the solved problems of the players */
-
-        $p1_solved_rounds = User::find($p1_id)->rounds()
+        $p1_solved_rounds = User::find($p1_id)->battles()
                 ->where('is_solved', '!=', '0')
-                ->where('mode', 'multiplayer')
                 ->get();
 
-        $p2_solved_rounds = User::find($p2_id)->rounds()
+        $p2_solved_rounds = User::find($p2_id)->battles()
                 ->where('is_solved', '!=', '0')
-                ->where('mode', 'multiplayer')
                 ->get();
 
         /* setting query to exclude the solved problems */
@@ -71,12 +54,10 @@ class ProblemController extends Controller
             $new_array = array('id', '!=', $round->problem_id);
             array_push($solved, $new_array);
         }
-        /* getting all the unsolved problems based on weakness and difficulty*/
-        // $problems = DB::table('problems')->where($solved)->where('weakness_id', $weakness_id)->where('difficulty', $difficulty)->get();
-
-        /* getting all the unsolved problem in new multiplayer mode */
-        $problems = DB::table('problems')->where($solved)->where('mode', 'multiplayer')->get();        
-
+        
+        /* getting all the unsolved problem */
+        $problems = DB::table('multiplayer_problems')->where($solved)->get();
+        
         /* get random problems */
         $problem_code_array = [];
         if(count($problems)) {
@@ -85,10 +66,13 @@ class ProblemController extends Controller
             }
             $selected = array_rand($problem_code_array,1);
         }else{
-            array_push($problem_code_array,0);
-            $selected = 0;
+            $problems = DB::table('multiplayer_problems')->get();
+
+            foreach ($problems as $problem) {
+                array_push($problem_code_array, $problem->problem_code);
+            }
+            $selected = array_rand($problem_code_array,1);
         }
-        
         return $problem_code_array[$selected];
     }
     public function getRandomProblem(Request $request){

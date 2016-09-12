@@ -27,9 +27,9 @@ myApp.controller('navController', ['$scope', '$rootScope',
 				sidebar.toggleClass("open");
 			},
 			hideSidebar: function(){
-				
 				var sidebar = $("#sidebar-wrapper");
 				var content = $("#page-content-wrapper");
+				sidebar.removeClass("open");
 
 				sidebar.css('-webkit-transform', 'translate(-98%,0');
 				content.css('padding-left', "0%");

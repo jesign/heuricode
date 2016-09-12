@@ -1,5 +1,11 @@
 
 <div class="container-fluid">
+	<div ng-show="enableFindMatch">
+		<button class="btn btn-primary" ng-click="findMatch()">
+			Find Match
+		</button>
+	</div>
+
 	<div ng-show="hasRoom">
 		<h1 ng-bind="rooms[roomIndex].time"></h1>
 		<div style="margin-top: 50px" class="row">
@@ -51,32 +57,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-<!-- 
-		<div class="col-lg-">
-			<div class="panel panel-default">
-			  <div class="panel-heading" ng-bind="rankSCS"></div>
-			  <div class="panel-body">Panel Content</div>
-			  <button class="btn btn-primary btn-block" ng-click="test()">Testing</button>
-			</div>
-		</div> -->
-
-		<!-- 
-		<div class="col-lg-6">
-			<div class="panel panel-default">
-			  <div class="panel-heading">Panel Heading</div>
-			  <div class="panel-body">Panel Content</div>
-
-			    <ul>
-			      <li ng-repeat="message in messages">
-			        <input ng-model="message.text" ng-change="messages.$save(message)" />
-			        <button ng-click="messages.$remove(message)">Delete Message</button>
-			      </li>
-			    </ul>			    
-			    <form ng-submit="addMessage()">
-			      <input ng-model="newMessageText" />
-			      <button type="submit">Add Message</button>
-			    </form>
-			</div>
-		</div> -->
-	
+</div>	

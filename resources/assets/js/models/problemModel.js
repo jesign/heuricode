@@ -62,7 +62,7 @@ myApp.factory('problemModel', ['$http', function($http){
 				}
 			});
 		},
-		getPlayersProblem: function (p1, p2, subj){
+		getPlayersProblem: function (p1, p2){
 			return $http({
 				headers: {
 					'Content-Type' :'application/json'
@@ -72,7 +72,6 @@ myApp.factory('problemModel', ['$http', function($http){
 				data: {
 					player1_id: p1,
 					player2_id: p2, 
-					subject: subj
 				}
 			});
 		},

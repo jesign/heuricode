@@ -34,4 +34,7 @@ class User extends Authenticatable
     public function errors(){
         return $this->hasMany('App\Error');
     }
+    public function battles(){
+        return $this->hasMany('App\Battle');
+    }
 }

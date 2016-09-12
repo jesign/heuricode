@@ -50,7 +50,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Branding Image -->
-                    <a class="navbar-brand" ui-sref="homePage">
+                    <a class="navbar-brand" style="cursor: pointer;" ng-click="toggleSidebar()">
                         <img id="logo" src="{{ asset('img/heuricode-inverse-small.png') }}" >
                         HeuriCode
                     </a>

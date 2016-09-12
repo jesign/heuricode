@@ -7,7 +7,7 @@ myApp.service('codingService', function() {
     var success = false;
     var time_limit = 0;
     var roomKey = null;
-    
+    var isWinner = false;
     var setIsMultiplayer = function(isMulti){
       isMultiplayer = isMulti;
     }
@@ -19,6 +19,12 @@ myApp.service('codingService', function() {
     }
     var getRoomKey = function(){
       return roomKey;
+    }
+    var setIsWinner = function(isWin){
+      isWinner = isWin;
+    }
+    var getIsWinner = function(){
+      return isWinner;
     }
   	var setIsEnableCode = function(isEnable){
   		enableCode = isEnable;
@@ -63,6 +69,9 @@ myApp.service('codingService', function() {
       getRoomKey: getRoomKey,
       setIsMultiplayer: setIsMultiplayer,
       getIsMultiplayer: getIsMultiplayer,
+      setIsWinner: setIsWinner,
+      getIsWinner: getIsWinner,
+
   		setIsEnableCode: setIsEnableCode,
   		getIsEnableCode: getIsEnableCode,
 	    setProblemCode: setProblemCode,

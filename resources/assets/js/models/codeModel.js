@@ -18,7 +18,7 @@ myApp.factory('codeModel', ['$http', function($http){
 		  }
 		  
 		});
-	};
+	}
 
 	model.addRound = function(problemCode){
 		return $http({
@@ -31,8 +31,7 @@ myApp.factory('codeModel', ['$http', function($http){
 			url: baseUrl + "round/add",
 			method: "POST"
 		});
-	};
-
+	}
 	model.setRound = function(round_id){
 		return $http({
 			headers: {
@@ -45,6 +44,32 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: "POST"
 		});		
 	}
+	model.addBattle = function(opp, pcode){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			data: {
+				'opponent_id' : opp,
+				'problemCode' : pcode
+			},
+			url: baseUrl + 'addBattle',
+			method: 'POST'
+		});	
+	}
+	model.battle_setSolved = function(battle_id, isWin){
+		return $http({
+			headers: {
+				'Content-Type' : 'application/json'	
+			},
+			data: {
+				'battle_id' : battle_id,
+				'isWinner': isWin 
+			},
+			url: baseUrl + "battleSolved",
+			method: "POST"
+		});		
+	}	
 
 	model.rankUp = function(weakness_id){
 		return $http({
@@ -58,7 +83,7 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: "POST"
 		});			
 	}
-	model.saveErrors = function(ms, se, pm, ie, mode){
+	model.saveErrors = function(ms, se, pm, ie, modes){
 		return $http({
 			headers: {
 				'Content-Type' : 'application/json'
@@ -68,14 +93,14 @@ myApp.factory('codeModel', ['$http', function($http){
 				SE: se, 
 				PM: pm,
 				IE: ie,
-				mode: mode
+				mode: modes
 			},
 			url: baseUrl + "saveError",
 			method: "POST"
 		});
 	}	
 
-	model.submissionStatusModel = function(id){
+	model.submissionStatusModel = function(id, token){
 		return $http({
 			headers: {
 				'Content-Type': 'application/json'
@@ -87,7 +112,7 @@ myApp.factory('codeModel', ['$http', function($http){
 				withStderr: true,
 				withCmpinfo: true
 			},
-			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
+			url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions/' + id + '?access_token=' + token,
 			method: "GET"
 		}).then(function(result){
 			return result.data;

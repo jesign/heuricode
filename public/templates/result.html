@@ -4,7 +4,8 @@
 		<h1 style="display: inline;" ng-show="isSuccess">Great Job! </h1>
 		<h1 style="display: inline;"" ng-hide="isSuccess">Wahahahahaha Mali! </h1>
 		<div class="pull-right">
-			<button ui-sref="problemPage" class="btn btn-success">Next Problem <span class="glyphicon glyphicon-forward"></span></button>
+			<button ng-show="isMultiplayer" ui-sref="multiplayerPage" class="btn btn-success">Find Another Match<span class="glyphicon glyphicon-forward"></span></button>
+			<button ng-hide="isMultiplayer" ui-sref="problemPage" class="btn btn-success">Next Problem <span class="glyphicon glyphicon-forward"></span></button>
 		</div>
 	</div>
 	<div class="row">
@@ -14,21 +15,31 @@
 			</center>
 		</div>
 		<div class="col-lg-6">
-			<h3 ng-show="isSuccess">Rank Up!</h3>
-			<table class="rank_table">
-				<tr>
-					<th>Subject Area</th>
-					<th>Rank</th>
-				</tr>
-				<tr ng-repeat=" r in ranks">
-					<td><% r.SubjectArea %></td>
-					<td>Rank <% r.Rank %></td>
-					<td>
-						<span ng-show="<% r.Action == 'up'%>">Rank Up</span>
-					</td>
-				</tr>
-				
-			</table>
+			<div ng-show="isMultiplayer">
+				<div ng-show="isWinner">
+					You Won!! :D
+				</div>
+				<div ng-hide="isWinner">
+					You Lose! :P
+				</div>
+			</div>
+			<div ng-hide="isMultiplayer">
+				<h3 ng-show="isSuccess">Rank Up!</h3>
+				<table class="rank_table">
+					<tr>
+						<th>Subject Area</th>
+						<th>Rank</th>
+					</tr>
+					<tr ng-repeat=" r in ranks">
+						<td><% r.SubjectArea %></td>
+						<td>Rank <% r.Rank %></td>
+						<td>
+							<span ng-show="<% r.Action == 'up'%>">Rank Up</span>
+						</td>
+					</tr>
+					
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

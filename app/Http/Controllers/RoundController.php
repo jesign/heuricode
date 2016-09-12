@@ -9,6 +9,7 @@ use App\User;
 use App\Problem;
 use App\Round;
 use App\Error;
+use App\Battle;
 use Illuminate\Support\Facades\Auth;
 
 class RoundController extends Controller
@@ -28,6 +29,24 @@ class RoundController extends Controller
 
     	Auth::user()->rounds()->where('id', $request->input('round_id'))
     		->update(['is_solved' => 1]);
+    }
+
+    public function addBattle(Request $request){
+        $opponent = $request->input('opponent_id');
+        $problem_code = $request->input('problemCode');
+
+        $problem_id = Problem::where('problem_code', $problem_code)->first();
+        $problem_id = $problem_id->id;
+
+        $battle = new Battle(['opponent_id'=> $opponent, 
+                            'problem_id' => $problem_id, 
+                            'is_solved' => 0,
+                            'is_winner' => 0 ]);
+        Auth::user()->battles()->save($battle);
+    }
+    public function battleSolved(Request $request){
+        Auth::user()->battles()->where('id', $request->input('battle_id'))
+            ->update(['is_solved' => 1, 'is_winner' => $request->input('isWinner')]);
     }
 
     /* Adding Error Counts */

@@ -4,6 +4,9 @@ myApp.controller('codeController', ['$scope','$rootScope',
 	function($scope,$rootScope, codeModel, problemModel, codingService,
 		$state, errorService, rankService, userModel, $firebaseArray){
 
+		var compiler_token = "0cbe4211ffadf976d70940ca79722da6";
+
+		var opponent_id;	
 		// global variables
 		var g_languageId = null,
 			g_statusId = null,
@@ -18,7 +21,9 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			wrongAnswer = 0,
 			rank1 = 0,
 			rank2 = 0,
-			rank3 = 0;
+			rank3 = 0,
+			battle_id = 0,
+			isMulti = false;
 
 		// scoped variables
 		angular.extend($scope, {
@@ -94,7 +99,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			getSubmissionStatus: function(id){				
 				$('.nav-tabs a[href="#output"]').tab('show');
 				/* request to API the status of submission */
-				codeModel.submissionStatusModel(id).then(function(response){
+				codeModel.submissionStatusModel(id, compiler_token).then(function(response){
 					$scope.output = "";
 					$scope.error = "";
 
@@ -175,7 +180,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				/* Submit the code to API and get its status */
 				$.ajax({
 				  	type: "POST",
-				  	url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=00c04ffac4d4ffe13d590b91b70ef3f2',
+				  	url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=' + compiler_token,
 				  	data: 
 				  		{
 				 		sourceCode: code,
@@ -197,7 +202,48 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				$scope.getSubmissionStatus(47900843);
 			},
 			testing1: function(){
-				$scope.getSubmissionStatus(48791363);
+				$scope.isCorrect = true;
+				$scope.resultSubmissionColor = "submission-accepted";
+				$scope.submitStatusDescription = "Accepted!";
+				codingService.setSuccess(true);
+
+				if($scope.isMultiplayer){
+					var r = $scope.rooms.$getRecord(roomKey);
+					var opponent;	
+					if(r.player1 == userId){
+						opponent = r.player2;
+					}else{
+						opponent = r.player1;
+					}
+
+					var isWin;
+					if(!isLose){
+						isWin = 1;
+						codingService.setIsWinner(true);
+						$scope.winOrLoseMessage = "You won against player " + opponent;
+						r.winner = userId;
+						$scope.rooms.$save(r);
+					}else{
+						isWin = 0;
+						$scope.winOrLoseMessage = "You lose against player " + opponent;
+					}
+					
+					codeModel.battle_setSolved(battle_id, isWin)
+						.success(function(){
+							console.log('problem set to solve in battle');
+						});
+
+				}else{
+					codeModel.setRound(round)
+						.success(function(){
+							console.log('problem set to solve');
+						});
+					/* set to no weakness */
+					if( !hasNewWeakness || $scope.checkRankForWeakness(weakness) ){
+						problemModel.setWeakness(0);
+					}
+				}
+				$scope.proceed();
 			},
 			testing2: function(){
 				$scope.getSubmissionStatus(48791371);
@@ -314,7 +360,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				var problemCode = $scope.problemCode;
 				var editor = ace.edit("editor");
 				var code = editor.getValue();
-				console.log(problemCode);
+				
 				var codeData = {
 					problemCode: problemCode,
 					compilerId: g_languageId,
@@ -400,15 +446,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								$scope.resultSubmissionColor = "submission-accepted";
 								$scope.submitStatusDescription = "Accepted!";
 								codingService.setSuccess(true);
-								codeModel.setRound(round)
-									.success(function(){
-										console.log('problem set to solve');
-									});
-
-								/* set to no weakness */
-								if( !hasNewWeakness || checkRankForWeakness(weakness) ){
-									problemModel.setWeakness(0);
-								}
 
 								if($scope.isMultiplayer){
 									var r = $scope.rooms.$getRecord(roomKey);
@@ -419,22 +456,42 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										opponent = r.player1;
 									}
 
+									var isWin;
 									if(!isLose){
+										isWin = 1;
 										$scope.winOrLoseMessage = "You won against player " + opponent;
 										r.winner = userId;
 										$scope.rooms.$save(r);
 									}else{
+										isWin = 0;
 										$scope.winOrLoseMessage = "You lose against player " + opponent;
 									}
+									
+									codeModel.battle_setSolved(battle_id, isWin)
+										.success(function(){
+											console.log('problem set to solve in battle');
+										});
+
+								}else{
+									codeModel.setRound(round)
+										.success(function(){
+											console.log('problem set to solve');
+										});
+									/* set to no weakness */
+									if( !hasNewWeakness || $scope.checkRankForWeakness(weakness) ){
+										problemModel.setWeakness(0);
+									}
 								}
-							}else{
-								wrongAnswer++;
-								if(wrongAnswer == 3){
-									problemModel.setWeakness(codingService.getWeaknessId())
-									.success(function(){
-										hasNewWeakness = true;
-										console.log("weakness set to " + codingService.getWeaknessId());
-									});
+							} else {
+								if(!isMulti){
+									wrongAnswer++;
+									if(wrongAnswer == 3){
+										problemModel.setWeakness(codingService.getWeaknessId())
+										.success(function(){
+											hasNewWeakness = true;
+											console.log("weakness set to " + codingService.getWeaknessId());
+										});
+									}
 								}
 
 								$scope.resultSubmissionColor = "submission-error";
@@ -442,11 +499,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						}
 					});
 			},
-			
+			// must be only called during single player
 			getSkeletonCode: function(problem_code, language_id){
 				problemModel.getSkeletonCode(problem_code, language_id) 
 					.success(function(response){
-						console.log(response);
 						$scope.newCode.codes = response;
 						var sc = $scope.newCode.codes;
 					    var editor = ace.edit("editor");
@@ -454,40 +510,55 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					    editor.getSession().setValue(sc);
 					    editor.resize();
 					});
-			},			
+			},			// only for single player
 			updateRankProceed: function(){
-				
-				$scope.setRank();
+				codingService.setIsEnableCode(false);
 				leaveState = true;
 				$state.go('resultPage');
 			},
 			proceed: function(){
 				/* set error counts in each subj from this round */
-				codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
-					errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" )
-				.success(function(){
-					console.log("Error counts are set.");
-				});
-
-				var weakness = codingService.getWeaknessId();
-				if($scope.isCorrect){
-					codeModel.rankUp(weakness)
-						.success(function(response){
-							codingService.setIsEnableCode(false);
-							$scope.updateRankProceed();
-						})
-						.error(function(){
-							$scope.proceed();
-						});
-				} else {
-					codingService.setIsEnableCode(false);
-					codingService.setSuccess(false);
-					problemModel.setWeakness(weakness)
+				if(isMulti){
+					codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "multiplayer" )
 					.success(function(){
-						$scope.updateRankProceed();
+						console.log("Error counts are set.");
 					});
+
+					if($scope.isCorrect){
+
+						$scope.updateRankProceed();
+					}else{
+						var r = $scope.rooms.$getRecord(roomKey);
+						r.giveup = userId;
+						$scope.rooms.$save(r);
+						console.log("you have given up");
+						$scope.updateRankProceed();
+					}
 					
+				}else{
+					codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" )
+					.success(function(){
+						console.log("Error counts are set.");
+					});
+
+					var weakness = codingService.getWeaknessId();
+					if($scope.isCorrect){
+						codeModel.rankUp(weakness)
+							.success(function(response){
+								$scope.setRank();
+								$scope.updateRankProceed();
+							});
+					} else { /* Give up */
+						codingService.setSuccess(false);
+						problemModel.setWeakness(weakness)
+						.success(function(){
+							$scope.updateRankProceed();
+						});	
+					}
 				}
+
 			}
 		});
 		// automatic activity
@@ -497,6 +568,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 		if(codingService.getIsEnableCode()){
 			// get problem details
+			isMulti = codingService.getIsMultiplayer();
 			codingService.setSuccess(false);
 			var pCode = codingService.getProblemCode();
 			var langId = codingService.getLanguage();
@@ -504,12 +576,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			$scope.problemCode = pCode;
 			g_languageId = langId;
 			console.log(pCode);
-			codeModel.addRound(pCode)
-				.success(function (response){
-					// round ID
-					round = response;
-					console.log(response);
-				});
 
 			problemModel.getProblem($scope.problemCode)
 				.success(function(response){		
@@ -519,7 +585,15 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 					$scope.problemTitle = response.name;
 					$scope.problemDescription = response.body;
-					$scope.getSkeletonCode($scope.problemCode, g_languageId);
+
+					if(isMulti){
+						var editor = ace.edit("editor");
+					    editor.setTheme("ace/theme/monokai");
+					    editor.getSession().setValue("");
+					    editor.resize();
+					}else {
+						$scope.getSkeletonCode($scope.problemCode, g_languageId);
+					}
 				})
 				.error(function(result){
 					console.log(result);
@@ -567,29 +641,55 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			
 			    	roomKey = codingService.getRoomKey();
 
+			    	var pcode = codingService.getProblemCode();
 			    	$scope.rooms.$loaded() 
 			    		.then(function(room){
+			    			var r = $scope.rooms.$getRecord(roomKey);
+							
+							if(r.player1 == userId){
+								opponent_id = r.player2;
+							}else{
+								opponent_id = r.player1;
+							}
+
+							codeModel.addBattle(opponent_id, pcode)
+							.success(function(response){
+								battle_id = response;
+							})
+								
 			    			checkWinner();
 			    		});
 
+			    }else{
+					codeModel.addRound(pCode)
+						.success(function (response){
+							round = response;
+						});			    	
 			    }
 			});
 
 	    function checkWinner(){
 	    	var r = $scope.rooms.$getRecord(roomKey);
-	  		if(!r.winner){
+	  		if(!r.winner && !r.giveup){
 	  			setTimeout(checkWinner, 1000);
 	  			return;
 	  		}
 
-  			if(r.winner != userId){
+  			if(r.winner == opponent_id){
   				isLose = true;
   				alert(r.winner + " has won the game!");
+  			}else if(r.giveup == opponent_id){
+  				alert(r.giveup + " has gave up! You won the game");
+  				codingService.setIsWinner(true);
+  				r.winner = userId;
+  				$scope.rooms.$save(r);
   			}
 	  		return;
 	    }
 
+
 	    /* functions when user leaves the page */
+
 		var is_able_c = true;
 
 	  	$scope.$on('$stateChangeStart', function( event ) {

@@ -20,25 +20,6 @@ class UserController extends Controller
 		}
     }
 
-    public function checkIfMatch(Request $request){
-        $player1_id = $request->input('player1_id');
-        // echo $player1_id;
-        // check ranks
-        for($w = 1; $w < 4 ; $w++){
-            $a_rank = Auth::user()->ranks()
-                ->where('weakness_id', $w)->first()->rank;
-            $u_rank = User::find($player1_id)->ranks()
-                ->where('weakness_id', $w)->first()->rank;
-
-            if($a_rank == $u_rank || $a_rank == ($u_rank + 1) || $a_rank == ($u_rank - 1)){
-                    
-                return array($w, $u_rank);
-            }
-        }
-        return array(0, 0);
-
-    }
-
     public function findMatch(Request $request){
 
     	// get data from requests.
@@ -96,15 +77,13 @@ class UserController extends Controller
     public function getPlayerDetails(Request $request){
         // get players id both 1 and 2
         $user1 = $request->input('user_id');
-        $subject = $request->input('subject');
+        
 
         // get user details
         $u1 = User::find($user1);
         
         // get user ranks
-        $u1_r = $u1->ranks()->where('weakness_id', $subject)->first()->rank;
-        
-        return array($u1->name, $u1_r);
+        return $u1->name;
     }
     public function setWeakness(Request $request){
         Auth::user()->update(['weakness' => $request->input('weakness')]);

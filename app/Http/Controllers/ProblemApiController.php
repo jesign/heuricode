@@ -8,17 +8,24 @@ use GuzzleHttp\Client;
 
 class ProblemApiController extends Controller
 { 
+	private $problem_access_token;
+
+	public function __construct(){
+		$this->problem_access_token = "53f4557da7338c7993a582b40614217ef2f73ddd";
+	}
+
 	public function getProblem($code){
 		$base_url = "http://db4262da.problems.sphere-engine.com";
 		$client = new Client(['base_url' => $base_url]);
-		$response = $client->get('/api/v3/problems/' . $code . '?access_token=53f4557da7338c7993a582b40614217ef2f73ddd');
+		$response = $client->get('/api/v3/problems/' . $code . '?access_token='. 
+			$this->problem_access_token);
 		return $response->getBody();
 	}
 
 	public function getAllProblem(){
 		$base_url = "http://db4262da.problems.sphere-engine.com";
 		$client = new Client(['base_url' => $base_url]);
-		$response = $client->get('/api/v3/problems?access_token=53f4557da7338c7993a582b40614217ef2f73ddd');
+		$response = $client->get('/api/v3/problems?access_token=' . $this->problem_access_token);
 		return $response->getBody();
 	}
 	
@@ -32,7 +39,7 @@ class ProblemApiController extends Controller
 
 		$response = $client->post('http://db4262da.problems.sphere-engine.com/api/v3/submissions', 
 		               ['json' => [
-		                   "access_token" =>"53f4557da7338c7993a582b40614217ef2f73ddd",
+		                   "access_token" =>$this->problem_access_token,
 		                   "problemCode" => $problemCode,
 		                   "compilerId" => $compilerId,
 		                   "source" => $sourceCode
@@ -46,7 +53,7 @@ class ProblemApiController extends Controller
     	$client = new Client(['base_url' => $base_url]);
     	$id = $submissionid;
 
-    	$response = $client->get('/api/v3/submissions/' . $submissionid . '?access_token=53f4557da7338c7993a582b40614217ef2f73ddd');
+    	$response = $client->get('/api/v3/submissions/' . $submissionid . '?access_token=' . $this->problem_access_token);
 
 		return $response->getBody();
     }

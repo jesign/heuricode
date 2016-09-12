@@ -2,6 +2,8 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 	function($scope, errorService,codingService, rankService){
 		{
 			$scope.isSuccess = codingService.getSuccess();
+			$scope.isMultiplayer = codingService.getIsMultiplayer();
+			$scope.isWinner = codingService.getIsWinner();
 			var subject_area = codingService.getWeaknessId();
 			
 			var getAction = function(sa){
