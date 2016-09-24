@@ -6,16 +6,15 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		checkAuth: checkAuth,
 		checkVacantRoom: checkVacantRoom,
 		getAllErrorsCount: getAllErrorsCount,
+		getBattleRecords: getBattleRecords
 	};
 
 	function checkAuth(){
 		return $http.get(baseUrl + 'checkAuth');
 	}
-
+	
 	function checkVacantRoom(rooms){
-
 		var d = $q.defer();
-
 		if(rooms.length == 0){
 			d.reject();
 		}
@@ -32,7 +31,6 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		}
 		
 		d.reject();
-
 		return d.promise;
 	}
 	function getUserId(){			
@@ -59,6 +57,10 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 
 	function getAllErrorsCount(e_id){
 		return $http.get(baseUrl + 'getAllError/' + e_id);
+	}
+
+	function getBattleRecords(){
+		return $http.get(baseUrl + 'getBattleRecords');
 	}
 
 }]);
@@ -121,14 +123,15 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: 'POST'
 		});	
 	}
-	model.battle_setSolved = function(battle_id, isWin){
+	model.setBattle = function(battle_id,isSolved, isWin){
 		return $http({
 			headers: {
 				'Content-Type' : 'application/json'	
 			},
 			data: {
 				'battle_id' : battle_id,
-				'isWinner': isWin 
+				'isWinner': isWin,
+				'isSolved': isSolved
 			},
 			url: baseUrl + "battleSolved",
 			method: "POST"
@@ -192,12 +195,44 @@ myApp.factory('codeModel', ['$http', function($http){
 	return model;
 
 }]);
+myApp.factory('badgeModel', ['$http', function($http){
+	
+	var model = {};
+
+	model.getBadges = function(){
+		return $http.get(baseUrl + 'getBadges');
+	}
+	model.getBadgeDetails = function(id){
+		return $http.get(baseUrl + 'getBadgeDetails/' + id);
+	}
+	model.addBadge = function(id){
+		return $http({
+				headers:{
+					'Content-Type' : 'application/json'
+				},
+				url: baseUrl + 'badges/add',
+				method: "POST",
+				data: {
+					'badge_id' : id,
+				}
+			});
+	}
+	model.countSolved = function(diff, subj){
+		return $http.get(baseUrl + 'countSolved/' + diff + '/' + subj);
+	}
+	// http://db4262da.compilers.sphere-engine.com/api/v3/languages?access_token=00c04ffac4d4ffe13d590b91b70ef3f2
+	return model;
+
+}]);
 myApp.factory('problemModel', ['$http', function($http){
 	return {
 		getProblem: function(problem_id){
 			return $http.get(baseUrl + 'problem/' + problem_id);
 		},
-		getProblemDetails: function(id){
+		getProblemFeedBack: function(pCode){
+			return $http.get(baseUrl + 'problem/feedback/' + pCode);
+		},
+		getProblemDetails: function(id, mode){
 			return $http({
 				headers:{
 					'Content-Type' : 'application/json'
@@ -205,7 +240,8 @@ myApp.factory('problemModel', ['$http', function($http){
 				url: baseUrl + 'problem/description',
 				method: "POST",
 				data: {
-					'problem_code' : id
+					'problem_code' : id,
+					'mode' : mode
 				}
 			});
 		},

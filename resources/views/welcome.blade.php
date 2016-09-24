@@ -1,3 +1,5 @@
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -6,8 +8,10 @@
 		<div class="row">
 			<div class="col-lg-offset-1">
 			<h1>Welcome to Heuricode!</h1>
-				
+			{{ $data }}
 			</div>
+		
+		
 			
 		</div>
         <div class="row">

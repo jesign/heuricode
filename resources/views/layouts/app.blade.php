@@ -98,6 +98,7 @@
                 <li><a ui-sref="problemPage">Self-Train</a></li>
                 <li><a ui-sref="multiplayerPage">Find Match</a></li>
                 <li><a ui-sref="statProgPage">Statistical Progress</a></li>
+                <li><a ui-sref="badgesPage">Badges</a></li>
                 <li><a ui-sref="settingPage">Settings</a></li>
                 <li><a ui-sref="helpPage">Help</a></li>
             </ul>
@@ -108,6 +109,7 @@
     </div>
     <div id="page-content-wrapper">
         @yield('content')
+        @yield('hello')
     </div>
 
     <!-- JavaScripts Offline -->
@@ -130,6 +132,3 @@
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>
-
-
-

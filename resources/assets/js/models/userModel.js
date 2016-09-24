@@ -6,16 +6,15 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		checkAuth: checkAuth,
 		checkVacantRoom: checkVacantRoom,
 		getAllErrorsCount: getAllErrorsCount,
+		getBattleRecords: getBattleRecords
 	};
 
 	function checkAuth(){
 		return $http.get(baseUrl + 'checkAuth');
 	}
-
+	
 	function checkVacantRoom(rooms){
-
 		var d = $q.defer();
-
 		if(rooms.length == 0){
 			d.reject();
 		}
@@ -32,7 +31,6 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 		}
 		
 		d.reject();
-
 		return d.promise;
 	}
 	function getUserId(){			
@@ -59,6 +57,10 @@ myApp.factory('userModel', ['$http' , '$q', function($http, $q){
 
 	function getAllErrorsCount(e_id){
 		return $http.get(baseUrl + 'getAllError/' + e_id);
+	}
+
+	function getBattleRecords(){
+		return $http.get(baseUrl + 'getBattleRecords');
 	}
 
 }]);

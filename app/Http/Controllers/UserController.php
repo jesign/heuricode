@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App;
 use App\Http\Requests;
 use App\User;
 use App\Rank;
+use App\Badge;
+use App\Problem;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -77,8 +80,6 @@ class UserController extends Controller
     public function getPlayerDetails(Request $request){
         // get players id both 1 and 2
         $user1 = $request->input('user_id');
-        
-
         // get user details
         $u1 = User::find($user1);
         
@@ -91,5 +92,33 @@ class UserController extends Controller
     }
     public function hasWeakness(){
         return Auth::user()->weakness;
+    }
+    public function getBattleRecords(){
+        $wins = Auth::user()->battles()->where('is_winner', 1)->count();
+        $lose = Auth::user()->battles()->where('is_winner', 0)->count();
+        $solved = Auth::user()->battles()->where('is_solved', 1)->count();
+
+        return [
+                'wins' => $wins,
+                'lose' => $lose,
+                'solved' => $solved
+            ];
+    }
+    public function getBadges(){
+        return Auth::user()->badges;
+    }
+    public function getBadgeDetails($id){
+        return Badge::find($id);
+    }
+    public function addBadge(Request $request){
+        $badge_id = $request->input('badge_id');
+        Auth::user()->badges()->attach($badge_id);
+
+        return Badge::find($badge_id);
+    }
+    
+    public function test($id, $id2){
+    echo $id;
+    echo $id2;
     }
 }

@@ -57,14 +57,15 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: 'POST'
 		});	
 	}
-	model.battle_setSolved = function(battle_id, isWin){
+	model.setBattle = function(battle_id,isSolved, isWin){
 		return $http({
 			headers: {
 				'Content-Type' : 'application/json'	
 			},
 			data: {
 				'battle_id' : battle_id,
-				'isWinner': isWin 
+				'isWinner': isWin,
+				'isSolved': isSolved
 			},
 			url: baseUrl + "battleSolved",
 			method: "POST"

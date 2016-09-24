@@ -3,7 +3,10 @@ myApp.factory('problemModel', ['$http', function($http){
 		getProblem: function(problem_id){
 			return $http.get(baseUrl + 'problem/' + problem_id);
 		},
-		getProblemDetails: function(id){
+		getProblemFeedBack: function(pCode){
+			return $http.get(baseUrl + 'problem/feedback/' + pCode);
+		},
+		getProblemDetails: function(id, mode){
 			return $http({
 				headers:{
 					'Content-Type' : 'application/json'
@@ -11,7 +14,8 @@ myApp.factory('problemModel', ['$http', function($http){
 				url: baseUrl + 'problem/description',
 				method: "POST",
 				data: {
-					'problem_code' : id
+					'problem_code' : id,
+					'mode' : mode
 				}
 			});
 		},

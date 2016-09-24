@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Problem;
 use Illuminate\Support\Facades\Auth;
 use App\User;   
+use App\MultiplayerProblem;
+use App\Feedback;
 
 class ProblemController extends Controller
 {
@@ -28,7 +30,17 @@ class ProblemController extends Controller
     }
     public function getProblemDescription(Request $request){
         $problem_code = $request->input('problem_code');
-        return Problem::where('problem_code', $problem_code)->first();
+        $mode = $request->input('mode');
+        if($mode == "single"){
+            return Problem::where('problem_code', $problem_code)->first();
+        }
+        else{
+            return MultiplayerProblem::where('problem_code', $problem_code)->first();
+        }
+    }
+    public function getFeedback($pcode){
+        $feedback_id = Problem::where('problem_code', $pcode)->first()->feedback_id;
+        return Feedback::find($feedback_id)->description;
     }
     public function getPlayersProblem(Request $request){
         /* getting data from the request*/

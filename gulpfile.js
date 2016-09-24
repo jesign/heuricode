@@ -35,13 +35,14 @@ elixir(function(mix) {
         'controllers/codeController.js',
         'controllers/problemController.js',
         'controllers/resultController.js',
+        'controllers/badgeController.js',
         'controllers/statprogController.js'
     	], 'public/js/controllers.js');
     mix.scripts([
         'models/userModel.js',
         'models/codeModel.js',
+        'models/badgeModel.js',
         'models/problemModel.js'
-
         ], 'public/js/models.js');
 
     mix.styles([

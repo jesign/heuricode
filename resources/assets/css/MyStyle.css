@@ -3,7 +3,25 @@ body {
     font-family: 'Lato';
     background-color: #FAFFFC;
 }
-
+div.player-panel div.panel-heading{
+	font-size: 22px;
+	font-weight: bold;
+}
+div.player-panel div.panel-body{
+	font-size: 20px;
+	font-weight: bold;
+}
+div.player-panel div.panel-body button{
+	font-weight: bold;
+}
+#battleRecords tr >	td{
+	font-size: 20px;
+	font-weight: bold;
+	padding-right: 30px;
+}
+#battleRecords {
+	margin-bottom: 30px;
+}
 #menu-toggle{
 	font-size: 20px;
 }

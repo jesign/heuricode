@@ -37,4 +37,8 @@ class User extends Authenticatable
     public function battles(){
         return $this->hasMany('App\Battle');
     }
+    public function badges(){
+        return $this->belongsToMany('App\Badge');
+    }
+    
 }

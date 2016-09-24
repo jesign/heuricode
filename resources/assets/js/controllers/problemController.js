@@ -30,7 +30,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 				/* From My API */
-				problemModel.getProblemDetails(problem_code)
+				problemModel.getProblemDetails(problem_code,'single')
 					.success(function(response){
 						codingService.setTimeLimit(response.time_limit);
 						var time = response.time_limit;
@@ -40,6 +40,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						
 						$scope.loadSuccess = true;
 						$scope.difficulty = response.difficulty;
+						codingService.setProblemDifficulty(response.difficulty);
+						
 						$scope.time_limit = hr + "hr/s and " + min + "min/s"
 
 						switch(response.weakness_id){

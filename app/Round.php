@@ -16,4 +16,7 @@ class Round extends Model
     public function problems(){
     	return $this->hasMany('App\Problem');
     }
+    public function solvedEasyProblems(){
+    	return $this->problems()->where('difficulty', 'easy')->get();
+    }
 }

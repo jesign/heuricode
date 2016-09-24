@@ -3,8 +3,6 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	function($scope, $rootScope, $state, $firebaseArray, userModel, rankService, 
 		problemModel, codingService) {
 		
-		$rootScope.$emit("GlobalToggleSidebar", {});
-
 		var refMessages = firebase.database().ref().child("messages");
 		var refPlayer = firebase.database().ref().child("players");
 		var refRoom = firebase.database().ref().child("rooms");
@@ -33,8 +31,18 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  	$scope.roomIndex = null;
 		$scope.timerIndex = null;
 		$scope.enableFindMatch = false;
-
+		$scope.loadingFind = true;
+		$scope.startTimer = false;
+				
+		$scope.roomDetails = "";
 		$scope.loadProblemSuccess = false;
+
+		userModel.getBattleRecords()
+			.success(function(response){
+				$scope.winsCount = response.wins;
+				$scope.loseCount = response.lose;
+				$scope.solvedCount = response.solved;
+			});
 
 		function setProblem(){
 			problemModel.getProblem(problemCode)
@@ -47,7 +55,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 						$scope.loadProblemSuccess = false;
 						$scope.problemTitle = "Failed to load problem.";
 					});
-			problemModel.getProblemDetails(problemCode)
+			problemModel.getProblemDetails(problemCode, 'multiplayer')
 					.success(function(response){
 						codingService.setTimeLimit(response.time_limit);
 						var time = response.time_limit;
@@ -95,6 +103,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		function checkOpponent(){
 	  		var r = $scope.rooms.$getRecord(roomKey);
 	  		if(!r.player2){
+	  			$scope.roomDetails = "Waiting for an Opponent...";
 	  			console.log('waiting for Opponent...');
 	  			setTimeout(checkOpponent, 1000);
 	  			return;
@@ -128,6 +137,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 				r.status = 1;
 				$scope.rooms.$save(r).then(function(){
 					$scope.hasOpponent = true;
+					$scope.roomDetails = "Waiting for Players to get ready ...";
 	  				waitPlayerReady();
 	  				console.log("waiting for players");
 	  			});
@@ -146,6 +156,8 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  			setTimeout(waitPlayerReady, 1000);
 	  			return;
 	  		}
+
+	  		$scope.startTimer = true;
   			startTimer();
 	  		return;
 	  	}
@@ -177,6 +189,8 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 
 		/* player2 wait for the room status to turn to 1 - Step 2*/
 		function waitRoomReady(){
+			$scope.roomDetails = "Waiting for Room to get Ready... ";
+
 			var r = $scope.rooms.$getRecord(roomKey);
 
 			if(r.status == 0){
@@ -199,7 +213,12 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		/* player 2 wait for the game to start
 	  		or wait for the room status to turn to 2 - Step 3*/
 		function waitGameStart(){
+			$scope.roomDetails = "Waiting for Players to get ready ...";
 			var r = $scope.rooms.$getRecord(roomKey);
+
+			if(r.ready1 && r.ready2){
+				$scope.startTimer = true;
+	  		}
 
 			if(r.status != 2){
 				setTimeout(waitGameStart, 1000);
@@ -216,6 +235,8 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		}
 
 		$scope.findMatch = function(){
+			$rootScope.$emit("GlobalToggleSidebar", {});
+
 			$scope.enableFindMatch = false;
 			userModel.checkVacantRoom($scope.rooms)
 						.then(function(response){
@@ -270,6 +291,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 				$scope.rooms.$loaded() 
 				.then(function(room){
 				/* look for vacant room*/
+					$scope.loadingFind = false;
 					$scope.enableFindMatch = true;
 				});		
 			});
@@ -549,8 +571,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				re: 0				
 			}
 		}); 	
-
-		 
 		// functions
 		angular.extend($scope, {
 			/* Results value or details */
@@ -715,11 +735,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						$scope.winOrLoseMessage = "You lose against player " + opponent;
 					}
 					
-					codeModel.battle_setSolved(battle_id, isWin)
+					codeModel.setBattle(battle_id,1, isWin)
 						.success(function(){
 							console.log('problem set to solve in battle');
 						});
-
 				}else{
 					codeModel.setRound(round)
 						.success(function(){
@@ -935,6 +954,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								codingService.setSuccess(true);
 
 								if($scope.isMultiplayer){
+									/* Multiplayer mode*/
 									var r = $scope.rooms.$getRecord(roomKey);
 									var opponent;	
 									if(r.player1 == userId){
@@ -954,12 +974,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										$scope.winOrLoseMessage = "You lose against player " + opponent;
 									}
 									
-									codeModel.battle_setSolved(battle_id, isWin)
+									codeModel.setBattle(battle_id,1, isWin)
 										.success(function(){
 											console.log('problem set to solve in battle');
 										});
 
 								}else{
+									/*Single Player*/
 									codeModel.setRound(round)
 										.success(function(){
 											console.log('problem set to solve');
@@ -973,6 +994,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								if(!isMulti){
 									wrongAnswer++;
 									if(wrongAnswer == 3){
+										codingService.setHasNewWeakness(true);
 										problemModel.setWeakness(codingService.getWeaknessId())
 										.success(function(){
 											hasNewWeakness = true;
@@ -1001,6 +1023,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			updateRankProceed: function(){
 				codingService.setIsEnableCode(false);
 				leaveState = true;
+				codingService.setHasResult(true);
 				$state.go('resultPage');
 			},
 			proceed: function(){
@@ -1038,6 +1061,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								$scope.updateRankProceed();
 							});
 					} else { /* Give up */
+						codingService.setHasNewWeakness(true);
 						codingService.setSuccess(false);
 						problemModel.setWeakness(weakness)
 						.success(function(){
@@ -1167,9 +1191,14 @@ myApp.controller('codeController', ['$scope','$rootScope',
   				alert(r.winner + " has won the game!");
   			}else if(r.giveup == opponent_id){
   				alert(r.giveup + " has gave up! You won the game");
-  				codingService.setIsWinner(true);
   				r.winner = userId;
   				$scope.rooms.$save(r);
+  				
+  				codeModel.setBattle(battle_id,0, 1)
+				.success(function(){
+  					codingService.setIsWinner(true);
+					console.log('problem set to winner in battle');
+				});
   			}
 	  		return;
 	    }
@@ -1183,8 +1212,15 @@ myApp.controller('codeController', ['$scope','$rootScope',
 	  		is_able_c = false;	
 		    
 		    if(!leaveState){
-	    		if(confirm('Are you sure you want to leave? this will be considere that you have given up the problem.')) {           			
+	    		if(confirm('Are you sure you want to leave? this will be considered that you have given up the problem.')) {           			
            			codingService.setIsEnableCode(false);
+           			/* set to give up. */
+           			var r = $scope.rooms.$getRecord(roomKey);
+					r.giveup = userId;
+					$scope.rooms.$save(r);
+					console.log("you have given up");
+					
+
 			    } else {
 			    	is_able_c = true;
 			   		event.preventDefault();
@@ -1194,7 +1230,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 		window.onbeforeunload = function() { 
 	  		if(is_able_c){
-			      if(confirm('Are you sure you want to leave? this will be considere that you have given up the problem.')) {
+			      if(confirm('Are you sure you want to leave? this will be considered that you have given up the problem.')) {
 			      	codingService.setIsEnableCode(false);
            			return true; 
 			      }
@@ -1205,6 +1241,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		};	  		
 
 		$(window).on('unload', function(e) {
+
+			var r = $scope.rooms.$getRecord(roomKey);
+			r.giveup = userId;
+			$scope.rooms.$save(r);
+			console.log("you have given up");
 			console.log("You have given up");
 		});
 
@@ -1242,7 +1283,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 				/* From My API */
-				problemModel.getProblemDetails(problem_code)
+				problemModel.getProblemDetails(problem_code,'single')
 					.success(function(response){
 						codingService.setTimeLimit(response.time_limit);
 						var time = response.time_limit;
@@ -1252,6 +1293,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						
 						$scope.loadSuccess = true;
 						$scope.difficulty = response.difficulty;
+						codingService.setProblemDifficulty(response.difficulty);
+						
 						$scope.time_limit = hr + "hr/s and " + min + "min/s"
 
 						switch(response.weakness_id){
@@ -1400,14 +1443,246 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 
 	}]);
 
-myApp.controller('resultController', ['$scope', 'errorService', 'codingService', 'rankService',
-	function($scope, errorService,codingService, rankService){
+myApp.controller('resultController', ['$scope', 'errorService', 'codingService', 
+						'rankService', '$state', 'problemModel','badgeModel',
+	function($scope, errorService,codingService, rankService, $state, problemModel, badgeModel){
 		{
+			var checkBadges = function(){
+
+				if(codingService.getIsMultiplayer()){
+
+				}else{
+					console.log('checking badges for solo mode');
+					badgeModel.getBadges().success(function(response){
+						var badgesID = [];
+
+						angular.forEach(response,function(value, key){
+							badgesID.push(value.id);
+						} );
+
+						console.log(badgesID);
+
+						var checkIfExist = function(badges, id){
+							for(var x = 0; x < badges.length; x++){
+								if(badges[x] == id){
+									return true;
+								}
+							}
+							return false;
+						}
+						var giveBadge = function($id){
+							badgeModel.addBadge($id)
+									.success(function(response){
+										console.log(response.name)
+										console.log(response.description);
+										alert(response.description);
+									});		
+						}
+						/* started from the bottom */
+						if(codingService.getProblemDifficulty() == 'easy'){
+							if(!checkIfExist(badgesID, 1)){
+								console.log('started from the bottom');
+									giveBadge(1);
+							}
+							if(!checkIfExist(badgesID, 2)){
+								console.log('We’re getting there!');
+								
+								badgeModel.countSolved('easy', 0)
+								.success(function(response){
+										if(response >= 5){
+											giveBadge(2);
+										}
+									});
+							}else if(!checkIfExist(badgesID, 3)){
+								console.log('Ten steps closer to success!');
+								
+								badgeModel.countSolved('easy', 0)
+								.success(function(response){
+										if(response >= 10){
+											giveBadge(3);
+										}
+									});
+							}else if(!checkIfExist(badgesID, 6)){
+								console.log('Easy krizzy!');
+								
+								badgeModel.countSolved('easy', 0)
+									.success(function(response){
+										if(response >= 25){
+											giveBadge(6);
+										}
+									});
+							}
+						}
+						if(!checkIfExist(4)){
+							console.log('Repeat after me!');
+							badgeModel.countSolved('easy', 2)
+								.success(function(response){
+									if(response >= 10){
+										giveBadge(4);
+									}
+								});
+						}
+						if(!checkIfExist(5)){
+							console.log('I choose you!');
+							badgeModel.countSolved('easy', 1)
+								.success(function(response){
+									if(response >= 10){
+										giveBadge(5);
+									}
+								});
+						}
+						if(codingService.getProblemDifficulty() == 'average'){
+							if(!checkIfExist(badgesID, 7)){
+								console.log('Not your average programmer!');
+								badgeModel.countSolved('average', 0)
+								.success(function(response){
+										if(response >= 5){
+											giveBadge(7);
+										}
+									});
+							} else if(!checkIfExist(badgesID, 8)){
+								console.log('Average? I’m beyond that!');
+								badgeModel.countSolved('average', 0)
+								.success(function(response){
+										if(response >= 10){
+											giveBadge(8);
+										}
+									});
+							} 
+							if(!checkIfExist(badgesID, 9)){
+								console.log('Over and over again!');
+								badgeModel.countSolved('average', 2)
+								.success(function(response){
+										if(response >= 15){
+											giveBadge(9);
+										}
+									});
+							}
+							if(!checkIfExist(badgesID, 10)){
+								console.log('The selection life chose me!');
+								badgeModel.countSolved('average', 1)
+								.success(function(response){
+										if(response >= 10){
+											giveBadge(10);
+										}
+									});
+							}
+							if(!checkIfExist(badgesID, 11)){
+								console.log('Bombs Array!');
+								badgeModel.countSolved('average', 3)
+								.success(function(response){
+										if(response >= 15){
+											giveBadge(10);
+										}
+									});
+							}
+							if(!checkIfExist(12)){
+							console.log('Hard mode here I come!');
+							badgeModel.countSolved('average', 0)
+								.success(function(response){
+									if(response >= 45){
+										giveBadge(12);
+									}
+								});
+						}
+						if(!checkIfExist(13)){
+							console.log('Challenge Accepted!');
+							badgeModel.countSolved('hard', 0)
+								.success(function(response){
+									if(response >= 5){
+										giveBadge(13);
+									}
+								});
+						}
+                        if(!checkIfExist(14)){
+							console.log('Road to success!');
+							badgeModel.countSolved('hard', 0)
+								.success(function(response){
+									if(response >= 10){
+										giveBadge(14);
+									}
+								});
+						}
+						if(!checkIfExist(15)){
+							console.log('Eat. Sleep. Code. Repeat!');
+							badgeModel.countSolved('hard', 0)
+								.success(function(response){
+									if(response >= 15){
+										giveBadge(15);
+									}
+								});
+						}
+						if(!checkIfExist(16)){
+							console.log("You've chosen wisely!");
+							badgeModel.countSolved('hard', 1)
+								.success(function(response){
+									if(response >= 10){
+										giveBadge(16);
+									}
+								});
+						}
+						if(!checkIfExist(17)){
+							console.log('Arranged? No, array-nged!');
+							badgeModel.countSolved('hard', 3)
+								.success(function(response){
+									if(response >= 15){
+										giveBadge(17);
+									}
+								});
+						}
+						if(!checkIfExist(18)){
+							console.log('Hardships have only made me stronger!');
+							badgeModel.countSolved('hard', 0)
+								.success(function(response){
+									if(response >= 45){
+										giveBadge(18);
+									}
+								});
+						}
+						if(!checkIfExist(19)){
+							console.log('Single Player Mode Complete!');
+							badgeModel.countSolved('hard', 0)
+								.success(function(response){
+									if(response >= 45){
+										giveBadge(19);
+									}
+								});
+						}
+
+
+
+                         
+
+
+
+
+
+
+
+						}
+
+
+					});
+				}
+
+				}
+			checkBadges();
+
 			$scope.isSuccess = codingService.getSuccess();
 			$scope.isMultiplayer = codingService.getIsMultiplayer();
 			$scope.isWinner = codingService.getIsWinner();
 			var subject_area = codingService.getWeaknessId();
 			
+			if(!codingService.getHasResult()){
+				$state.go('statProgPage');
+			}
+			if(codingService.getHasNewWeakness()){
+				problemModel.getProblemFeedBack(codingService.getProblemCode())
+					.success(function(response){
+						$scope.feedback = response;
+						codingService.setHasNewWeakness(false);
+					});
+			}
 			var getAction = function(sa){
 				if(subject_area == sa){
 					if($scope.isSuccess)
@@ -1435,6 +1710,8 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 						}
 					]
 				});
+				
+				
 			}, 2000);
 			
 			// bar graph
@@ -1487,10 +1764,22 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			        }
 			    }
 			});
-
-
-
 		}
+	}]);
+myApp.controller('badgeController', ['$scope', 'badgeModel',
+	function($scope, badgeModel){
+		
+		var getBadges = function(){
+			badgeModel.getBadges()
+				.success(function(response){
+					console.log(response);
+					$scope.badges = response;
+				});
+		}
+		getBadges();
+
+
+
 	}]);
 myApp.controller('statprogController', ['$scope', 'userModel',
 	function($scope, userModel){

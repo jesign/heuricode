@@ -69,6 +69,12 @@ myApp
 				name: 'multiplayerPage'
 			}),
 			$stateProvider.state({
+				templateUrl: 'templates/badges.html',
+				controller: 'badgeController',
+				url: '/badges',
+				name: 'badgesPage'
+			}),
+			$stateProvider.state({
 				templateUrl: 'templates/result.html',
 				controller: 'resultController',
 				url: '/result',

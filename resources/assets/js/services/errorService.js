@@ -6,7 +6,6 @@ myApp.service('errorService', function() {
     var errors = [];
     var errorQuotient = 0;
 
-
     var addErrorCountMS = function($count){
       errorMS += $count;
     }

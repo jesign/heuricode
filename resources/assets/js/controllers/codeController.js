@@ -62,8 +62,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				re: 0				
 			}
 		}); 	
-
-		 
 		// functions
 		angular.extend($scope, {
 			/* Results value or details */
@@ -228,11 +226,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						$scope.winOrLoseMessage = "You lose against player " + opponent;
 					}
 					
-					codeModel.battle_setSolved(battle_id, isWin)
+					codeModel.setBattle(battle_id,1, isWin)
 						.success(function(){
 							console.log('problem set to solve in battle');
 						});
-
 				}else{
 					codeModel.setRound(round)
 						.success(function(){
@@ -448,6 +445,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								codingService.setSuccess(true);
 
 								if($scope.isMultiplayer){
+									/* Multiplayer mode*/
 									var r = $scope.rooms.$getRecord(roomKey);
 									var opponent;	
 									if(r.player1 == userId){
@@ -467,12 +465,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										$scope.winOrLoseMessage = "You lose against player " + opponent;
 									}
 									
-									codeModel.battle_setSolved(battle_id, isWin)
+									codeModel.setBattle(battle_id,1, isWin)
 										.success(function(){
 											console.log('problem set to solve in battle');
 										});
 
 								}else{
+									/*Single Player*/
 									codeModel.setRound(round)
 										.success(function(){
 											console.log('problem set to solve');
@@ -486,6 +485,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								if(!isMulti){
 									wrongAnswer++;
 									if(wrongAnswer == 3){
+										codingService.setHasNewWeakness(true);
 										problemModel.setWeakness(codingService.getWeaknessId())
 										.success(function(){
 											hasNewWeakness = true;
@@ -514,6 +514,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			updateRankProceed: function(){
 				codingService.setIsEnableCode(false);
 				leaveState = true;
+				codingService.setHasResult(true);
 				$state.go('resultPage');
 			},
 			proceed: function(){
@@ -551,6 +552,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								$scope.updateRankProceed();
 							});
 					} else { /* Give up */
+						codingService.setHasNewWeakness(true);
 						codingService.setSuccess(false);
 						problemModel.setWeakness(weakness)
 						.success(function(){
@@ -680,9 +682,14 @@ myApp.controller('codeController', ['$scope','$rootScope',
   				alert(r.winner + " has won the game!");
   			}else if(r.giveup == opponent_id){
   				alert(r.giveup + " has gave up! You won the game");
-  				codingService.setIsWinner(true);
   				r.winner = userId;
   				$scope.rooms.$save(r);
+  				
+  				codeModel.setBattle(battle_id,0, 1)
+				.success(function(){
+  					codingService.setIsWinner(true);
+					console.log('problem set to winner in battle');
+				});
   			}
 	  		return;
 	    }
@@ -696,8 +703,15 @@ myApp.controller('codeController', ['$scope','$rootScope',
 	  		is_able_c = false;	
 		    
 		    if(!leaveState){
-	    		if(confirm('Are you sure you want to leave? this will be considere that you have given up the problem.')) {           			
+	    		if(confirm('Are you sure you want to leave? this will be considered that you have given up the problem.')) {           			
            			codingService.setIsEnableCode(false);
+           			/* set to give up. */
+           			var r = $scope.rooms.$getRecord(roomKey);
+					r.giveup = userId;
+					$scope.rooms.$save(r);
+					console.log("you have given up");
+					
+
 			    } else {
 			    	is_able_c = true;
 			   		event.preventDefault();
@@ -707,7 +721,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 		window.onbeforeunload = function() { 
 	  		if(is_able_c){
-			      if(confirm('Are you sure you want to leave? this will be considere that you have given up the problem.')) {
+			      if(confirm('Are you sure you want to leave? this will be considered that you have given up the problem.')) {
 			      	codingService.setIsEnableCode(false);
            			return true; 
 			      }
@@ -718,6 +732,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		};	  		
 
 		$(window).on('unload', function(e) {
+
+			var r = $scope.rooms.$getRecord(roomKey);
+			r.giveup = userId;
+			$scope.rooms.$save(r);
+			console.log("you have given up");
 			console.log("You have given up");
 		});
 

@@ -3,8 +3,6 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	function($scope, $rootScope, $state, $firebaseArray, userModel, rankService, 
 		problemModel, codingService) {
 		
-		$rootScope.$emit("GlobalToggleSidebar", {});
-
 		var refMessages = firebase.database().ref().child("messages");
 		var refPlayer = firebase.database().ref().child("players");
 		var refRoom = firebase.database().ref().child("rooms");
@@ -33,8 +31,18 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  	$scope.roomIndex = null;
 		$scope.timerIndex = null;
 		$scope.enableFindMatch = false;
-
+		$scope.loadingFind = true;
+		$scope.startTimer = false;
+				
+		$scope.roomDetails = "";
 		$scope.loadProblemSuccess = false;
+
+		userModel.getBattleRecords()
+			.success(function(response){
+				$scope.winsCount = response.wins;
+				$scope.loseCount = response.lose;
+				$scope.solvedCount = response.solved;
+			});
 
 		function setProblem(){
 			problemModel.getProblem(problemCode)
@@ -47,7 +55,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 						$scope.loadProblemSuccess = false;
 						$scope.problemTitle = "Failed to load problem.";
 					});
-			problemModel.getProblemDetails(problemCode)
+			problemModel.getProblemDetails(problemCode, 'multiplayer')
 					.success(function(response){
 						codingService.setTimeLimit(response.time_limit);
 						var time = response.time_limit;
@@ -95,6 +103,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		function checkOpponent(){
 	  		var r = $scope.rooms.$getRecord(roomKey);
 	  		if(!r.player2){
+	  			$scope.roomDetails = "Waiting for an Opponent...";
 	  			console.log('waiting for Opponent...');
 	  			setTimeout(checkOpponent, 1000);
 	  			return;
@@ -128,6 +137,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 				r.status = 1;
 				$scope.rooms.$save(r).then(function(){
 					$scope.hasOpponent = true;
+					$scope.roomDetails = "Waiting for Players to get ready ...";
 	  				waitPlayerReady();
 	  				console.log("waiting for players");
 	  			});
@@ -146,6 +156,8 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  			setTimeout(waitPlayerReady, 1000);
 	  			return;
 	  		}
+
+	  		$scope.startTimer = true;
   			startTimer();
 	  		return;
 	  	}
@@ -177,6 +189,8 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 
 		/* player2 wait for the room status to turn to 1 - Step 2*/
 		function waitRoomReady(){
+			$scope.roomDetails = "Waiting for Room to get Ready... ";
+
 			var r = $scope.rooms.$getRecord(roomKey);
 
 			if(r.status == 0){
@@ -199,7 +213,12 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		/* player 2 wait for the game to start
 	  		or wait for the room status to turn to 2 - Step 3*/
 		function waitGameStart(){
+			$scope.roomDetails = "Waiting for Players to get ready ...";
 			var r = $scope.rooms.$getRecord(roomKey);
+
+			if(r.ready1 && r.ready2){
+				$scope.startTimer = true;
+	  		}
 
 			if(r.status != 2){
 				setTimeout(waitGameStart, 1000);
@@ -216,6 +235,8 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		}
 
 		$scope.findMatch = function(){
+			$rootScope.$emit("GlobalToggleSidebar", {});
+
 			$scope.enableFindMatch = false;
 			userModel.checkVacantRoom($scope.rooms)
 						.then(function(response){
@@ -270,6 +291,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 				$scope.rooms.$loaded() 
 				.then(function(room){
 				/* look for vacant room*/
+					$scope.loadingFind = false;
 					$scope.enableFindMatch = true;
 				});		
 			});

@@ -8,6 +8,16 @@ myApp.service('codingService', function() {
     var time_limit = 0;
     var roomKey = null;
     var isWinner = false;
+    var hasResult = false;
+    var hasNewWeakness = false;
+    var probDiff = null; 
+
+    var setHasResult = function(hr){
+      hasResult = hr;
+    }
+    var getHasResult = function(){
+      return hasResult;
+    }
     var setIsMultiplayer = function(isMulti){
       isMultiplayer = isMulti;
     }
@@ -32,6 +42,12 @@ myApp.service('codingService', function() {
   	var getIsEnableCode = function(){
   		return enableCode;
   	}
+    var setProblemDifficulty = function(diff){
+      probDiff = diff;
+    }
+    var getProblemDifficulty = function(){
+      return probDiff;
+    }
   	var setProblemCode = function(pCode) {
       	problemCode = pCode;
   	}
@@ -44,6 +60,14 @@ myApp.service('codingService', function() {
   	var getLanguage = function(){
   		return languageId;
   	}
+    /* new weakness*/
+    var setHasNewWeakness = function(hasNew){
+      hasNewWeakness = hasNew;
+    }
+    var getHasNewWeakness = function(){
+      return hasNewWeakness;
+    }
+    /* subject area */
     var setWeaknessId = function(id){
       weaknessId = id;
     }
@@ -72,12 +96,19 @@ myApp.service('codingService', function() {
       setIsWinner: setIsWinner,
       getIsWinner: getIsWinner,
 
+      setHasResult: setHasResult,
+      getHasResult: getHasResult,
+
   		setIsEnableCode: setIsEnableCode,
   		getIsEnableCode: getIsEnableCode,
 	    setProblemCode: setProblemCode,
     	getProblemCode: getProblemCode,
+      setProblemDifficulty: setProblemDifficulty,
+      getProblemDifficulty: getProblemDifficulty,
     	setLanguage: setLanguage,
     	getLanguage: getLanguage,
+      setHasNewWeakness: setHasNewWeakness,
+      getHasNewWeakness: getHasNewWeakness,
       setWeaknessId: setWeaknessId,
       getWeaknessId: getWeaknessId,
       setSuccess: setSuccess,
