@@ -116,9 +116,5 @@ class UserController extends Controller
 
         return Badge::find($badge_id);
     }
-    
-    public function test($id, $id2){
-    echo $id;
-    echo $id2;
-    }
 }
+    

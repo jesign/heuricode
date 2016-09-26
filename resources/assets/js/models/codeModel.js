@@ -2,6 +2,7 @@ myApp.factory('codeModel', ['$http', function($http){
 	
 	var model = {};
 
+
 	model.runCodeModel = function(srcCode){
 		var lang_id = srcCode.langId;
 		var codes = srcCode.codes;
@@ -119,6 +120,19 @@ myApp.factory('codeModel', ['$http', function($http){
 			return result.data;
 		});
 
+	}
+	model.judgeCode = function(srcCode, pCode){
+		return $http({
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			params: {
+				sourceCode: srcCode,
+				problemCode: pCode
+			},
+			url: baseUrl + 'judgeCode',
+			method: 'POST'
+		});
 	}
 
 

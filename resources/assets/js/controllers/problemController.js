@@ -85,7 +85,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						alert('There was an error fetching a problem');
 					});
 			},
-			getRandomWeakness: function(){
+			getRandomWeakness: function(subjScope){
+
 				var included = [];
 				var prioritize = 4;
 				for(var x = 0; x < 3; x++){
@@ -98,7 +99,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 							if( x == y ){
 								continue;
 							}
-							loop ++;
+							loop++;
 
 							if(Math.abs(weaknesses[x] - weaknesses[y]) >=2 ){
 								if(weaknesses[x] > weaknesses[y]){
@@ -122,14 +123,15 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						break;
 					}
 				}
-				
+				console.log(included);
 				var selected;
 				if(prioritize == 4){
 					selected = included[Math.floor(Math.random() * included.length)];
 				}else{
 					selected = prioritize;
 				}
-				selected ++;
+				selected++;
+				console.log("selected: " + selected);
 
 				codingService.setWeaknessId(selected);
 				$scope.getRandomProblems(selected);
@@ -156,13 +158,19 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					rank1 = rankService.getRankSCS();
 					rank2 = rankService.getRankRCS();
 					rank3 = rankService.getRankARR();
+
 					if(rank1 == 0 || rank2 == 0 || rank3 == 0){
 						setTimeout(initialize, 1000);
 					}else{
+						var subjScope = 2;
+						if(rank1 > 10 && rank2 > 10){
+							subjScope = 3;
+						}
+
 						weaknesses.push(rank1);
 						weaknesses.push(rank2);
 						weaknesses.push(rank3);
-						$scope.getRandomWeakness();
+						$scope.getRandomWeakness(subjScope);
 					}
 				}
 				initialize();

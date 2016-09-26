@@ -173,6 +173,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			runCode: function(editorForm){
 				var editor = ace.edit("editor");
 				var code = editor.getValue();
+			
 				console.log("code " + code);
 				
 				/* Submit the code to API and get its status */
@@ -439,12 +440,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 							
 							if(status_id == 15){
 								/* code accepted */
-								$scope.isCorrect = true;
-								$scope.resultSubmissionColor = "submission-accepted";
-								$scope.submitStatusDescription = "Accepted!";
-								codingService.setSuccess(true);
-
+								/* if single player make a deeper judgement */
+								
 								if($scope.isMultiplayer){
+									$scope.isCorrect = true;
+									$scope.resultSubmissionColor = "submission-accepted";
+									$scope.submitStatusDescription = "Accepted!";
+									codingService.setSuccess(true);
 									/* Multiplayer mode*/
 									var r = $scope.rooms.$getRecord(roomKey);
 									var opponent;	
@@ -471,15 +473,34 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										});
 
 								}else{
-									/*Single Player*/
-									codeModel.setRound(round)
-										.success(function(){
-											console.log('problem set to solve');
+									var editor = ace.edit("editor");
+									var code = editor.getValue();
+									/* send source code here.. */
+									codeModel.judgeCode(code, $scope.problemCode)
+										.success(function(response){
+											console.log(response);
+											if(response == "good"){
+												$scope.isCorrect = true;
+												$scope.resultSubmissionColor = "submission-accepted";
+												$scope.submitStatusDescription = "Accepted!";
+												codingService.setSuccess(true);
+												
+												console.log('accepted deep judgement');
+												codeModel.setRound(round)
+													.success(function(){
+														console.log('problem set to solve');
+													});	
+												/* set to no weakness */
+												if( !hasNewWeakness || $scope.checkRankForWeakness(weakness) ){
+													problemModel.setWeakness(0);
+												}
+
+											}else{	
+												alert('deep judgement not accepted');
+											}
 										});
-									/* set to no weakness */
-									if( !hasNewWeakness || $scope.checkRankForWeakness(weakness) ){
-										problemModel.setWeakness(0);
-									}
+										
+									/*Single Player*/
 								}
 							} else {
 								if(!isMulti){
@@ -499,18 +520,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						}
 					});
 			},
-			// must be only called during single player
-			getSkeletonCode: function(problem_code, language_id){
-				problemModel.getSkeletonCode(problem_code, language_id) 
-					.success(function(response){
-						$scope.newCode.codes = response;
-						var sc = $scope.newCode.codes;
-					    var editor = ace.edit("editor");
-					    editor.setTheme("ace/theme/monokai");
-					    editor.getSession().setValue(sc);
-					    editor.resize();
-					});
-			},			// only for single player
+			// only for single player
 			updateRankProceed: function(){
 				codingService.setIsEnableCode(false);
 				leaveState = true;
@@ -588,14 +598,12 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					$scope.problemTitle = response.name;
 					$scope.problemDescription = response.body;
 
-					if(isMulti){
-						var editor = ace.edit("editor");
-					    editor.setTheme("ace/theme/monokai");
-					    editor.getSession().setValue("");
-					    editor.resize();
-					}else {
-						$scope.getSkeletonCode($scope.problemCode, g_languageId);
-					}
+					
+					var editor = ace.edit("editor");
+				    editor.setTheme("ace/theme/monokai");
+				    editor.getSession().setValue("");
+				    editor.resize();
+				
 				})
 				.error(function(result){
 					console.log(result);
@@ -729,7 +737,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			        return false; 
 			      }
 		  	}
-		};	  		
+		};	 
 
 		$(window).on('unload', function(e) {
 

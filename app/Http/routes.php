@@ -24,7 +24,7 @@ Route::get('/contacts', function(){
 	return view('welcome', [ 'data' => $data,]);
 });
 /* Testing */
-Route::get('/test/{id}/{id2}', 'UserController@test');
+Route::get('/test', 'UserController@test');
 // User
 Route::auth();
 Route::get('/checkAuth', 'UserController@checkAuth');
@@ -56,7 +56,7 @@ Route::get('/problem/sourceCode/Java/{id}', 'ProblemController@getSourceCodeJava
 Route::post('/problem/description', 'ProblemController@getProblemDescription');
 Route::post('/randomProblem', 'ProblemController@getRandomProblem');
 Route::post('/getPlayersProblem', 'ProblemController@getPlayersProblem');
-
+Route::post('/judgeCode', 'ProblemController@judgeCode');
 
 // Submissions
 Route::get('/getSubmissionDetails/{id}', 'ProblemApiController@getSubmissionDetails');

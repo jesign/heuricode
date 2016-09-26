@@ -16,18 +16,6 @@ class ProblemController extends Controller
     public function __construct(){
     	$this->middleware('auth');
     }
-	public function getSourceCodeC($id){    	
-    	$problem = Problem::where('problem_code', $id)->first();
-    	return $problem->skeleton_code_c;
-    }
-    public function getSourceCodeCpp($id){    	
-    	$problem = Problem::where('problem_code', $id)->first();
-    	return $problem->skeleton_code_cpp;
-     }    
-    public function getSourceCodeJava($id){    	
-    	$problem = Problem::where('problem_code', $id)->first();
-    	return $problem->skeleton_code_java;
-    }
     public function getProblemDescription(Request $request){
         $problem_code = $request->input('problem_code');
         $mode = $request->input('mode');
@@ -86,6 +74,20 @@ class ProblemController extends Controller
             $selected = array_rand($problem_code_array,1);
         }
         return $problem_code_array[$selected];
+    }
+    public function judgeCode(Request $request){
+        $sourceCode = $request->input('sourceCode');
+        $problemCode = $request->input('problemCode');
+
+        $problem = Problem::where('problem_code', $problemCode)->first();
+        $judgement = $problem->judgement;
+        $pos = strpos($sourceCode, $judgement);
+
+        if($pos === false){
+            return "bad";
+        }else{
+            return "good";
+        }
     }
     public function getRandomProblem(Request $request){
         // set weakness
