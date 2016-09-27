@@ -6,6 +6,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 		var compiler_token = "0cbe4211ffadf976d70940ca79722da6";
 
+		var myCodeMirror = CodeMirror.fromTextArea(myTextArea, {theme: "material", lineNumbers: true,});
+
 		var opponent_id;	
 		// global variables
 		var g_languageId = null,
@@ -171,18 +173,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				});
 			},
 			runCode: function(editorForm){
-				var editor = ace.edit("editor");
-				var code = editor.getValue();
-			
-				console.log("code " + code);
-				
 				/* Submit the code to API and get its status */
 				$.ajax({
 				  	type: "POST",
 				  	url: 'http://db4262da.compilers.sphere-engine.com/api/v3/submissions?access_token=' + compiler_token,
 				  	data: 
 				  		{
-				 		sourceCode: code,
+				 		sourceCode: myCodeMirror.getValue(),
 				 		language: g_languageId,
 				 		input: $scope.newCode.input
 				 	},
@@ -356,13 +353,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			},
 			SubmitCode: function(){
 				var problemCode = $scope.problemCode;
-				var editor = ace.edit("editor");
-				var code = editor.getValue();
 				
 				var codeData = {
 					problemCode: problemCode,
 					compilerId: g_languageId,
-					source: code
+					source: myCodeMirror.getValue()
 				}
 				var submissionId;
 
@@ -473,16 +468,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										});
 
 								}else{
-									var editor = ace.edit("editor");
-									var code = editor.getValue();
 									/* send source code here.. */
-									codeModel.judgeCode(code, $scope.problemCode)
+									codeModel.judgeCode(myCodeMirror.getValue(), $scope.problemCode)
 										.success(function(response){
 											console.log(response);
 											if(response == "good"){
 												$scope.isCorrect = true;
 												$scope.resultSubmissionColor = "submission-accepted";
-												$scope.submitStatusDescription = "Accepted!";
 												codingService.setSuccess(true);
 												
 												console.log('accepted deep judgement');
@@ -496,10 +488,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 												}
 
 											}else{	
-												alert('deep judgement not accepted');
+												$scope.submitStatusDescription = "Requirements are not met.. Please review the problem.";
+												
 											}
 										});
-										
+
 									/*Single Player*/
 								}
 							} else {
@@ -578,6 +571,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		rank2 = rankService.getRankRCS();
 		rank3 = rankService.getRankARR();
 
+		
+
 		if(codingService.getIsEnableCode()){
 			// get problem details
 			isMulti = codingService.getIsMultiplayer();
@@ -599,10 +594,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					$scope.problemDescription = response.body;
 
 					
-					var editor = ace.edit("editor");
-				    editor.setTheme("ace/theme/monokai");
-				    editor.getSession().setValue("");
-				    editor.resize();
+					// var editor = ace.edit("editor");
+				 //    editor.setTheme("ace/theme/monokai");
+				 //    editor.getSession().setValue("");
+				 //    editor.resize();
 				
 				})
 				.error(function(result){

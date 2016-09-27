@@ -30,6 +30,7 @@ myApp
 			}),
 			$stateProvider.state({
 				templateUrl: 'templates/setting.html',
+				controller: 'userController',
 				url: '/settings',
 				name: 'settingPage'
 			}),

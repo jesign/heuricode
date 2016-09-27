@@ -86,45 +86,60 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					});
 			},
 			getRandomWeakness: function(subjScope){
-
+				var selected;
+				console.log("SCOPE " + subjScope);
 				var included = [];
 				var prioritize = 4;
-				for(var x = 0; x < 3; x++){
-					var loop = 0;
-					var lower = 0;
-					var higher = 0;
-					if(prioritize == 4){
-						for(var y = 0; y < 3 ; y++){
-							
-							if( x == y ){
-								continue;
-							}
-							loop++;
+				if(subjScope == 3){
+					for(var x = 0; x < 3; x++){
+						var loop = 0; 
+						var lower = 0;
+						var higher = 0;
+						if(prioritize == 4){
+							for(var y = 0; y < 3 ; y++){
+								
+								if( x == y ){
+									continue;
+								}
+								loop++;
 
-							if(Math.abs(weaknesses[x] - weaknesses[y]) >=2 ){
-								if(weaknesses[x] > weaknesses[y]){
-									higher++;
-								} else {
-									lower++;
+								if(Math.abs(weaknesses[x] - weaknesses[y]) >=2 ){
+									if(weaknesses[x] > weaknesses[y]){
+										higher++;
+									} else {
+										lower++;
+									}
+								}
+
+								if(lower == 2){
+									prioritize = x;
+									break;
+								}
+								if(higher != 2){
+									if(loop == 2){
+										included.push(x);
+									}
 								}
 							}
-
-							if(lower == 2){
-								prioritize = x;
-								break;
-							}
-							if(higher != 2){
-								if(loop == 2){
-									included.push(x);
-								}
-							}
+						} else {
+							break;
 						}
-					} else {
-						break;
+
 					}
-				}
+					
+
+				}else{
+					var diff = weaknesses[0] - weaknesses[1];
+					if( diff >= 2){
+						prioritize = 1;
+					}else if(diff <= -2){
+						prioritize = 0;
+					}else{
+						included.push(0);
+						included.push(1);
+					}
+				}				
 				console.log(included);
-				var selected;
 				if(prioritize == 4){
 					selected = included[Math.floor(Math.random() * included.length)];
 				}else{

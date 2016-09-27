@@ -19,6 +19,8 @@
     "angular-route": "^1.5.7",
     "angular-ui-router": "ui-router#^0.3.1",
     "angular-onbeforeunload": "angular-beforeunload#^0.0.1",
-    "lodash": "^4.15.0"
+    "lodash": "^4.15.0",
+    "firebase": "^3.4.0",
+    "chart.js": "^2.3.0"
   }
 }

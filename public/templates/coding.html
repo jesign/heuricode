@@ -12,14 +12,12 @@
 					<button type="button" class="btn btn-danger btn-sm" ng-click="proceed()"> Give Up</button>
 				</div>
 				<label class="control-label" style="font-size: 1.3em;"> Editor</label>
-	    		<div style="height: 500px;">
-		    		<div id="editor" style="color: #0f0;"></div>
-	    		</div>
-				<script src="/ace-builds/src-noconflict/ace.js"></script>
-				<script>
- 
-				</script>
+	    		
+
+		    		<!-- <div id="editor" style="color: #0f0;"></div> -->
+				<!-- <script src="/ace-buildtexts/src-noconflict/ace.js"></script> -->
 			</div>
+	    	<textarea id="myTextArea" ></textarea>
 		</div>
 		<div class="col-lg-6">
 			<div class="pull-right">
@@ -35,6 +33,7 @@
 			<div class="tab-content">
 			  <div id="input" class="tab-pane fade in active">
 			  		<br>
+			  		
 			    	<textarea style="padding: 5px;" class="form-control" rows="5" ng-model="newCode.input"></textarea>
 			  </div>
 			  <div id="output" class="tab-pane fade">

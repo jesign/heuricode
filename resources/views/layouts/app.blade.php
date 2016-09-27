@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>HeuriCode</title>
+
+    <link rel="stylesheet" href="{{ asset('codemirror-5.19.0/lib/codemirror.css') }}">
+    <link rel="stylesheet" href="{{ asset('codemirror-5.19.0/theme/material.css') }}">
     <link rel="icon" href="{{ asset('img/heuricode-small.png') }}">
     <!-- Fonts -->
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous"> --}}
@@ -118,13 +121,15 @@
     <script src="{{ asset('bower_components/angularfire/dist/angularfire.js') }}"></script>
     <script src="{{ asset('bower_components/angular-sanitize/angular-sanitize.js')}}"></script>
     <script src="{{ asset('bower_components/angular-ui-router/release/angular-ui-router.js') }}"></script>
-    <script src="{{ asset('bower_components/chart.js/dist/chart.js') }}"></script>
+    <script src="{{ asset('bower_components/chart.js/dist/Chart.js') }}"></script>
     <script src="{{ asset('bower_components/lodash/dist/lodash.js') }}"></script>
     <script src="{{ asset('js/app.js')}}"></script>
     <script src="{{ asset('js/controllers.js')}}"></script>
     <script src="{{ asset('js/models.js')}}"></script>
     <script src="{{ asset('js/services.js')}}"></script>
-
+    <script src="{{ asset('codemirror-5.19.0/lib/codemirror.js') }}"></script>
+    <script src="{{ asset('codemirror-5.19.0/mode/javascript/javascript.js') }}"></script>
+    <script src="{{ asset('codemirror-5.19.0/mode/javascript/javascript.js') }}"></script>
   
     <!-- JavaScripts Online-->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
