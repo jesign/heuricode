@@ -26,7 +26,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			rank3 = 0,
 			battle_id = 0,
 			isMulti = false;
-
 		// scoped variables
 		angular.extend($scope, {
 			newCode: {
@@ -55,14 +54,11 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			
 			isMultiplayer:false,
 			
-			// temporary
-			errors: {
-				ms: 0,
-				se: 0,
-				pm: 0,
-				ee: 0,
-				re: 0				
-			}
+			/* alerts */
+			alert_title: null,
+			alert_description: null,
+			closableModal: false
+
 		}); 	
 		// functions
 		angular.extend($scope, {
@@ -96,9 +92,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			},
 
 			/* Getting Submission Status will loop until status_id is = 0*/
-			getSubmissionStatus: function(id){				
-				$('.nav-tabs a[href="#output"]').tab('show');
-				/* request to API the status of submission */
+			getSubmissionStatus: function(id){		
+				$('ul.tabs').tabs('select_tab', 'output');		
+				// $('.nav-tabs a[href="#output"]').tab('show');
+				/* request to API the status_id of submission */
 				codeModel.submissionStatusModel(id, compiler_token).then(function(response){
 					$scope.output = "";
 					$scope.error = "";
@@ -159,12 +156,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						$scope.getErrorsPM();
 						$scope.getErrorsIE();
 
-
-						// temporary display error counts
-						$scope.errors.ms = errorService.getErrorCountMS();
-						$scope.errors.se = errorService.getErrorCountSE();
-						$scope.errors.pm = errorService.getErrorCountPM();
-						$scope.errors.ee = errorService.getErrorCountIE();
+						
 		  			}else{
 		  				$scope.resultValueColor = "resultValError";
 		  			}
@@ -203,6 +195,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				$scope.submitStatusDescription = "Accepted!";
 				codingService.setSuccess(true);
 
+
 				if($scope.isMultiplayer){
 					var r = $scope.rooms.$getRecord(roomKey);
 					var opponent;	
@@ -213,7 +206,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					}
 
 					var isWin;
-					if(!isLose){
+					if(!isLose){1
 						isWin = 1;
 						codingService.setIsWinner(true);
 						$scope.winOrLoseMessage = "You won against player " + opponent;
@@ -422,7 +415,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 			},
 			testGetProblemDetails: function(){
-				$('#myModal').modal({ keyboard: false, backdrop: false, show: true })
+				// $('#myModal').modal({ keyboard: false, backdrop: false, show: true })
+				$('#submitCode').openModal({dismissible:false});
 				problemModel.getSubmissionDetails($scope.submitCodeId)
 					.success(function(response){
 						console.log(response);
@@ -543,9 +537,9 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				}else{
 					codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
 						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" )
-					.success(function(){
-						console.log("Error counts are set.");
-					});
+						.success(function(){
+							console.log("Error counts are set.");
+						});
 
 					var weakness = codingService.getWeaknessId();
 					if($scope.isCorrect){
@@ -558,9 +552,9 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						codingService.setHasNewWeakness(true);
 						codingService.setSuccess(false);
 						problemModel.setWeakness(weakness)
-						.success(function(){
-							$scope.updateRankProceed();
-						});	
+							.success(function(){
+								$scope.updateRankProceed();
+							});	
 					}
 				}
 
@@ -586,19 +580,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 			problemModel.getProblem($scope.problemCode)
 				.success(function(response){		
-					$rootScope.$emit("GlobalToggleSidebar", {});
-
-					$('.nav-tabs a[href="#problem_details"]').tab('show');
-
 					$scope.problemTitle = response.name;
 					$scope.problemDescription = response.body;
-
-					
-					// var editor = ace.edit("editor");
-				 //    editor.setTheme("ace/theme/monokai");
-				 //    editor.getSession().setValue("");
-				 //    editor.resize();
-				
 				})
 				.error(function(result){
 					console.log(result);
@@ -617,16 +600,20 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 			        display.textContent = hours + ":" + minutes + ":" + seconds;
 
-			        if (--timer < 0) {
+			        if(--timer < 0) {
 			            clearInterval(timerId);
-			            $('#myTimeUpModal').modal({ keyboard: false, backdrop: false, show: true })
-			            console.log("Time's Up!!!");
+			            $scope.alert_title = "Time's up!!!";
+			            $scope.alert_description = "You have'nt solved the problem on time!";
+			            $scope.closableModal = false;
+			            $('#alertModal').openModal({dismissible:false});
 			        }
 			    }, 1000);
 			}
-			display = document.querySelector('#time');
-		    var timeLimit = codingService.getTimeLimit();
-		    startTimer(timeLimit, display);
+			if(codingService.getIsMultiplayer()){
+				display = document.querySelector('#time');
+			    var timeLimit = codingService.getTimeLimit();
+			    startTimer(timeLimit, display);
+			}
 		}else{
 			leaveState = true;
 			$state.go('problemPage');
@@ -682,9 +669,16 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
   			if(r.winner == opponent_id){
   				isLose = true;
-  				alert(r.winner + " has won the game!");
+  				$scope.alert_title = "You lose";
+	            $scope.alert_description = r.winner + " has won the game!";
+	            $scope.closableModal = true;
+	            $('#alertModal').openModal({dismissible:false});
   			}else if(r.giveup == opponent_id){
-  				alert(r.giveup + " has gave up! You won the game");
+  				$scope.alert_title = "You won";
+	            $scope.alert_description = r.giveup + " has given up!";
+				$scope.closableModal = true;
+	            $('#alertModal').openModal({dismissible:false});
+
   				r.winner = userId;
   				$scope.rooms.$save(r);
   				
@@ -697,24 +691,21 @@ myApp.controller('codeController', ['$scope','$rootScope',
 	  		return;
 	    }
 
-
 	    /* functions when user leaves the page */
-
 		var is_able_c = true;
 
 	  	$scope.$on('$stateChangeStart', function( event ) {
 	  		is_able_c = false;	
 		    
 		    if(!leaveState){
-	    		if(confirm('Are you sure you want to leave? this will be considered that you have given up the problem.')) {           			
+
+	    		if(confirm('Are you sure you want to leave? This will be considered that you have given up the problem.')) {
            			codingService.setIsEnableCode(false);
            			/* set to give up. */
            			var r = $scope.rooms.$getRecord(roomKey);
 					r.giveup = userId;
 					$scope.rooms.$save(r);
 					console.log("you have given up");
-					
-
 			    } else {
 			    	is_able_c = true;
 			   		event.preventDefault();
@@ -740,8 +731,5 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			r.giveup = userId;
 			$scope.rooms.$save(r);
 			console.log("you have given up");
-			console.log("You have given up");
 		});
-
-
 	}]);

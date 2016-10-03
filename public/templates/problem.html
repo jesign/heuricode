@@ -1,50 +1,47 @@
-<div class="container-fluid">
-		<div ng-show="loadingProblem">
-			<div class="spinner">
-			  <div class="double-bounce1"></div>
-			  <div class="double-bounce2"></div>
-			</div>
-		</div>
+<script>
+	$('.dropdown-button').dropdown();
+</script>
+<div ng-show="loadingProblem">
+	<div class="spinner">
+	  <div class="double-bounce1"></div>
+	  <div class="double-bounce2"></div>
+	</div>
+</div>
 
-		<div class="row" ng-hide="loadingProblem">
-			<div class="col-lg-9">
-				<div class="col-lg-12" ng-bind-html="problemDescription">
-				</div>
+<div class="row" ng-hide="loadingProblem">
+	<div class="col s9">
+		<div class="card grey lighten-5">
+			<div class="card-content z-depth-3">
+				<div ng-bind-html="problemDescription" style="color: #212121""></div>
 			</div>
-			<div class="col-lg-3" ng-show="loadSuccess">
-				<div class="panel panel-default" style="margin-top: 10px;">
-				  	<div class="panel-heading">Problem Details</div>
-					  	<div class="panel-body">
-					  	<strong>Difficulty:</strong> <% difficulty %>
-					  	<br>
-					  	<strong>Subject Area:</strong> <% subject_area %>
-					  	<br>
-					  	<strong>Time Limit: </strong> <% time_limit %>
-					  	<br>
-						<hr style="margin-bottom: 5px;">
-						<strong>Solve It!</strong><br>
-					  	<div class="dropdown" style="margin-bottom: 5px;">
-							Language: 
-						  	<button class="btn btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-						  		<% language %>
-						  		<span class="caret"></span>
-						  	</button>
-						  	<ul class="dropdown-menu">
-							    <li><a ng-click="languageToC()">C</a></li>
-							    <li><a ng-click="languageToCpp()">C++</a></li>
-							    <li><a ng-click="languageToJava()">Java</a></li>
-						  	</ul>				  	
-						</div>
-						<button ng-show="loadSuccess" type="button" ng-click="solveIt()" class="btn btn-sm btn-block btn-success">
-							Go!
-						</button>
-				  	</div>
-				  	</div>
-				    
-				</div>
-					<!-- <a ui-sref="codingPage" class="btn btn- btn-success">Solve it!</a> -->
-			</div>
-			
 		</div>
-        
+	</div>
+	<div class="col s3" ng-show="loadSuccess" style="margin-top: 80px; position: fixed; right: 0px;">
+	  	<div class="card teal lighten-1">
+            <div class="card-content white-text" style="font-size: 16px">
+              	<span class="card-title">Problem Details</span>
+              	<div class="divider"></div>
+			  	<strong>Difficulty:</strong> <% difficulty %>
+			  	<br>
+			  	<strong>Subject Area:</strong> <% subject_area %>
+			  	<br>
+			  	<strong>Time Limit: </strong> <% time_limit %>
+            </div>
+            <div class="card-action" style="padding: 5px">
+            	<div class="row">
+            		<div class="col s5">
+            			<a class='dropdown-button cyan white-text lighten-2 btn-flat' data-activates='dropdown-language'><% language %></a>
+            		</div>
+            		<div class="col s7">
+            			<a class="btn-flat  waves-cyan waves-effect cyan lighten-2 white-text right" ng-click="solveIt()" >Solve</a>
+            		</div>
+            	</div>
+			  	<ul id='dropdown-language' class='dropdown-content'>
+				    <li><a ng-click="languageToC()">C</a></li>
+				    <li><a ng-click="languageToCpp()">C++</a></li>
+				    <li><a ng-click="languageToJava()">Java</a></li>
+			  	</ul>              	
+            </div>
+          </div>
+	</div>
 </div>

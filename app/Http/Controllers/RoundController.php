@@ -37,7 +37,7 @@ class RoundController extends Controller
         $count = 0;
         foreach ($rounds as $round) {
             $diff = Problem::find($round->problem_id)->difficulty;
-            if(!$subject){
+            if($subject == 0){
                 if($diff == $difficulty){
                     $count++;
                 }

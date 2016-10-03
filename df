@@ -1,0 +1,126 @@
+[33mcommit b6746dca2c82213d52afb1a997ee3c156fd64d86[m
+Author: jesign <jixzignacio@gmail.com>
+Date:   Tue Sep 27 21:05:34 2016 +0800
+
+    done changing editor, on the way to design
+
+[33mcommit c265b973334558d1a137dd2d39a11ee3b764b579[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Mon Sep 26 17:14:37 2016 +0800
+
+    deep judgement
+
+[33mcommit e2ee634eb7d76ea6eef58aa59f83f02f876777e2[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Sep 24 23:09:48 2016 +0800
+
+    done single player badges
+
+[33mcommit 6bd2b6b8a0862ecb3b5bf6ef14cf09971d09a0af[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Mon Sep 12 15:19:45 2016 +0800
+
+    Finished Separating Multiplayer Features
+
+[33mcommit e26056ec5cb8ced38341179048768bfef635ecfd[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Sep 10 23:42:19 2016 +0800
+
+    finished statistical progress
+
+[33mcommit 0d8e15cb2d2c36ef1220ba44f9faa466bdf9876f[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Tue Sep 6 10:09:46 2016 +0800
+
+    Multiplayer Almost done. Design needed
+
+[33mcommit 5acf3899c6cfcb9ce091e8729236e35976ad284d[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Mon Aug 29 15:00:02 2016 +0800
+
+    made matchmaking with timer
+
+[33mcommit 321cc09fd43d677cbe0074935fc7be87cd684e32[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sun Aug 28 14:23:35 2016 +0800
+
+    made player matching
+
+[33mcommit 7f78571fd50ed36407cf1b512eccf5367a063390[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Mon Aug 1 22:36:48 2016 +0800
+
+    finished evaluation of errors and weakness. And some functionalities
+
+[33mcommit 09dcd69aae57433737f6a122cf73a77d5d54681f[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Mon Jul 25 11:07:29 2016 +0800
+
+    errors counted
+
+[33mcommit 8a5680ce37c6e8222c6b0c5be3fb542ff784da87[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Mon Jul 18 07:29:46 2016 +0800
+
+    uses service
+
+[33mcommit 6ca11794774f09fd035b08948aa80b83df48a3dd[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Jul 16 20:54:50 2016 +0800
+
+    uses problem API
+
+[33mcommit 285d563d51ea1ac5234b6e2be6e5cfee0f2eef5b[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sun Jul 10 09:07:07 2016 +0800
+
+    added problem api
+
+[33mcommit 91631b2c1c4878a1277487d3ae78f8a5f1b52435[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sun Jul 3 17:17:14 2016 +0800
+
+    New Editor design added
+
+[33mcommit bef91e5f6290e1882d639e44352433fc025a7d99[m
+Merge: 5f7fab6 7e7076e
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Jul 2 21:07:58 2016 +0800
+
+    fixed merged conflicts
+
+[33mcommit 5f7fab61977b1ee303284e84fa889bea444ced34[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Jul 2 20:43:47 2016 +0800
+
+    new repository
+
+[33mcommit e4442e8e761384ac3dcba56dc094732b6f8df6e0[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Jul 2 08:41:41 2016 +0800
+
+    improved output
+
+[33mcommit 937837ef2977fc2d8323143d80d507c460821cab[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Jul 2 02:10:54 2016 +0800
+
+    minor changes
+
+[33mcommit 3875296628712fce2eea77db57acb37a7fcd51c3[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Sat Jul 2 01:58:28 2016 +0800
+
+    Initial commit
+
+[33mcommit 7e7076e8341326d27cd9fd51e65432635ae5711c[m
+Author: jessie ignacio <jixzignacio@gmail.com>
+Date:   Wed Jun 22 22:52:39 2016 +0800
+
+    initial commit
+
+[33mcommit dd7f16c939ce7acb8136fe4ca927d5a30cb1ec18[m
+Author: jesign <jixzignacio@gmail.com>
+Date:   Wed Jun 22 21:34:06 2016 +0800
+
+    Initial commit

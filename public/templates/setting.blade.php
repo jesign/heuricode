@@ -1,5 +1,8 @@
 <script >
-	$('.modal-trigger').leanModal();
+	$('.modal-trigger').leanModal({
+		opacity: .8,
+	});
+
 </script>
 
 <div style="padding: 10px 20px 0px;">
@@ -76,12 +79,27 @@
 	  						<a href="#tipsModal" class="modal-trigger waves-effect waves-light btn-large">Tips
 	  						<i class="material-icons right">info</i></a>
 							<a ng-hide="isMultiplayer" ui-sref="problemPage" class="right waves-effect waves-light btn-large">Next Problem <i class="material-icons right">fast_forward</i></a>
+							<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	
+
+  <!-- Modal Structure -->
+  	<div id="modal1" class="card modal transparent " style="box-shadow: 0px 0px 0px; height: auto;">
+	    <center class="white-tex" style="color: #fafafa;">
+			<img src="../img/badges/singleplayermodecomplete.gif" >
+			<h3>Started from the bottom</h3>
+			<h5>Successfully solved all problem</h5>
+			<a class="modal-action modal-close waves-effect waves-green btn-flat teal lighten-5">ok Thanks!</a>
+	    </center>
+  	</div>
+          
+
 	<!-- Modal Trigger -->
   	<div id="tipsModal" class="modal modal-fixed-footer blue lighten-5">
 	    <div class="modal-content">
@@ -91,13 +109,5 @@
 	    <div class="modal-footer">
 	      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok thanks!</a>
 	    </div>
-  	</div>
-  	<div id="badgeModal" class="card modal transparent " style="box-shadow: 0px 0px 0px; height: auto;">
-	    <center class="white-tex" style="color: #fafafa;">
-			<img src="../img/badges/<% badgeFileName %>.gif" >
-			<h3>badgeName</h3>
-			<h5>badgeDescription</h5>
-			<a class="modal-action modal-close waves-effect waves-green btn-flat teal lighten-5">ok Thanks!</a>
-	    </center>
   	</div>
 </div>

@@ -1,8 +1,5 @@
 myApp.controller('statprogController', ['$scope', 'userModel',
 	function($scope, userModel){
-		
-		
-
 		angular.extend($scope, {
 			hasProgress_single: false,
 			noProgress_single: false,

@@ -1,103 +1,35 @@
-
-body {
-    font-family: 'Lato';
-    background-color: #FAFFFC;
-}
-div.player-panel div.panel-heading{
-	font-size: 22px;
-	font-weight: bold;
-}
-div.player-panel div.panel-body{
-	font-size: 20px;
-	font-weight: bold;
-}
-div.player-panel div.panel-body button{
-	font-weight: bold;
-}
-#battleRecords tr >	td{
-	font-size: 20px;
-	font-weight: bold;
-	padding-right: 30px;
-}
-#battleRecords {
-	margin-bottom: 30px;
-}
-#menu-toggle{
-	font-size: 20px;
+.CodeMirror{
+  font-size: 13px;
+  height: 450px;
 }
 
 #logo{
 	display: inline;
-	margin: -10px 10px;
-	height: 170%;
-}
-
-.auth-form{
-	margin-top: 5%;
-}
-
-/* sidebar */
-.navbar.navbar-default{
-		margin-bottom: 0px;
-}
-#sidebar-wrapper{
-	position: fixed;
-	height: 100%;
-	width: 250px;
-	overflow: hidden;
-	background: #15a589;	
-	-webkit-transform: translate(0, 0);
-	-webkit-transition: all 1s ease;
-}
-
-/*main Content*/
-#page-content-wrapper{
-	width: 100%;
-	margin-top: 60px;
-	padding-top: 0px;
-	padding-left: 260px;
-
-	-webkit-transition: all 1s ease;	
-}
-.sidebar-nav{
-	padding: 0;
-	list-style: none;
-}
-.sidebar-nav li{
-	text-indent: 20px;
-	line-height: 40px;
-	border-bottom: 1px solid #0a7762;
-}
-.sidebar-nav li a{
-	display: block;
-	text-decoration: none;
-	color: #ddd;
-}
-.sidebar-nav li:hover{
-	background: #16A085;
+	margin: 5px 10px;
+	height: 50px;
 }
 
 /* Coding */
 .compilation-details{
-  color:  #4d4d4d;
+  color:  #ffb300;
 }
 .resultValError{
-  color: #f00;
+  color: #b71c1c;
 }
 .resultValSuccess{
-  color: #00f;
+  color: #00695c;
 }
   
 .submission-running{
-  color: #f90;
+  color: #ffb300 ;
 }
 .submission-accepted{
   font-style: bold;
-  color: #0f0;
+  color: #00695c;
 }
 .submission-error{
   font-style: bold;
-  color: #f00;
+  color: #b71c1c ;
 }
 
 /*submission modal*/
@@ -116,9 +48,28 @@ div.modal-submission-result.modal-content .modal-footer {
   border-top: 1px solid #323232;
 }
 
-.rank_table {
-	font-size: 12pt;
+.level_table {
+	/*font-size: 12pt;*/
 }
-.rank_table td {
+.level_table td {
 	padding: 2px 20px 5px 0px;
+}
+.level_table>thead>tr>td{
+  color: #004d40;
+  font-size: 20px;
+}
+.level_table>tbody>tr>td{
+  color: #424242;
+  font-size: 16px;
+}
+.level_table>tbody>tr>td.action{
+  color: #2962ff;
+}
+
+h3.title{
+  color: #004d40;
+}
+#battleRecords td{
+  font-size: 20px;
+  color: #004d40;
 }

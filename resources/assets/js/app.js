@@ -29,7 +29,7 @@ myApp
 				name: 'homePage'
 			}),
 			$stateProvider.state({
-				templateUrl: 'templates/setting.html',
+				templateUrl: 'templates/setting.blade.php',
 				controller: 'userController',
 				url: '/settings',
 				name: 'settingPage'

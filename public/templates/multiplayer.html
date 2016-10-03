@@ -1,4 +1,6 @@
-
+<script>
+	$('.dropdown-button').dropdown();
+</script>
 <div class="container-fluid">
 	<div ng-show="loadingFind">
 		<div class="sk-fading-circle" style="height:75px; width: 75px">
@@ -19,18 +21,22 @@
 	<div ng-show="enableFindMatch">
 
 		<div class="row">
-			<div class="col-lg-5 col-lg-offset-3">
-				<div style="margin-top: 20px;" class="container-fluid">
-					<center><h1>Battle Records</h1></center>
-					<center><table id="battleRecords">
-						<tr><td>Wins: </td><td><% winsCount %></td></tr>
-						<tr><td>Lose: </td><td><% loseCount %></td></tr>
-						<tr><td>Solved Problems: </td><td><% solvedCount %></td></tr>
-					</table></center>
-					
-					<button class="btn btn-success btn-lg btn-block" ng-click="findMatch()">
-						Find Match
-					</button>
+			<div class="col s4 offset-s4">
+				<div class="card">
+					<div class="card-content">
+						<div class="container-fluid">
+							<center><h3>Battle Records</h3>
+							<table id="battleRecords">
+								<tr><td>Wins: </td><td><% winsCount %></td></tr>
+								<tr><td>Losses: </td><td><% loseCount %></td></tr>
+								<tr><td>Solved Problems: </td><td><% solvedCount %></td></tr>
+							</table></center>
+							
+							<button class="btn teal " ng-click="findMatch()">
+								Find Match
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -46,52 +52,75 @@
 			<span ng-show="startTimer" style="font-size:80px; margin: 0px; padding: 10px;" ng-bind="rooms[roomIndex].time"></span>
 		</center>
 		<div style="margin-top: 10px" class="row">
-			<div class="col-lg-4 col-lg-offset-1">
-				
-				<div class="player-panel panel panel-success">
-					<div class="panel-heading">Player 1</div>
-					<div class="panel-body">
-						<label>Name: </label><label ng-bind="p1_name"></label><br>
-						<div class="dropdown" style="margin-bottom: 5px;">
-							Language: 
-						  	<button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-						  		<% rooms[roomIndex].lang1 %>
-						  		<span class="caret"></span>
-						  	</button>
-						  	<ul class="dropdown-menu">
-							    <li><a ng-click="p1_switchLanguage(11)">C</a></li>
-							    <li><a ng-click="p1_switchLanguage(1)">C++</a></li>
-							    <li><a ng-click="p1_switchLanguage(10)">Java</a></li>
-						  	</ul>				  	
+			<div class="col s4 offset-s1">
+				<div class="player-panel card blue lighten-4">
+					<div class="card-content">
+						<span class="card-title">Player 1</span>
+						<div class="row">
+							<div class="col s6">
+								Name: 
+							</div>
+							<div class="col s6">
+								<label ng-bind="p1_name"></label>
+							</div>
 						</div>
-						<button ng-hide="rooms[roomIndex].ready1" class="btn btn-block btn-danger <% p1_btn %>" ng-click="ready1()">Not Ready</button>
-						<button ng-show="rooms[roomIndex].ready1" class="btn btn-block btn-primary <% p1_btn %>">Ready</button>
+						<div class="row">
+							<div class="col s6">
+								Language: 
+							</div>
+							<div class="col s6">
+						  		<a class='dropdown-button cyan white-text lighten-2 btn-flat' data-activates='dropdown-language'><% rooms[roomIndex].lang1 %></a>
+							  	<ul id='dropdown-language' class='dropdown-content'>
+								    <li><a ng-click="p1_switchLanguage(11)">C</a></li>
+								    <li><a ng-click="p1_switchLanguage(1)">C++</a></li>
+								    <li><a ng-click="p1_switchLanguage(10)">Java</a></li>
+							  	</ul>    
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<a ng-hide="rooms[roomIndex].ready1" class="btn-flat red waves-cyan waves-effect lighten-2 white-text right <% p1_btn %>" ng-click="ready1()" >Not Ready</a>
+								
+								<a ng-show="rooms[roomIndex].ready1" class="btn-flat cyan waves-cyan waves-effect lighten-2 white-text right <% p1_btn %>" ng-click="ready1()" >ready</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-lg-offset-1">
-				<div class="player-panel panel panel-success" ng-show="hasOpponent">
-					<div class="panel-heading">Player 2</div>
-					<div class="panel-body">
-						<label>Name: </label><label ng-bind="p2_name"></label><br>
-						<div class="dropdown" style="margin-bottom: 5px;">
-							Language: 
-						  	<button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-						  		<% rooms[roomIndex].lang2 %>
-						  		<span class="caret"></span>
-						  	</button>
-						  	<ul class="dropdown-menu">
-							    <li><a ng-click="p2_switchLanguage(11)">C</a></li>
-							    <li><a ng-click="p2_switchLanguage(1)">C++</a></li>
-							    <li><a ng-click="p2_switchLanguage(10)">Java</a></li>
-						  	</ul>				  	
+			<div class="col s4 offset-s1">
+				<div class="player-panel card red lighten-4" ng-show="hasOpponent">
+					<div class="card-content">
+						<span class="card-title">Player 2</span>
+						<div class="row">
+							<div class="col s6">
+								Name: 
+							</div>
+							<div class="col s6">
+								<label ng-bind="p2_name"></label>
+							</div>
 						</div>
-						<button ng-hide="rooms[roomIndex].ready2" class="btn btn-danger btn-block <% p2_btn %>" ng-click="ready2()">Not Ready</button>
-						<button ng-show="rooms[roomIndex].ready2" class="btn btn-block btn-primary <% p2_btn %>">Ready</button>
+						<div class="row">
+							<div class="col s6">
+								Language: 
+							</div>
+							<div class="col s6">
+						  		<a class='dropdown-button cyan white-text lighten-2 btn-flat' data-activates='dropdown-language2'><% rooms[roomIndex].lang2 %></a>
+							  	<ul id='dropdown-language2' class='dropdown-content'>
+								    <li><a ng-click="p2_switchLanguage(11)">C</a></li>
+								    <li><a ng-click="p2_switchLanguage(1)">C++</a></li>
+								    <li><a ng-click="p2_switchLanguage(10)">Java</a></li>
+							  	</ul>    
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<a ng-hide="rooms[roomIndex].ready2" class="btn-flat red waves-cyan waves-effect lighten-2 white-text right <% p2_btn %>" ng-click="ready2()" >Not Ready</a>
+								
+								<a ng-show="rooms[roomIndex].ready2" class="btn-flat cyan waves-cyan waves-effect lighten-2 white-text right <% p2_btn %>" ng-click="ready2()" >Ready</a>
+							</div>
+						</div>
 					</div>
 				</div>
-				<!-- <div class="col-lg-12" ng-bind-html="problemDescription">
-				</div> -->
 			</div>
 		</div>
 	</div>

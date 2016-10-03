@@ -26,6 +26,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						$scope.problemDescription = response.body;
 					})
 					. error(function(response){
+						console.log(response);
 						$scope.loadingProblem = false;
 						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
@@ -57,6 +58,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 						}
 					})
 					.error(function(response){
+						console.log(response);
 						$scope.loadingProblem = false;
 						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
@@ -209,6 +211,4 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 
 		// Activities
 		$scope.languageToCpp();	
-		
-
 	}]);

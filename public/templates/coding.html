@@ -1,122 +1,110 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-6">
-			<div style="margin:10px">
-				<div class="btn-group pull-right ">
-					
-					<button type="submit" class="btn btn-warning btn-sm" ng-click="runCode(sourceCode)">Run</button>
-					<button  class="btn btn-primary btn-sm" ng-click="SubmitCode()">Submit</button>
-					<button  class="btn btn-success btn-sm" ng-click="testError()">Test Error</button>
-					<button  class="btn btn-success btn-sm" ng-click="testSuccess()">Test Success</button>
-					<button type="button" class="btn btn-success btn-sm" ng-click="testing1()"> TEsting</button>
-					<button type="button" class="btn btn-danger btn-sm" ng-click="proceed()"> Give Up</button>
-				</div>
-				<label class="control-label" style="font-size: 1.3em;"> Editor</label>
-	    		
-
-		    		<!-- <div id="editor" style="color: #0f0;"></div> -->
-				<!-- <script src="/ace-buildtexts/src-noconflict/ace.js"></script> -->
-			</div>
-	    	<textarea id="myTextArea" ></textarea>
-		</div>
-		<div class="col-lg-6">
-			<div class="pull-right">
-				<span style="font-size: 20px;">Time Left: <span id="time">00:00:00</span></span>
-			</div>
-			<ul class="nav nav-tabs">
-			  <li class="active"><a data-toggle="tab" href="#input">Input</a></li>
-			  <li><a data-toggle="tab" href="#output">Ouput</a></li>
-			  <li><a data-toggle="tab" href="#problem_details">Problem Details</a></li>
-			  <li><a data-toggle="tab" href="#testing">For Testing</a></li>
-			</ul>
-
-			<div class="tab-content">
-			  <div id="input" class="tab-pane fade in active">
-			  		<br>
-			  		
-			    	<textarea style="padding: 5px;" class="form-control" rows="5" ng-model="newCode.input"></textarea>
-			  </div>
-			  <div id="output" class="tab-pane fade">
-			  		<br>
-					<pre style="background-color: #eee; font-size: .9em; border: 1px solid #555; height: 250px; width: 100%;"><span style="color: #fc9;"><% status %></span><span class="<% resultValueColor %>"><% resultValue %></span> - <span class="compilation-details" ng-hide="compiling">time: <% time %> memory: <% memory %> signal: <% signal %></span><br><span style="color: #000"><% output %></span><span style="color: #d00"><% error %></span></pre>
-			  </div>
-			  <div id="problem_details" class="tab-pane fade">
-				<div style="overflow:scroll; height:500px; padding-bottom: 50px;" ng-bind-html="problemDescription"></div>
-			  </div>
-			  <div id="testing" class="tab-pane fade">
-			  	<div class="btn-group btn-sm">
-			  		<button type="button" class="btn btn-primary" ng-click="testing1()">Test 1</button>
-			  		<button type="button" class="btn btn-primary" ng-click="testing2()">Test 2</button>
-			  		<button type="button" class="btn btn-primary" ng-click="testing3()">Test 3</button>
-			  		MS: <span ng-bind="errors.ms"></span><br>
-			  		SE: <span ng-bind="errors.se"></span><br>
-			  		PM: <span ng-bind="errors.pm"></span><br>
-			  		REE: <span ng-bind="errors.ree"></span><br>
-			  		RE: <span ng-bind="errors.re"></span><br>
-			  		
-			  	</div>
-			  </div>
-			</div>
-		</div>
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-submission-result modal-content">
-		      <div class="modal-header">
-		        <h4 class="modal-title" id="myModalLabel">Submission Result</h4>
-		      </div>
-		      <center class="modal-body">
-			      <div class="modal-body" ng-hide="checkingResult">
-			        <div class="sk-circle">
-					  <div class="sk-circle1 sk-child"></div>
-					  <div class="sk-circle2 sk-child"></div>
-					  <div class="sk-circle3 sk-child"></div>
-					  <div class="sk-circle4 sk-child"></div>
-					  <div class="sk-circle5 sk-child"></div>
-					  <div class="sk-circle6 sk-child"></div>
-					  <div class="sk-circle7 sk-child"></div>
-					  <div class="sk-circle8 sk-child"></div>
-					  <div class="sk-circle9 sk-child"></div>
-					  <div class="sk-circle10 sk-child"></div>
-					  <div class="sk-circle11 sk-child"></div>
-					  <div class="sk-circle12 sk-child"></div>
+<script>
+	$(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    	$('.modal-trigger').leanModal();
+	    $('ul.tabs').tabs();
+	});
+</script>
+<div class="row">
+	<div class="col s6">
+		<div class="card blue-grey darken-1 white-text" style="padding: 0px; ">
+			<div class="card-content" style="padding: 0px 10px 5px; ">
+				<div class="row" style="margin-bottom: 0px; ">
+					<span class="card-title">Editor</span>
+					<div class="right" style="margin-top: 15px;">
+						<span ng-show="isMultiplayer" style="font-size: 20px;">Time Left: <span id="time">00:00:00</span></span>
+						<a title="Success" class="waves-effect waves-light btn-small" ng-click="testing1(sourceCode)">
+							<i class="material-icons" style="color: orange;">settings</i>
+						</a>
+						<a title="Run" class="waves-effect waves-light btn-small" ng-click="runCode(sourceCode)">
+							<i class="material-icons" style="color: orange;">play_circle_filled</i>
+						</a>
+						<a title="Submit" class="waves-effect waves-light btn-small" ng-click="SubmitCode()">
+							<i class="material-icons">done_all</i>
+						</a>
+						<a title="Give up" class="waves-effect waves-light btn-small" ng-click="proceed()">
+							<i class="material-icons" style="color: red;">thumb_down</i>
+						</a>
 					</div>
-			      </div>
-			      <div ng-show="isCorrect">
-			      	<div ng-show="isMultiplayer">
-			      		<h1> <% winOrLoseMessage %> </h1>
-			      	</div>
-			      </div>
-			      <h2 style="margin-top: 5px;" class="<% resultSubmissionColor %>">
-			      	<% 	submitStatusDescription %>
-			      </h2>
-		      </center>
-		      
-		      <div class="modal-footer" ng-show="checkingResult">
-		        
-		        <button type="button" class="btn btn-warning btn-block" data-dismiss="modal" ng-hide="isCorrect">	Close
-		        </button>
-		        <a type="button" class="btn btn-primary btn-block" data-dismiss="modal" ng-show="isCorrect" ng-click="proceed()">	Proceed
-		        </a>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<div class="modal fade" id="myTimeUpModal" tabindex="-1" role="dialog">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-submission-result modal-content">
-		      <div class="modal-header">
-		        <h4 class="modal-title" >You have'nt solved the problem on time!</h4>
-		      </div>
-		      <div class="modal-body">
-		      		<h1>Time's Up!!!</h1>
-		      </div>	
-		      <div class="modal-footer">
-		        <a type="button" class="btn btn-primary btn-block" data-dismiss="modal" ng-click="proceed()"> Proceed
-		        </a>
-		      </div>
-		    </div>
-		  </div>
+				</div>
+				<div class="row">
+					<textarea style="margin-top: 0px; padding-top: 0px;" id="myTextArea"></textarea>
+				</div>
+				
+			</div>
 		</div>
 	</div>
+	<div class="col s6">
+		<div class="row" style="margin-top: 10px;">
+		    <div class="col s12">
+		      	<ul class="tabs">
+		      		<li class="tab col s3"><a href="#input">Input</a></li>
+			  		<li class="tab col s3"><a href="#output">Ouput</a></li>
+			  		<li class="tab col s3"><a href="#problem_details">Problem Details</a></li>
+		      	</ul>
+      			<div id="input" class="card-content">
+		          	<textarea class="materialize-textarea grey lighten-5" ng-model="newCode.input"  style="color: #212121;"></textarea>
+		        </div>
+		        <div id="output">
+		        	<div class="card-content grey lighten-5">
+		              	<pre style=" font-size: .9em; height: 250px; width: 100%;"><span style="color: #fc9;"><% status %></span><span class="<% resultValueColor %>"><% resultValue %></span> - <span class="compilation-details" ng-hide="compiling">time: <% time %> memory: <% memory %> signal: <% signal %></span><br><span style="color: #212121"><% output %></span><span style="color: #b71c1c "><% error %></span></pre>
+		            </div>
+		        </div>
+			  	<div id="problem_details" class="tab-pane fade">
+					<div style="overflow:scroll; height:500px; padding-bottom: 50px; color: #212121;" ng-bind-html="problemDescription"></div>
+				</div>
+		    </div>
+	  	</div>
+	</div>
+</div>
+<!-- Modals -->
+<div id="submitCode" class="modal grey lighten-3">
+    <div class="modal-content">
+      	<h5 style="color: #004d40; ">Submission Result</h5>
+  		<center>
+	      	<div ng-hide="checkingResult">
+		        <div class="preloader-wrapper small active">
+			    	<div class="spinner-layer spinner-blue-only">
+				      	<div class="circle-clipper left">
+				        	<div class="circle"></div>
+				      	</div>
+				      	<div class="gap-patch">
+				        	<div class="circle"></div>
+				      	</div>
+				      	<div class="circle-clipper right">
+				        	<div class="circle"></div>
+				      	</div>
+				    </div>
+				</div>
+	      	</div>
+	      	<div ng-show="isCorrect">
+		      	<div ng-show="isMultiplayer">
+		      		<h4><% winOrLoseMessage %> </h4>
+		      	</div>
+	      	</div>
+	      	<h4 style="margin-top: 5px;" class="<% resultSubmissionColor %>">
+		      	<% submitStatusDescription %>
+	      	</h4>
+  		</center>
+    </div>
+    <div class="modal-footer blue-grey lighten-3" ng-show="checkingResult">
+      	<a class=" modal-action modal-close waves-effect waves-green btn-flat teal lighten-2" ng-hide="isCorrect">
+      		Close
+      	</a>
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat teal lighten-2" ng-show="isCorrect" ng-click="proceed()">
+      		Proceed
+      	</a>
+    </div>
+</div>
+<div id="alertModal" class="modal">
+    <div class="modal-content">
+		<center>
+			<h1 style="color: #0277bd;"><% alert_title %></h1>
+	      	<h5 style="color: #00796b;"><% alert_description %></h5>
+		</center>
+    </div>
+    <div class="modal-footer">
+      	<a ng-show="closableModal" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+      	<a ng-hide="closableModal" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="proceed()">Ok</a>
+    </div>
 </div>

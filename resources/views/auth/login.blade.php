@@ -1,66 +1,38 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row" >
-        <div class="col-md-7 col-md-offset-3" ng-controller="userController">
-            
-            <div class="panel panel-success auth-form">
-                <div class="panel-heading" >Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+    <div class="row">
+        <div class="col s4 offset-s4">
+            <div class="card grey lighten-5">
+                <div class="card-content">
+                    <span class="card-title">Login</span>
+                    <div class="card-action">
+                        <form method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" ng-model="login.email" class="form-control" name="email" value="{{ old('email') }}">
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" ng-model="login.password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input type="email" class="validate {{ $errors->has('email') ? 'invalid' : '' }}" name="email">
+                                        <label data-error="{{ $errors->first('email') }}">Email</label>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-sign-in"></i> Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
-                            </div>
-                        </div>
-                    </form>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input class=" validate {{ $errors->has('password') ? 'invalid' : '' }}" name="password" type="password">
+                                        <label data-error="{{ $errors->first('password') }}">Password</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <button class="btn waves-effect right btn-large waves-light" type="submit" name="action">Login
+                                        <i class="material-icons right">send</i>
+                                        </button>
+                                        <a href="{{ url('/password/reset') }}">Forgot Your Password?</a>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 @endsection

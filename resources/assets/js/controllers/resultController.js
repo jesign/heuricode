@@ -13,8 +13,7 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 
 						angular.forEach(response,function(value, key){
 							badgesID.push(value.id);
-						} );
-
+						});
 						console.log(badgesID);
 
 						var checkIfExist = function(badges, id){
@@ -27,57 +26,38 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 						}
 						var giveBadge = function($id){
 							badgeModel.addBadge($id)
-									.success(function(response){
-										console.log(response.name)
-										console.log(response.description);
-										alert(response.description);
-									});		
+								.success(function(response){
+									badgeFileName = response.filename
+									console.log(response.name)
+									console.log(response.description);
+									$('#badgeModal').openModal({dismissible:false});
+								});
 						}
-						/* started from the bottom */
 						if(codingService.getProblemDifficulty() == 'easy'){
 							if(!checkIfExist(badgesID, 1)){
 								console.log('started from the bottom');
 									giveBadge(1);
 							}
-							if(!checkIfExist(badgesID, 2)){
-								console.log('We’re getting there!');
-								
-								badgeModel.countSolved('easy', 0)
+							badgeModel.countSolved('easy', 0)
 								.success(function(response){
+									if(!checkIfExist(badgesID, 2)){
+										console.log("We’re getting there!");		
 										if(response >= 5){
 											giveBadge(2);
 										}
-									});
-							}else if(!checkIfExist(badgesID, 3)){
-								console.log('Ten steps closer to success!');
-								
-								badgeModel.countSolved('easy', 0)
-								.success(function(response){
+									} else if(checkIfExist(badgesID, 3)){
+										console.log('Ten steps closer to success!');
 										if(response >= 10){
 											giveBadge(3);
 										}
-									});
-							}else if(!checkIfExist(badgesID, 6)){
-								console.log('Easy krizzy!');
-								
-								badgeModel.countSolved('easy', 0)
-									.success(function(response){
+									} else if(badgesID, 6){
+										console.log('Easy krizzy!');
 										if(response >= 25){
 											giveBadge(6);
 										}
-									});
-							}
-						}
-						if(!checkIfExist(4)){
-							console.log('Repeat after me!');
-							badgeModel.countSolved('easy', 2)
-								.success(function(response){
-									if(response >= 10){
-										giveBadge(4);
 									}
 								});
-						}
-						if(!checkIfExist(5)){
+							if(!checkIfExist(5)){
 							console.log('I choose you!');
 							badgeModel.countSolved('easy', 1)
 								.success(function(response){
@@ -85,25 +65,47 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 										giveBadge(5);
 									}
 								});
-						}
-						if(codingService.getProblemDifficulty() == 'average'){
-							if(!checkIfExist(badgesID, 7)){
-								console.log('Not your average programmer!');
-								badgeModel.countSolved('average', 0)
+							}
+							if(!checkIfExist(4)){
+								console.log('Repeat after me!');
+								badgeModel.countSolved('easy', 2)
+									.success(function(response){
+										if(response >= 10){
+											giveBadge(4);
+										}
+									});
+							}
+						} else if(codingService.getProblemDifficulty() == 'average'){
+							badgeModel.countSolved('average', 0)
 								.success(function(response){
+									if(!checkIfExist(badgesID, 7)){
+										console.log('Not your average programmer!');
+									
 										if(response >= 5){
 											giveBadge(7);
 										}
-									});
-							} else if(!checkIfExist(badgesID, 8)){
-								console.log('Average? I’m beyond that!');
-								badgeModel.countSolved('average', 0)
-								.success(function(response){
+									} else if(!checkIfExist(badgesID, 8)){
+										console.log('Average? I’m beyond that!');
 										if(response >= 10){
 											giveBadge(8);
 										}
+									} else if(!checkIfExist(12)){
+										console.log('Hard mode here I come!');
+										if(response >= 45){
+											giveBadge(12);
+										}
+									}
+								});
+
+							if(!checkIfExist(badgesID, 10)){
+								console.log('The selection life chose me!');
+								badgeModel.countSolved('average', 1)
+								.success(function(response){
+										if(response >= 15){
+											giveBadge(10);
+										}
 									});
-							} 
+							}
 							if(!checkIfExist(badgesID, 9)){
 								console.log('Over and over again!');
 								badgeModel.countSolved('average', 2)
@@ -113,110 +115,67 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 										}
 									});
 							}
-							if(!checkIfExist(badgesID, 10)){
-								console.log('The selection life chose me!');
-								badgeModel.countSolved('average', 1)
-								.success(function(response){
-										if(response >= 10){
-											giveBadge(10);
-										}
-									});
-							}
 							if(!checkIfExist(badgesID, 11)){
 								console.log('Bombs Array!');
 								badgeModel.countSolved('average', 3)
 								.success(function(response){
 										if(response >= 15){
-											giveBadge(10);
+											giveBadge(11);
 										}
 									});
 							}
-							if(!checkIfExist(12)){
-							console.log('Hard mode here I come!');
-							badgeModel.countSolved('average', 0)
-								.success(function(response){
-									if(response >= 45){
-										giveBadge(12);
-									}
-								});
-						}
-						if(!checkIfExist(13)){
-							console.log('Challenge Accepted!');
+						} else if(codingService.getProblemDifficulty() == 'hard'){
+							
 							badgeModel.countSolved('hard', 0)
 								.success(function(response){
-									if(response >= 5){
-										giveBadge(13);
+									if(!checkIfExist(13)){
+										console.log('Challenge Accepted!');
+										if(response >= 5){
+											giveBadge(13);
+										}
+									}
+			                        if(!checkIfExist(14)){
+										console.log('Road to success!');
+										if(response >= 10){
+											giveBadge(14);
+										}
+									}		
+									if(!checkIfExist(18)){
+										console.log('Hardships have only made me stronger!');
+										if(response >= 45){
+											giveBadge(18);
+										}
 									}
 								});
+								
+							if(!checkIfExist(16)){
+								console.log("You've chosen wisely!");
+								badgeModel.countSolved('hard', 1)
+									.success(function(response){
+										if(response >= 15){
+											giveBadge(16);
+										}
+									});
+							}
+							if(!checkIfExist(15)){
+								console.log('Eat. Sleep. Code. Repeat!');
+								badgeModel.countSolved('hard', 2)
+									.success(function(response){
+										if(response >= 15){
+											giveBadge(15);
+										}
+									});
+							}
+							if(!checkIfExist(17)){
+								console.log('Arranged? No, array-nged!');
+								badgeModel.countSolved('hard', 3)
+									.success(function(response){
+										if(response >= 15){
+											giveBadge(17);
+										}
+									});
+							}
 						}
-                        if(!checkIfExist(14)){
-							console.log('Road to success!');
-							badgeModel.countSolved('hard', 0)
-								.success(function(response){
-									if(response >= 10){
-										giveBadge(14);
-									}
-								});
-						}
-						if(!checkIfExist(15)){
-							console.log('Eat. Sleep. Code. Repeat!');
-							badgeModel.countSolved('hard', 0)
-								.success(function(response){
-									if(response >= 15){
-										giveBadge(15);
-									}
-								});
-						}
-						if(!checkIfExist(16)){
-							console.log("You've chosen wisely!");
-							badgeModel.countSolved('hard', 1)
-								.success(function(response){
-									if(response >= 10){
-										giveBadge(16);
-									}
-								});
-						}
-						if(!checkIfExist(17)){
-							console.log('Arranged? No, array-nged!');
-							badgeModel.countSolved('hard', 3)
-								.success(function(response){
-									if(response >= 15){
-										giveBadge(17);
-									}
-								});
-						}
-						if(!checkIfExist(18)){
-							console.log('Hardships have only made me stronger!');
-							badgeModel.countSolved('hard', 0)
-								.success(function(response){
-									if(response >= 45){
-										giveBadge(18);
-									}
-								});
-						}
-						if(!checkIfExist(19)){
-							console.log('Single Player Mode Complete!');
-							badgeModel.countSolved('hard', 0)
-								.success(function(response){
-									if(response >= 45){
-										giveBadge(19);
-									}
-								});
-						}
-
-
-
-                         
-
-
-
-
-
-
-
-						}
-
-
 					});
 				}
 
@@ -264,9 +223,8 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 							"Action" : getAction(3)
 						}
 					]
+					$scope.ranksLoaded = true;
 				});
-				
-				
 			}, 2000);
 			
 			// bar graph
