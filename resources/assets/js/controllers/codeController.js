@@ -191,47 +191,29 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			},
 			testing1: function(){
 				$scope.isCorrect = true;
-				$scope.resultSubmissionColor = "submission-accepted";
-				$scope.submitStatusDescription = "Accepted!";
 				codingService.setSuccess(true);
 
-
-				if($scope.isMultiplayer){
-					var r = $scope.rooms.$getRecord(roomKey);
-					var opponent;	
-					if(r.player1 == userId){
-						opponent = r.player2;
-					}else{
-						opponent = r.player1;
-					}
-
-					var isWin;
-					if(!isLose){1
-						isWin = 1;
-						codingService.setIsWinner(true);
-						$scope.winOrLoseMessage = "You won against player " + opponent;
-						r.winner = userId;
-						$scope.rooms.$save(r);
-					}else{
-						isWin = 0;
-						$scope.winOrLoseMessage = "You lose against player " + opponent;
-					}
-					
-					codeModel.setBattle(battle_id,1, isWin)
-						.success(function(){
-							console.log('problem set to solve in battle');
-						});
-				}else{
-					codeModel.setRound(round)
-						.success(function(){
-							console.log('problem set to solve');
-						});
+				codeModel.setRound(round)
+					.success(function(){
+						console.log('problem set to solve');
+					});
 					/* set to no weakness */
-					if( !hasNewWeakness || $scope.checkRankForWeakness(weakness) ){
-						problemModel.setWeakness(0);
-					}
-				}
-				$scope.proceed();
+					
+				problemModel.setWeakness(0);
+
+				codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" )
+						.success(function(){
+							console.log("Error counts are set.");
+						});
+
+				var weakness = codingService.getWeaknessId();
+					
+				codeModel.rankUp(weakness)
+					.success(function(response){
+						$scope.setRank();
+						$scope.updateRankProceed();
+					});
 			},
 			testing2: function(){
 				$scope.getSubmissionStatus(48791371);
@@ -345,6 +327,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				}
 			},
 			SubmitCode: function(){
+				$('#submitCode').openModal({dismissible:false});
 				var problemCode = $scope.problemCode;
 				
 				var codeData = {
@@ -361,6 +344,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						$scope.resultSubmissionColor = "submission-running";
 						$scope.submitStatusDescription = "";
 						$scope.testGetProblemDetails();
+					})
+					.catch(function(response){
+						$scope.checkingResult = false;
+						$scope.submitStatusDescription = "Sorry submission failed. Please try again...";
+						setTimeout(function(){
+							$('#submitCode').closeModal();
+						}, 3000);
 					});
 			},
 			checkRankForWeakness: function(w){
@@ -416,7 +406,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			},
 			testGetProblemDetails: function(){
 				// $('#myModal').modal({ keyboard: false, backdrop: false, show: true })
-				$('#submitCode').openModal({dismissible:false});
+				
 				problemModel.getSubmissionDetails($scope.submitCodeId)
 					.success(function(response){
 						console.log(response);
@@ -462,6 +452,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										});
 
 								}else{
+									/*Single Player*/
 									/* send source code here.. */
 									codeModel.judgeCode(myCodeMirror.getValue(), $scope.problemCode)
 										.success(function(response){
@@ -487,7 +478,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 											}
 										});
 
-									/*Single Player*/
 								}
 							} else {
 								if(!isMulti){
@@ -505,6 +495,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 								$scope.resultSubmissionColor = "submission-error";
 							}
 						}
+					})
+					.error(function(){
+						$scope.checkingResult = false;
+						$scope.submitStatusDescription = "Sorry submission failed. Please try again...";
+						setTimeout(function(){
+							$('#submitCode').closeModal();
+						}, 2000);
 					});
 			},
 			// only for single player
@@ -564,7 +561,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		rank1 = rankService.getRankSCS();
 		rank2 = rankService.getRankRCS();
 		rank3 = rankService.getRankARR();
-
+		$('ul.tabs').tabs('select_tab', 'problem_details');
 		
 
 		if(codingService.getIsEnableCode()){
@@ -573,19 +570,19 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			codingService.setSuccess(false);
 			var pCode = codingService.getProblemCode();
 			var langId = codingService.getLanguage();
-			// set problem details
+			// set problem details`
 			$scope.problemCode = pCode;
 			g_languageId = langId;
 			console.log(pCode);
 
-			problemModel.getProblem($scope.problemCode)
-				.success(function(response){		
-					$scope.problemTitle = response.name;
-					$scope.problemDescription = response.body;
-				})
-				.error(function(result){
-					console.log(result);
-				});
+			$scope.problemDescription = codingService.getProblemDescription();
+
+			// problemModel.getProblem($scope.problemCode)
+			// 	.success(function(response){
+			// 	})
+			// 	.error(function(result){
+
+			// 	});
 
 			function startTimer(duration,display) {
 			    var timer = duration, minutes, seconds;

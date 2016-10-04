@@ -73,9 +73,12 @@
 				<div class="card-action">
 					<div class="row">
 						<div class="col s12">
-	  						<a href="#tipsModal" class="modal-trigger waves-effect waves-light btn-large">Tips
-	  						<i class="material-icons right">info</i></a>
-							<a ng-hide="isMultiplayer" ui-sref="problemPage" class="right waves-effect waves-light btn-large">Next Problem <i class="material-icons right">fast_forward</i></a>
+	  						<a href="#tipsModal" ng-hide="isSuccess" class="modal-trigger waves-effect waves-light btn-large">Tips
+	  							<i class="material-icons right">info</i>
+	  						</a>
+							<a ng-hide="isMultiplayer" ui-sref="problemPage" class="right waves-effect waves-light btn-large">Next Problem 
+								<i class="material-icons right">fast_forward</i>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -84,7 +87,7 @@
 	</div>
 	<!-- Modal Trigger -->
   	<div id="tipsModal" class="modal modal-fixed-footer blue lighten-5">
-	    <div class="modal-content">
+	    <div class="modal-content" >
 	      	<h4>Tips: </h4>
 	      	<p ng-bind="feedback" style="font-size: 20px;"></p>
 		</div>
@@ -95,8 +98,8 @@
   	<div id="badgeModal" class="card modal transparent " style="box-shadow: 0px 0px 0px; height: auto;">
 	    <center class="white-tex" style="color: #fafafa;">
 			<img src="../img/badges/<% badgeFileName %>.gif" >
-			<h3>badgeName</h3>
-			<h5>badgeDescription</h5>
+			<h3><% badgeName %></h3>
+			<h5><% badgeDescription %></h5>
 			<a class="modal-action modal-close waves-effect waves-green btn-flat teal lighten-5">ok Thanks!</a>
 	    </center>
   	</div>

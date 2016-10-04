@@ -11,7 +11,7 @@ class ProblemApiController extends Controller
 	private $problem_access_token;
 
 	public function __construct(){
-		$this->problem_access_token = "65f7097da2169c0a77a6370d9c266b5810baa24c";
+		$this->problem_access_token = "eb588f1d38f12e88abf8c7f70f05a7a1a7e4a172";
 	}
 
 	public function getProblem($code){

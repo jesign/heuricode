@@ -45,7 +45,14 @@ myApp.service('codingService', function() {
     var hasResult = false;
     var hasNewWeakness = false;
     var probDiff = null; 
+    var problemDescription = null;
 
+    var setProblemDescription = function(desc){
+      problemDescription = desc;
+    }
+    var getProblemDescription = function(){
+      return problemDescription;
+    }
     var setHasResult = function(hr){
       hasResult = hr;
     }
@@ -123,6 +130,9 @@ myApp.service('codingService', function() {
 
 
 	return {
+      setProblemDescription: setProblemDescription,
+      getProblemDescription: getProblemDescription,
+
       setRoomKey: setRoomKey,
       getRoomKey: getRoomKey,
       setIsMultiplayer: setIsMultiplayer,

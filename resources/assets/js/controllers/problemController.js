@@ -22,8 +22,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 				problemModel.getProblem(problem_code)
 					.success(function(response){
 						$scope.loadingProblem = false;
-						$scope.problemTitle = response.name;
 						$scope.problemDescription = response.body;
+						codingService.setProblemDescription(response.body);
 					})
 					. error(function(response){
 						console.log(response);

@@ -11,6 +11,7 @@ class ErrorTypesTableSeeder extends Seeder
      */
     public function run()
     {
+
         DB::table('error_types')->insert(array(
 		    array('name' => 'Missing Semicolon'),
 		    array('name' => 'Spelling Error'),
