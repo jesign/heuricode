@@ -43,16 +43,10 @@
         <div class="navbar-fixed ">
             <nav class="teal lighten-1">
               <div class="nav-wrapper">
-                <img id="logo" src="{{ asset('img/heuricode-inverse-small.png') }}" >
+                <img id="logo" src="{{ asset('img/heuricode-small.png') }}" >
                 <a class="brand-logo" style="cursor: pointer;" ng-click="toggleSidebar()">
                     HeuriCode
                 </a>
-                <ul class="left hide-on-med-and-down">
-                    <li>
-                        
-      
-                    </li>
-                </ul>
                 <ul class="right hide-on-med-and-down">
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
@@ -65,6 +59,7 @@
             </nav>
         </div>
         @if(!Auth::guest())
+
             <a href="#" data-activates="slide-out" class="btn-floating right btn-large button-collapse" style="right: 10px; margin: 10px; position: fixed;">
                 <i class="material-icons">menu</i>
             </a>
@@ -83,9 +78,14 @@
                 <li>
                     <a ui-sref="problemPage"><i class="material-icons">perm_identity</i>Self-Train</a>
                 </li>
-                <li><a ui-sref="multiplayerPage">
-                    <i class="material-icons">supervisor_account</i>
-                    Find Match</a></li>
+                <li>
+                    <a ng-show="averager" ui-sref="multiplayerPage">
+                        <i class="material-icons">supervisor_account</i>Find Match
+                    </a>
+                    <a title="will be unlocked at level 11 in all subject area." ng-hide="averager" class="red lighten-3">
+                        <i class="material-icons">supervisor_account</i>Find Match(Locked)
+                    </a>
+                </li>
                 <li><a ui-sref="statProgPage"><i class="material-icons">trending_up</i>Statistical Progress</a></li>
                 <li><a ui-sref="badgesPage"><i class="material-icons">stars</i>Badges</a></li>
                 <li><a href="{{ url('/logout') }}"><i class="material-icons">power_settings_new</i>Logout</a></li>

@@ -207,24 +207,40 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			}
 			setTimeout(function(){
 				$scope.$apply(function(){
-					$scope.ranks = [
-						{
-							"SubjectArea": "Selection Control Structure",
-							"Rank": rankService.getRankSCS(),
-							"Action" : getAction(1)
-						},
-						{
-							"SubjectArea": "Repetition Control Structure",
-							"Rank": rankService.getRankRCS(),
-							"Action" : getAction(2)
-						},
-						{
-							"SubjectArea": "Array",
-							"Rank": rankService.getRankARR(),
-							"Action" : getAction(3)
-						}
-					]
-					$scope.ranksLoaded = true;
+					if($scope.averager){
+						$scope.ranks = [
+							{
+								"SubjectArea": "Selection Control Structure",
+								"Rank": rankService.getRankSCS(),
+								"Action" : getAction(1)
+							},
+							{
+								"SubjectArea": "Repetition Control Structure",
+								"Rank": rankService.getRankRCS(),
+								"Action" : getAction(2)
+							},
+							{
+								"SubjectArea": "Array",
+								"Rank": rankService.getRankARR(),
+								"Action" : getAction(3)
+							}
+						]
+						$scope.ranksLoaded = true;
+					}else{
+						$scope.ranks = [
+							{
+								"SubjectArea": "Selection Control Structure",
+								"Rank": rankService.getRankSCS(),
+								"Action" : getAction(1)
+							},
+							{
+								"SubjectArea": "Repetition Control Structure",
+								"Rank": rankService.getRankRCS(),
+								"Action" : getAction(2)
+							}
+						]
+						$scope.ranksLoaded = true;
+					}
 				});
 			}, 2000);
 			

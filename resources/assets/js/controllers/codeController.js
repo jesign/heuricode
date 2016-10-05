@@ -216,7 +216,36 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					});
 			},
 			testing2: function(){
-				$scope.getSubmissionStatus(48791371);
+				$scope.isCorrect = true;
+				
+				codingService.setSuccess(true);
+				/* Multiplayer mode*/
+				var r = $scope.rooms.$getRecord(roomKey);
+				var opponent;	
+				if(r.player1 == userId){
+					opponent = r.player2;
+				}else{
+					opponent = r.player1;
+				}
+
+				var isWin;
+				
+				isWin = 0;
+				$scope.winOrLoseMessage = "You lose against player " + opponent;
+			
+				codeModel.setBattle(battle_id,1, isWin)
+					.success(function(){
+						console.log('problem set to solve in battle');
+					});
+
+				codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "multiplayer" )
+					.success(function(){
+						console.log("Error counts are set.");
+					});
+
+				$scope.updateRankProceed();
+
 			},
 			testing3: function(){
 				$scope.getSubmissionStatus(47900843);
@@ -329,13 +358,14 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			SubmitCode: function(){
 				$('#submitCode').openModal({dismissible:false});
 				var problemCode = $scope.problemCode;
-				
+				$scope.submitStatusDescription = "";
+
 				var codeData = {
 					problemCode: problemCode,
 					compilerId: g_languageId,
 					source: myCodeMirror.getValue()
 				}
-				var submissionId;
+				var submissionId;	
 
 				problemModel.getSubmissionId(codeData)
 					.then(function(response){
@@ -419,8 +449,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 							
 							if(status_id == 15){
 								/* code accepted */
-								/* if single player make a deeper judgement */
-								
 								if($scope.isMultiplayer){
 									$scope.isCorrect = true;
 									$scope.resultSubmissionColor = "submission-accepted";
@@ -446,13 +474,14 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										$scope.winOrLoseMessage = "You lose against player " + opponent;
 									}
 									
-									codeModel.setBattle(battle_id,1, isWin)
+									codeModel.setBattle(battle_id,1, isWin)	
 										.success(function(){
 											console.log('problem set to solve in battle');
 										});
 
 								}else{
 									/*Single Player*/
+									/* if single player make a deeper judgement */
 									/* send source code here.. */
 									codeModel.judgeCode(myCodeMirror.getValue(), $scope.problemCode)
 										.success(function(response){
@@ -573,16 +602,9 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			// set problem details`
 			$scope.problemCode = pCode;
 			g_languageId = langId;
-			console.log(pCode);
-
+  			console.log(pCode);
+  			
 			$scope.problemDescription = codingService.getProblemDescription();
-
-			// problemModel.getProblem($scope.problemCode)
-			// 	.success(function(response){
-			// 	})
-			// 	.error(function(result){
-
-			// 	});
 
 			function startTimer(duration,display) {
 			    var timer = duration, minutes, seconds;
@@ -653,6 +675,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					codeModel.addRound(pCode)
 						.success(function (response){
 							round = response;
+							console.log("heree.............");
+							console.log(response);
 						});			    	
 			    }
 			});

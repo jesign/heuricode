@@ -48,12 +48,13 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 			problemModel.getProblem(problemCode)
 					.success(function(response){
 						$scope.loadProblemSuccess = false;
-						$scope.problemTitle = response.name;
+						codingService.setProblemDescription(response.body);
 						$scope.problemDescription = response.body;
 					})
 					. error(function(response){
 						$scope.loadProblemSuccess = false;
 						$scope.problemTitle = "Failed to load problem.";
+						setProblem();j
 					});
 			problemModel.getProblemDetails(problemCode, 'multiplayer')
 					.success(function(response){

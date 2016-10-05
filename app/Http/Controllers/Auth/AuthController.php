@@ -73,7 +73,7 @@ class AuthController extends Controller
         $rank = [
             new Rank(['weakness_id' => 1, 'rank' => 1]),
             new Rank(['weakness_id' => 2, 'rank' => 1]),
-            new Rank(['weakness_id' => 3, 'rank' => 1])
+            new Rank(['weakness_id' => 3, 'rank' => 11])
         ];
 
         $user->ranks()->saveMany($rank);

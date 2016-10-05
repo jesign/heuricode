@@ -27,9 +27,12 @@ class UpdateProblemsTable3 extends Migration
      */
     public function down()
     {
-        $table->text('skeleton_code_c');
-        $table->text('skeleton_code_cpp');
-        $table->text('skeleton_code_java');
-        $table->dropColumn('judgement');
+        Schema::table('problems', function($table)
+        {
+            $table->text('skeleton_code_c');
+            $table->text('skeleton_code_cpp');
+            $table->text('skeleton_code_java');
+            $table->dropColumn('judgement');
+        });
     }
 }

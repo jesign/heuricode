@@ -24,6 +24,9 @@ class UpdateErrorsTable2 extends Migration
      */
     public function down()
     {
-        $table->dropColumn('mode');
+        Schema::table('errors', function($table)
+        {
+            $table->dropColumn('mode');
+        });
     }
 }

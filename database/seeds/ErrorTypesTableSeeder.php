@@ -14,10 +14,10 @@ class ErrorTypesTableSeeder extends Seeder
 
         DB::table('error_types')->insert(array(
 		    array('name' => 'Missing Semicolon'),
-		    array('name' => 'Spelling Error'),
-		    array('name' => 'Parenthesis Matching'),
-		    array('name' => 'Regular Expression Error'),
-		    array('name' => 'Runtime Error'),
+		    array('name' => 'Scoping Error'),
+            array('name' => 'Parenthesis Matching'),
+		    array('name' => 'Initializer Error'),
+		    
 		));
     }
 }

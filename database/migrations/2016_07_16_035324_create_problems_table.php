@@ -15,7 +15,7 @@ class CreateProblemsTable extends Migration
         Schema::create('problems', function (Blueprint $table) {
             $table->increments('id');
             $table->string('problem_code');
-            $table->enum('difficulty', ['easy', 'medium', 'hard']);
+            $table->enum('difficulty', ['easy', 'average', 'hard']);
             $table->text('skeleton_code_c');
             $table->text('skeleton_code_cpp');
             $table->text('skeleton_code_java');

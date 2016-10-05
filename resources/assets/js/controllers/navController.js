@@ -6,6 +6,4 @@ myApp.controller('navController', ['$scope', '$rootScope',
 			edge: 'right',
 	      	closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
 		});
-
-		
 	}]);

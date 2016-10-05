@@ -24,6 +24,9 @@ class UpdateProblemsTable extends Migration
      */
     public function down()
     {
-        $table->dropColumn('time_limit');
+        Schema::table('problems', function($table)
+        {
+            $table->dropColumn('time_limit');
+        });
     }
 }

@@ -90,11 +90,14 @@
 	
 
   <!-- Modal Structure -->
+  	
   	<div id="modal1" class="card modal transparent " style="box-shadow: 0px 0px 0px; height: auto;">
 	    <center class="white-tex" style="color: #fafafa;">
 			<img src="../img/badges/singleplayermodecomplete.gif" >
 			<h3>Started from the bottom</h3>
-			<h5>Successfully solved all problem</h5>
+			<h5>Successfully solved all probl<br>
+			emalskdfjasdlfjsa;ld.fjasld.fjasld<br>asdfasdfasd;fsakdjf
+			a.fjaslzd.fjadszlf.jadslzfj</h5>
 			<a class="modal-action modal-close waves-effect waves-green btn-flat teal lighten-5">ok Thanks!</a>
 	    </center>
   	</div>

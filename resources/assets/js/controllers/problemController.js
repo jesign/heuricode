@@ -19,17 +19,26 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			},
 			getProblem: function(){
 				/* From Shere Engine API */
-				problemModel.getProblem(problem_code)
-					.success(function(response){
-						$scope.loadingProblem = false;
-						$scope.problemDescription = response.body;
-						codingService.setProblemDescription(response.body);
-					})
-					. error(function(response){
-						console.log(response);
-						$scope.loadingProblem = false;
-						$scope.problemTitle = "Failed to load problem. Please Try Again";
-					});
+				var i = 0;
+				var getProblemFromApi = function(){
+					problemModel.getProblem(problem_code)
+						.success(function(response){
+							$scope.loadingProblem = false;
+							$scope.problemDescription = response.body;
+							codingService.setProblemDescription(response.body);
+						})
+						. error(function(response){
+							if(i == 5){
+								$scope.loadingProblem = false;
+								$scope.problemDescription = "Failed to load problem. Please refresh the page.";
+							}else{
+								getProblemFromApi();
+								i++;
+								
+							}
+						});
+				}
+				getProblemFromApi();
 				/* From My API */
 				problemModel.getProblemDetails(problem_code,'single')
 					.success(function(response){
@@ -59,7 +68,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					})
 					.error(function(response){
 						console.log(response);
-						$scope.loadingProblem = false;
+						$scope.loadingProblem = false;		
 						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 			},

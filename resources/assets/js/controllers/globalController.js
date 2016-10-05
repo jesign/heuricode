@@ -4,7 +4,8 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 		angular.extend($scope,{
 			rankSCS: null,
 			rankRCS: null,
-			rankARR: null
+			rankARR: null,
+			averager: false
 		});
 		
 		angular.extend($scope,{
@@ -19,6 +20,11 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 						rankService.setRankRCS(response[1]);
 						rankService.setRankARR(response[2]);
 
+						if($scope.rankSCS >= 11 && $scope.rankRCS >= 11){
+							$scope.averager = true;
+						}else{
+							$scope.averager = false;
+						}
 						console.log($scope.rankSCS + " " + $scope.rankRCS + " " + $scope.rankARR);
 					});
 			}

@@ -48,12 +48,13 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 			problemModel.getProblem(problemCode)
 					.success(function(response){
 						$scope.loadProblemSuccess = false;
-						$scope.problemTitle = response.name;
+						codingService.setProblemDescription(response.body);
 						$scope.problemDescription = response.body;
 					})
 					. error(function(response){
 						$scope.loadProblemSuccess = false;
 						$scope.problemTitle = "Failed to load problem.";
+						setProblem();j
 					});
 			problemModel.getProblemDetails(problemCode, 'multiplayer')
 					.success(function(response){
@@ -427,7 +428,8 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 		angular.extend($scope,{
 			rankSCS: null,
 			rankRCS: null,
-			rankARR: null
+			rankARR: null,
+			averager: false
 		});
 		
 		angular.extend($scope,{
@@ -442,6 +444,11 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 						rankService.setRankRCS(response[1]);
 						rankService.setRankARR(response[2]);
 
+						if($scope.rankSCS >= 11 && $scope.rankRCS >= 11){
+							$scope.averager = true;
+						}else{
+							$scope.averager = false;
+						}
 						console.log($scope.rankSCS + " " + $scope.rankRCS + " " + $scope.rankARR);
 					});
 			}
@@ -514,8 +521,6 @@ myApp.controller('navController', ['$scope', '$rootScope',
 			edge: 'right',
 	      	closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
 		});
-
-		
 	}]);
 
 myApp.controller('codeController', ['$scope','$rootScope', 
@@ -736,7 +741,36 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					});
 			},
 			testing2: function(){
-				$scope.getSubmissionStatus(48791371);
+				$scope.isCorrect = true;
+				
+				codingService.setSuccess(true);
+				/* Multiplayer mode*/
+				var r = $scope.rooms.$getRecord(roomKey);
+				var opponent;	
+				if(r.player1 == userId){
+					opponent = r.player2;
+				}else{
+					opponent = r.player1;
+				}
+
+				var isWin;
+				
+				isWin = 0;
+				$scope.winOrLoseMessage = "You lose against player " + opponent;
+			
+				codeModel.setBattle(battle_id,1, isWin)
+					.success(function(){
+						console.log('problem set to solve in battle');
+					});
+
+				codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "multiplayer" )
+					.success(function(){
+						console.log("Error counts are set.");
+					});
+
+				$scope.updateRankProceed();
+
 			},
 			testing3: function(){
 				$scope.getSubmissionStatus(47900843);
@@ -849,13 +883,14 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			SubmitCode: function(){
 				$('#submitCode').openModal({dismissible:false});
 				var problemCode = $scope.problemCode;
-				
+				$scope.submitStatusDescription = "";
+
 				var codeData = {
 					problemCode: problemCode,
 					compilerId: g_languageId,
 					source: myCodeMirror.getValue()
 				}
-				var submissionId;
+				var submissionId;	
 
 				problemModel.getSubmissionId(codeData)
 					.then(function(response){
@@ -939,8 +974,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 							
 							if(status_id == 15){
 								/* code accepted */
-								/* if single player make a deeper judgement */
-								
 								if($scope.isMultiplayer){
 									$scope.isCorrect = true;
 									$scope.resultSubmissionColor = "submission-accepted";
@@ -966,13 +999,14 @@ myApp.controller('codeController', ['$scope','$rootScope',
 										$scope.winOrLoseMessage = "You lose against player " + opponent;
 									}
 									
-									codeModel.setBattle(battle_id,1, isWin)
+									codeModel.setBattle(battle_id,1, isWin)	
 										.success(function(){
 											console.log('problem set to solve in battle');
 										});
 
 								}else{
 									/*Single Player*/
+									/* if single player make a deeper judgement */
 									/* send source code here.. */
 									codeModel.judgeCode(myCodeMirror.getValue(), $scope.problemCode)
 										.success(function(response){
@@ -1093,16 +1127,9 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			// set problem details`
 			$scope.problemCode = pCode;
 			g_languageId = langId;
-			console.log(pCode);
-
+  			console.log(pCode);
+  			
 			$scope.problemDescription = codingService.getProblemDescription();
-
-			// problemModel.getProblem($scope.problemCode)
-			// 	.success(function(response){
-			// 	})
-			// 	.error(function(result){
-
-			// 	});
 
 			function startTimer(duration,display) {
 			    var timer = duration, minutes, seconds;
@@ -1173,6 +1200,8 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					codeModel.addRound(pCode)
 						.success(function (response){
 							round = response;
+							console.log("heree.............");
+							console.log(response);
 						});			    	
 			    }
 			});
@@ -1271,17 +1300,26 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			},
 			getProblem: function(){
 				/* From Shere Engine API */
-				problemModel.getProblem(problem_code)
-					.success(function(response){
-						$scope.loadingProblem = false;
-						$scope.problemDescription = response.body;
-						codingService.setProblemDescription(response.body);
-					})
-					. error(function(response){
-						console.log(response);
-						$scope.loadingProblem = false;
-						$scope.problemTitle = "Failed to load problem. Please Try Again";
-					});
+				var i = 0;
+				var getProblemFromApi = function(){
+					problemModel.getProblem(problem_code)
+						.success(function(response){
+							$scope.loadingProblem = false;
+							$scope.problemDescription = response.body;
+							codingService.setProblemDescription(response.body);
+						})
+						. error(function(response){
+							if(i == 5){
+								$scope.loadingProblem = false;
+								$scope.problemDescription = "Failed to load problem. Please refresh the page.";
+							}else{
+								getProblemFromApi();
+								i++;
+								
+							}
+						});
+				}
+				getProblemFromApi();
 				/* From My API */
 				problemModel.getProblemDetails(problem_code,'single')
 					.success(function(response){
@@ -1311,7 +1349,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					})
 					.error(function(response){
 						console.log(response);
-						$scope.loadingProblem = false;
+						$scope.loadingProblem = false;		
 						$scope.problemTitle = "Failed to load problem. Please Try Again";
 					});
 			},
@@ -1674,24 +1712,40 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			}
 			setTimeout(function(){
 				$scope.$apply(function(){
-					$scope.ranks = [
-						{
-							"SubjectArea": "Selection Control Structure",
-							"Rank": rankService.getRankSCS(),
-							"Action" : getAction(1)
-						},
-						{
-							"SubjectArea": "Repetition Control Structure",
-							"Rank": rankService.getRankRCS(),
-							"Action" : getAction(2)
-						},
-						{
-							"SubjectArea": "Array",
-							"Rank": rankService.getRankARR(),
-							"Action" : getAction(3)
-						}
-					]
-					$scope.ranksLoaded = true;
+					if($scope.averager){
+						$scope.ranks = [
+							{
+								"SubjectArea": "Selection Control Structure",
+								"Rank": rankService.getRankSCS(),
+								"Action" : getAction(1)
+							},
+							{
+								"SubjectArea": "Repetition Control Structure",
+								"Rank": rankService.getRankRCS(),
+								"Action" : getAction(2)
+							},
+							{
+								"SubjectArea": "Array",
+								"Rank": rankService.getRankARR(),
+								"Action" : getAction(3)
+							}
+						]
+						$scope.ranksLoaded = true;
+					}else{
+						$scope.ranks = [
+							{
+								"SubjectArea": "Selection Control Structure",
+								"Rank": rankService.getRankSCS(),
+								"Action" : getAction(1)
+							},
+							{
+								"SubjectArea": "Repetition Control Structure",
+								"Rank": rankService.getRankRCS(),
+								"Action" : getAction(2)
+							}
+						]
+						$scope.ranksLoaded = true;
+					}
 				});
 			}, 2000);
 			

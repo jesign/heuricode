@@ -25,6 +25,9 @@ class UpdateProblemsTable2 extends Migration
      */
     public function down()
     {
-        $table->dropColumn('feedback_id');
+        Schema::table('problems', function($table)
+        {
+            $table->dropColumn('feedback_id');
+        });
     }
 }
