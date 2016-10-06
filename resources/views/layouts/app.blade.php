@@ -73,7 +73,7 @@
                     </div>
                 </li>
 
-                <li><strong><a ui-sref="settingPage" class="white-text">{{ Auth::user()->name }} ( {{ Auth::user()->email }})</a></strong></li>
+                <li><strong><a ui-sref="settingPage" class="white-text">{{ Auth::user()->name }}</a></strong></li>
                 <li><div class="divider"></div></li>
                 <li>
                     <a ui-sref="problemPage"><i class="material-icons">perm_identity</i>Self-Train</a>

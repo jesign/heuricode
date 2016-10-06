@@ -13,6 +13,14 @@ myApp.service('codingService', function() {
     var probDiff = null; 
     var problemDescription = null;
 
+    var opponentname = null;
+
+    var setOpponentName = function(name){
+      opponentname = name;
+    }
+    var getOpponentName = function(){
+      return opponentname;
+    }
     var setProblemDescription = function(desc){
       problemDescription = desc;
     }
@@ -96,6 +104,8 @@ myApp.service('codingService', function() {
 
 
 	return {
+      setOpponentName: setOpponentName,
+      getOpponentName: getOpponentName,
       setProblemDescription: setProblemDescription,
       getProblemDescription: getProblemDescription,
 

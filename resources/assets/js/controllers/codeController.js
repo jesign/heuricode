@@ -691,12 +691,12 @@ myApp.controller('codeController', ['$scope','$rootScope',
   			if(r.winner == opponent_id){
   				isLose = true;
   				$scope.alert_title = "You lose";
-	            $scope.alert_description = r.winner + " has won the game!";
+	            $scope.alert_description = codingService.getOpponentName() + " has won the game!";
 	            $scope.closableModal = true;
 	            $('#alertModal').openModal({dismissible:false});
   			}else if(r.giveup == opponent_id){
   				$scope.alert_title = "You won";
-	            $scope.alert_description = r.giveup + " has given up!";
+	            $scope.alert_description = codingService.getOpponentName() + " has given up!";
 				$scope.closableModal = true;
 	            $('#alertModal').openModal({dismissible:false});
 

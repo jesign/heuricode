@@ -1,5 +1,9 @@
 <script>
 	$('.dropdown-button').dropdown();
+	$(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    	$('.modal-trigger').leanModal();
+	});
 </script>
 <div class="container-fluid">
 	<div ng-show="loadingFind">
@@ -61,7 +65,7 @@
 								Name: 
 							</div>
 							<div class="col s6">
-								<label ng-bind="p1_name"></label>
+								<label style="font-size: 18px;"  ng-bind="p1_name"></label>
 							</div>
 						</div>
 						<div class="row">
@@ -96,7 +100,7 @@
 								Name: 
 							</div>
 							<div class="col s6">
-								<label ng-bind="p2_name"></label>
+								<label style="font-size: 18px;" ng-bind="p2_name"></label>
 							</div>
 						</div>
 						<div class="row">
@@ -125,3 +129,14 @@
 		</div>
 	</div>
 </div>	
+<div id="alertModal" class="modal">
+    <div class="modal-content">
+		<center>
+			<h1 style="color: #0277bd;"><% alert_title %></h1>
+	      	<h5 style="color: #00796b;"><% alert_description %></h5>
+		</center>
+    </div>
+    <div class="modal-footer">
+      	<a class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>

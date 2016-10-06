@@ -1,6 +1,6 @@
-myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
+myApp.controller("multiplayerController",["$scope", "$state",
 	"$firebaseArray", "userModel", "rankService", "problemModel", "codingService",
-	function($scope, $rootScope, $state, $firebaseArray, userModel, rankService, 
+	function($scope, $state, $firebaseArray, userModel, rankService, 
 		problemModel, codingService) {
 		
 		var refMessages = firebase.database().ref().child("messages");
@@ -115,6 +115,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  		$scope.$apply(function(){
 	  			userModel.getPlayerDetails(r.player2)
 	  			.success(function(response){
+	  				codingService.setOpponentName(response);
 	  				$scope.p2_name = response;
 	  				$scope.p1_btn = "active";
 	  			
@@ -144,7 +145,9 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 	  			});
 			})
 			.error(function(){
-				alert('There was an error fetching a problem');
+				$scope.alert_title = "Oops!";
+				$scope.alert_description = "There was an error fetching a problem. Please refresh the page..";
+				$('#alertModal').openModal();
 			});
 	  	}
 
@@ -236,8 +239,6 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 		}
 
 		$scope.findMatch = function(){
-			$rootScope.$emit("GlobalToggleSidebar", {});
-
 			$scope.enableFindMatch = false;
 			userModel.checkVacantRoom($scope.rooms)
 						.then(function(response){
@@ -253,7 +254,9 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 
 							setTimeout(function(){
 									if($scope.hasOpponent == false){
-										alert("The rooom has expired.. please refresh the page..");
+										$scope.alert_title = "Oops!";
+										$scope.alert_description = "The rooom has expired.. please refresh the page..";
+										$('#alertModal').openModal();
 									}
 								}, 10000);
 
@@ -269,6 +272,7 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 								.success(function(response){
 									console.log(response);
 									$scope.p1_name = response;
+									codingService.setOpponentName(response);
 								});			
 
 								userModel.getPlayerDetails(userId)
@@ -306,7 +310,9 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 						console.log("player1 is ready");
 					});				
 				}else{
-					alert("language not set");
+					$scope.alert_title = "Oops!";
+					$scope.alert_description = "Language not set.";
+					$('#alertModal').openModal();
 				}
 			}
 		}
@@ -321,7 +327,9 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 						console.log("player2 is ready");				
 					});
 				}else {
-					alert("language not set");
+					$scope.alert_title = "Oops!";
+					$scope.alert_description = "Language not set.";
+					$('#alertModal').openModal();
 				}
 			}
 		}
@@ -344,7 +352,9 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 					console.log("player2 is ready");				
 				});
 			}else{
-				alert("you cannot set language from other player.")
+				$scope.alert_title = "Oops!";
+				$scope.alert_description = "you cannot set language from other player.";
+				$('#alertModal').openModal();
 			}
 			
 		}
@@ -366,7 +376,9 @@ myApp.controller("multiplayerController",["$scope", "$rootScope", "$state",
 					console.log("player2 is ready");				
 				});
 			}else{
-				alert("you cannot set language from other player.")
+				$scope.alert_title = "Oops!";
+				$scope.alert_description = "you cannot set language from other player.";
+				$('#alertModal').openModal();
 			}
 		}
 
@@ -1216,12 +1228,12 @@ myApp.controller('codeController', ['$scope','$rootScope',
   			if(r.winner == opponent_id){
   				isLose = true;
   				$scope.alert_title = "You lose";
-	            $scope.alert_description = r.winner + " has won the game!";
+	            $scope.alert_description = codingService.getOpponentName() + " has won the game!";
 	            $scope.closableModal = true;
 	            $('#alertModal').openModal({dismissible:false});
   			}else if(r.giveup == opponent_id){
   				$scope.alert_title = "You won";
-	            $scope.alert_description = r.giveup + " has given up!";
+	            $scope.alert_description = codingService.getOpponentName() + " has given up!";
 				$scope.closableModal = true;
 	            $('#alertModal').openModal({dismissible:false});
 

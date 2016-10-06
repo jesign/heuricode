@@ -79,15 +79,22 @@ class ProblemController extends Controller
         $sourceCode = $request->input('sourceCode');
         $problemCode = $request->input('problemCode');
 
+        $result = "good";
+
         $problem = Problem::where('problem_code', $problemCode)->first();
         $judgement = $problem->judgement;
-        $pos = strpos($sourceCode, $judgement);
+        $judgements = (explode("-",$judgement));
 
-        if($pos === false){
-            return "bad";
-        }else{
-            return "good";
+        foreach ($judgements as $judge) {
+            $pos = strpos($sourceCode, $judge);
+            
+            if($pos === false){
+                $result = "bad";
+                break;
+            }
         }
+    
+        return $result;
     }
     public function getRandomProblem(Request $request){
         // set weakness
