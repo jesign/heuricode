@@ -20,7 +20,7 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 						rankService.setRankRCS(response[1]);
 						rankService.setRankARR(response[2]);
 
-						if($scope.rankSCS >= 11 && $scope.rankRCS >= 11){
+						if($scope.rankSCS >= 25 && $scope.rankRCS >= 25 && $scope.rankARR >= 25){
 							$scope.averager = true;
 						}else{
 							$scope.averager = false;

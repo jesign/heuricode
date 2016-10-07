@@ -240,8 +240,7 @@ class FeedbackTableSeeder extends Seeder
 	    	array('id' => '62',
 	    			    	'description' => 'To find the longest substring, start reading the string from the left towards the right.'),
 	    	array('id' => '63',
-	    			    	'description' => '1: Character.isDigit(char) tests if a char is one of the chars '0', '1', .. '9'. \n
-	    			    	Integer.parseInt(string) converts a string to an int.'),
+	    			    	"description' => '1: Character.isDigit(char) tests if a char is one of the chars '0', '1', .. '9'. \n Integer.parseInt(string) converts a string to an int."),
 	    	//NUMBER 9
 	    	array('id' => '64',
 	    			    	'description' => 'The length() keyword is used in getting the length of a string. For example:
@@ -301,8 +300,6 @@ class FeedbackTableSeeder extends Seeder
 	    			    	'description' => 'Be careful in reading the inputted string. The logical and operational operators needs to be very sure in order for the conditions to be correct. Read the instructions as well for clarity in understanding the test cases.'),
 	    	array('id' => '76',
 	    			    	'description' => 'The circles will overlap if the distance between their centers is between the sum and the difference of their radii.'),
-
-	    	/////////////
 	    	array('id' => '77',
 	    			    	'description' => 'Be careful in converting the numbers to roman numerals. There are certain rules to follow.'),
 	    	array('id' => '78',

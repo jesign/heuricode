@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Auth;
 
 class RoundController extends Controller
 {   
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function addRound(Request $request){
     	$problem_code = $request->input("problemCode");
 
@@ -43,7 +47,7 @@ class RoundController extends Controller
                 }
             }else{
                 $subj = Problem::find($round->problem_id)->weakness_id; 
-                if($diff == $difficulty || $subj == $subject){
+                if($diff == $difficulty && $subj == $subject){
                     $count++;
                 }
             }

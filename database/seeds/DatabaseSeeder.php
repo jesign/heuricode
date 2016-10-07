@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProblemTableSeeder::class);
         $this->call(MultiplayerProblemTableSeeder::class);
         $this->call(BadgesTableSeeder::class);
+        $this->call(FeedbackTableSeeder::class);
     }
 }

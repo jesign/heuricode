@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8fc37baa020da00ba7a7dab181917689",
-    "content-hash": "7c99b565108485b5f96386be29b13bfc",
+    "hash": "b7bb7bbe999993117fa0e59a4c66c11b",
+    "content-hash": "a1bf99bd3fe531ead9af90da5ed8c79d",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1460,6 +1460,47 @@
                 "shell"
             ],
             "time": "2016-03-09 05:03:14"
+        },
+        {
+            "name": "rairlie/laravel-locking-session",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rairlie/laravel-locking-session.git",
+                "reference": "69a15ea66425e89622445f3b8d5521c0544f4ff9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rairlie/laravel-locking-session/zipball/69a15ea66425e89622445f3b8d5521c0544f4ff9",
+                "reference": "69a15ea66425e89622445f3b8d5521c0544f4ff9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": "~5.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Rairlie\\LockingSession": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Richard Airlie",
+                    "email": "richard@backtrace.co.uk"
+                }
+            ],
+            "description": "Provide session locking in Laravel",
+            "keywords": [
+                "laravel",
+                "session"
+            ],
+            "time": "2016-03-16 08:34:09"
         },
         {
             "name": "react/promise",

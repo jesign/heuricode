@@ -8,6 +8,10 @@ use App\Http\Requests;
 use DB;
 class RankController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function getRanks(){
     	$rankSCS = Auth::user()->ranks()->where('weakness_id', 1)->first()->rank;
         $rankRCS = Auth::user()->ranks()->where('weakness_id', 2)->first()->rank;

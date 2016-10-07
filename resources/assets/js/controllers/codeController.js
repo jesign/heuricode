@@ -497,6 +497,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 														console.log('problem set to solve');
 													});	
 												/* set to no weakness */
+												var weakness = codingService.getWeaknessId();
 												if( !hasNewWeakness || $scope.checkRankForWeakness(weakness) ){
 													problemModel.setWeakness(0);
 												}
