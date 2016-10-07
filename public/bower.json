@@ -15,12 +15,16 @@
     "tests"
   ],
   "dependencies": {
+    "angular": "1.5.8",
+    "angular-sanitize" :"1.5.8",
+    "jquery" : "2.2.4",
     "angularfire": "^2.0.1",
     "angular-route": "^1.5.7",
     "angular-ui-router": "ui-router#^0.3.1",
     "angular-onbeforeunload": "angular-beforeunload#^0.0.1",
     "lodash": "^4.15.0",
     "firebase": "^3.4.0",
-    "chart.js": "^2.3.0"
+    "chart.js": "^2.3.0",
+    "materialize": "0.97.7" 
   }
 }
