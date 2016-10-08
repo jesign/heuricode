@@ -465,6 +465,9 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 					});
 			}
 		});
+
+		$scope.setRank();	
+
 	}]);
 
 myApp.controller('userController', ['$scope', 
