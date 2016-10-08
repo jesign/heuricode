@@ -29,12 +29,4 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 					});
 			}
 		});
-
-		userModel.checkAuth()
-			.success(function(response){
-				if(response == 1){
-					$scope.setRank();	
-				}
-			});
-
 	}]);
