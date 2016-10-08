@@ -108,12 +108,7 @@
     <script src="{{ asset('bower_components/angular-ui-router/release/angular-ui-router.js') }}"></script>
     <script src="{{ asset('bower_components/chart.js/dist/Chart.js') }}"></script>
     <script src="{{ asset('bower_components/lodash/dist/lodash.js') }}"></script>
-    <script src="{{ asset('js/app.js')}}"></script>
-    <script src="{{ asset('js/controllers.js')}}"></script>
-    <script src="{{ asset('js/models.js')}}"></script>
-    <script src="{{ asset('js/services.js')}}"></script>
-    <script src="{{ asset('codemirror-5.19.0/lib/codemirror.js') }}"></script>
-    <script src="{{ asset('codemirror-5.19.0/mode/javascript/javascript.js') }}"></script> 
+    
     <script type="text/javascript" src="{{ asset('bower_components/materialize/dist/js/materialize.min.js') }}"></script>
 
     --}}
@@ -139,6 +134,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/lodash/4.16.4/lodash.min.js"></script>
+
+    {{-- local js --}}
+    <script src="{{ asset('js/app.js')}}"></script>
+    <script src="{{ asset('js/controllers.js')}}"></script>
+    <script src="{{ asset('js/models.js')}}"></script>
+    <script src="{{ asset('js/services.js')}}"></script>
+    <script src="{{ asset('codemirror-5.19.0/lib/codemirror.js') }}"></script>
+    <script src="{{ asset('codemirror-5.19.0/mode/javascript/javascript.js') }}"></script> 
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>
