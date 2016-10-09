@@ -12,17 +12,11 @@
 				<div class="row" style="margin-bottom: 0px; ">
 					<span class="card-title">Editor</span>
 					<div class="right" style="margin-top: 15px;">
-						<a ng-show="isCorrect" title="Proceed" class="waves-effect waves-light btn-small" ng-click="proceed()">Proceed
+						<a ng-show="isCorrect" title="Proceed" class="btn waves-effect waves-light btn-small" ng-click="proceed()">Proceed
 							<i class="material-icons" style="color: red;">fast_forward</i>
 						</a>
 						<div ng-hide="isCorrect">
 							<span ng-show="isMultiplayer" style="font-size: 20px;">Time Left: <span id="time">00:00:00</span></span>
-							<a title="multiplayer" class="waves-effect waves-light btn-small" ng-click="testing2(sourceCode)">
-								<i class="material-icons" style="color: orange;">settings</i>
-							</a>
-							<a title="Success" class="waves-effect waves-light btn-small" ng-click="testing1(sourceCode)">
-								<i class="material-icons" style="color: orange;">settings</i>
-							</a>
 							<a title="Run" class="waves-effect waves-light btn-small" ng-click="runCode(sourceCode)">
 								<i class="material-icons" style="color: orange;">play_circle_filled</i>
 							</a>

@@ -73,11 +73,9 @@
                         <center>
                             <img style="height: 180px;" src="{{ asset('img/HeuricodeLogo-250.png') }}">
                         </center>
-                        
                     </div>
                 </li>
-
-                <li><strong><a ui-sref="settingPage" class="white-text">{{ Auth::user()->name }}</a></strong></li>
+                <li><strong><a class="white-text">{{ Auth::user()->name }}</a></strong></li>
                 <li><div class="divider"></div></li>
                 <li>
                     <a ui-sref="problemPage"><i class="material-icons">perm_identity</i>Self-Train</a>

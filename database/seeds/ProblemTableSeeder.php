@@ -13,7 +13,7 @@ class ProblemTableSeeder extends Seeder
     {
         DB::table('problems')->insert(array(
 		    array(
-		    	'problem_code' => 'SCS112', 
+		    	'problem_code' => 'SCS112A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 1, 
@@ -21,31 +21,31 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		    array(
-		    	'problem_code' => 'SCS113', 
+		    	'problem_code' => 'SCS113A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 2, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif'
 		    		),
 		    array(
-		    	'problem_code' => 'SCS114', 
+		    	'problem_code' => 'SCS114A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 3, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		    array(
-		    	'problem_code' => 'SCS115', 
+		    	'problem_code' => 'SCS115A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 4, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'switch(-case-else'
+		    	'judgement' => 'switch(-case'
 		    		),
 		    array(
-		    	'problem_code' => 'SCS116', 
+		    	'problem_code' => 'SCS116A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 5, 
@@ -53,7 +53,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		    array(
-		    	'problem_code' => 'SCS117', 
+		    	'problem_code' => 'SCS117A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 6, 
@@ -61,7 +61,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		    array(
-		    	'problem_code' => 'SCS118', 
+		    	'problem_code' => 'SCS118A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 7, 
@@ -69,28 +69,28 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		    array(
-		    	'problem_code' => 'SCS119', 
+		    	'problem_code' => 'SCS119A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 8, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		    array(
-		    	'problem_code' => 'SCS120', 
+		    	'problem_code' => 'SCS120A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 9, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if(-else'
+		    	'judgement' => 'switch(-case'
 		    		),
 		    array(
-		    	'problem_code' => 'SCS121', 
+		    	'problem_code' => 'SCS121A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 10, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if(-else'
+		    	'judgement' => 'if(-else'
 		    		),
 
 
@@ -100,7 +100,7 @@ class ProblemTableSeeder extends Seeder
 
 
 		     array(
-		    	'problem_code' => 'RCS112', 
+		    	'problem_code' => 'RCS112A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 11, 
@@ -108,7 +108,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS113', 
+		    	'problem_code' => 'RCS113A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 12, 
@@ -116,7 +116,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS114', 
+		    	'problem_code' => 'RCS114A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 13, 
@@ -124,31 +124,31 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS115', 
+		    	'problem_code' => 'RCS115A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 14, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'while('
+		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS116', 
+		    	'problem_code' => 'RCS116A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 15, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'for('
+		    	'judgement' => 'do{-while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS117', 
+		    	'problem_code' => 'RCS117A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 16, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'do(-(while'
+		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS118', 
+		    	'problem_code' => 'RCS118A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 17, 
@@ -156,7 +156,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS119', 
+		    	'problem_code' => 'RCS119A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 18, 
@@ -164,7 +164,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS120', 
+		    	'problem_code' => 'RCS120A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 19, 
@@ -172,23 +172,23 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS121', 
+		    	'problem_code' => 'RCS121A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 20, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'do(-(while'
+		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS122', 
+		    	'problem_code' => 'RCS122A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 21, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'while('
+		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS123', 
+		    	'problem_code' => 'RCS123A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 22, 
@@ -196,23 +196,23 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS124', 
+		    	'problem_code' => 'RCS124A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 23, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'do(-(while'
+		    	'judgement' => 'do{-while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS125', 
+		    	'problem_code' => 'RCS125A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 24, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'do(-(while'
+		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS126', 
+		    	'problem_code' => 'RCS126A', 
 		    	'difficulty' => 'easy', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 25, 
@@ -220,13 +220,13 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 
-
+		      	//4:33PM OCT 6
 
 		      	//ARRAYS NO JUGDGEMENT
 
 
 		      array(
-		    	'problem_code' => 'ARR212', 
+		    	'problem_code' => 'ARR212A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 26, 
@@ -234,47 +234,47 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'letters['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR213', 
+		    	'problem_code' => 'ARR213A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 27, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'letters['
+		    	'judgement' => 'word['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR214', 
+		    	'problem_code' => 'ARR214A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 28, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR215', 
+		    	'problem_code' => 'ARR215A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 29, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR216', 
+		    	'problem_code' => 'ARR216A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 30, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR217', 
+		    	'problem_code' => 'ARR217A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 31, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR218', 
+		    	'problem_code' => 'ARR218A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 32, 
@@ -282,7 +282,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'integers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR219', 
+		    	'problem_code' => 'ARR219A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 33, 
@@ -290,23 +290,23 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'integers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR220', 
+		    	'problem_code' => 'ARR220A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 34, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'difference['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR221', 
+		    	'problem_code' => 'ARR221A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 35, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'multiples['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR222', 
+		    	'problem_code' => 'ARR222A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 36, 
@@ -314,31 +314,31 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR223', 
+		    	'problem_code' => 'ARR223A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 37, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR224', 
+		    	'problem_code' => 'ARR224A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 38, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR225', 
+		    	'problem_code' => 'ARR225A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 39, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers'
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR226', 
+		    	'problem_code' => 'ARR226A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 40, 
@@ -346,14 +346,14 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'numbers['
 		    		),
 
-
+		      //5:25PM OCT 6
 
 
 
 
 
 		      array(
-		    	'problem_code' => 'SCS212', 
+		    	'problem_code' => 'SCS212A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 41, 
@@ -361,47 +361,47 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'switch(-case'
 		    		),
 		      array(
-		    	'problem_code' => 'SCS213', 
+		    	'problem_code' => 'SCS213A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 42, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		      array(
-		    	'problem_code' => 'SCS214', 
+		    	'problem_code' => 'SCS214A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 43, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		      array(
-		    	'problem_code' => 'SCS215', 
+		    	'problem_code' => 'SCS215A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 44, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		      array(
-		    	'problem_code' => 'SCS216', 
+		    	'problem_code' => 'SCS216A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 45, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		      array(
-		    	'problem_code' => 'SCS217', 
+		    	'problem_code' => 'SCS217A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 46, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		      array(
-		    	'problem_code' => 'SCS218', 
+		    	'problem_code' => 'SCS218A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 47, 
@@ -409,7 +409,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		      array(
-		    	'problem_code' => 'SCS219', 
+		    	'problem_code' => 'SCS219A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 48, 
@@ -417,7 +417,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		      array(
-		    	'problem_code' => 'SCS220', 
+		    	'problem_code' => 'SCS220A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 49, 
@@ -425,15 +425,18 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		      array(
-		    	'problem_code' => 'SCS221', 
+		    	'problem_code' => 'SCS221A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 50, 
 		    	'time_limit' => 14401, 
 		    	'judgement' => 'if(-else'
-		    		),
+		    		),	
+
+		      // 6:10PM OCT 6
+		      ///////////////////////////AHHHHHHHHDITO LAST
 		      array(
-		    	'problem_code' => 'SCS222', 
+		    	'problem_code' => 'SCS222A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 51, 
@@ -441,7 +444,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		      array(
-		    	'problem_code' => 'SCS223', 
+		    	'problem_code' => 'SCS223A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 52, 
@@ -449,15 +452,15 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		      array(
-		    	'problem_code' => 'SCS224', 
+		    	'problem_code' => 'SCS224A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 53, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif('
 		    		),
 		      array(
-		    	'problem_code' => 'SCS225', 
+		    	'problem_code' => 'SCS225A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 54, 
@@ -465,17 +468,17 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else'
 		    		),
 		      array(
-		    	'problem_code' => 'SCS226', 
+		    	'problem_code' => 'SCS226A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 55, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else'
+		    	'judgement' => 'if(-elseif'
 		    		),
 		      array(
 
 		      	///MARKED BRUH
-		    	'problem_code' => 'RCS212', 
+		    	'problem_code' => 'RCS212A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 56, 
@@ -483,7 +486,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS213', 
+		    	'problem_code' => 'RCS213A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 57, 
@@ -491,7 +494,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS214', 
+		    	'problem_code' => 'RCS214A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 58, 
@@ -499,7 +502,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS215', 
+		    	'problem_code' => 'RCS215A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 59, 
@@ -507,7 +510,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS216', 
+		    	'problem_code' => 'RCS216A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 60, 
@@ -515,7 +518,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS217', 
+		    	'problem_code' => 'RCS217A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 61, 
@@ -523,7 +526,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS218', 
+		    	'problem_code' => 'RCS218A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 62, 
@@ -531,7 +534,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS219', 
+		    	'problem_code' => 'RCS219A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 63, 
@@ -539,7 +542,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS220', 
+		    	'problem_code' => 'RCS220A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 64, 
@@ -547,7 +550,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS221', 
+		    	'problem_code' => 'RCS221A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 65, 
@@ -555,7 +558,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS222', 
+		    	'problem_code' => 'RCS222A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 66, 
@@ -563,7 +566,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS223', 
+		    	'problem_code' => 'RCS223A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 67, 
@@ -571,7 +574,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS224', 
+		    	'problem_code' => 'RCS224A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 68, 
@@ -579,7 +582,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS225', 
+		    	'problem_code' => 'RCS225A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 69, 
@@ -587,28 +590,28 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS226', 
+		    	'problem_code' => 'RCS226A', 
 		    	'difficulty' => 'average', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 70, 
 		    	'time_limit' => 14401, 
 		    	'judgement' => 'for('
 		    		),
-		      
+		      ///////
 		    
 		      //71 j not specified
 		      array(
-		    	'problem_code' => 'SCS312', 
+		    	'problem_code' => 'SCS312A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 71, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if('
+		    	'judgement' => 'if(-elseif('
 		    		),
 
 		      //72 j not specified
 		      array(
-		    	'problem_code' => 'SCS313', 
+		    	'problem_code' => 'SCS313A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 72, 
@@ -618,7 +621,7 @@ class ProblemTableSeeder extends Seeder
 
 		      //73 j not specified
 		      array(
-		    	'problem_code' => 'SCS314', 
+		    	'problem_code' => 'SCS314A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 73, 
@@ -628,7 +631,7 @@ class ProblemTableSeeder extends Seeder
 
 		      //CORRECT
 		      array(
-		    	'problem_code' => 'SCS315', 
+		    	'problem_code' => 'SCS315A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 74, 
@@ -638,7 +641,7 @@ class ProblemTableSeeder extends Seeder
 
 		      //CORRECT
 		      array(
-		    	'problem_code' => 'SCS316', 
+		    	'problem_code' => 'SCS316A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 75, 
@@ -648,7 +651,7 @@ class ProblemTableSeeder extends Seeder
 
 		     
 		      array(
-		    	'problem_code' => 'SCS317', 
+		    	'problem_code' => 'SCS317A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 76, 
@@ -657,24 +660,24 @@ class ProblemTableSeeder extends Seeder
 		    		),
 
 		      array(
-		    	'problem_code' => 'SCS318', 
+		    	'problem_code' => 'SCS318A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 77, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if(' //nested if else
+		    	'judgement' => 'if(-elseif(' //nested if else
 		    		),
 		      array(
-		    	'problem_code' => 'SCS319', 
+		    	'problem_code' => 'SCS319A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 78, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if(' //multiple if else
+		    	'judgement' => 'if(-elseif(' //multiple if else
 		    		),
 		      //CORRECT 79
 		      array(
-		    	'problem_code' => 'SCS320', 
+		    	'problem_code' => 'SCS320A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 79, 
@@ -682,12 +685,12 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'if(-else' //CORRECT
 		    		),
 		      array(
-		    	'problem_code' => 'SCS321', 
+		    	'problem_code' => 'SCS321A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 80, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else if('//multiple if else
+		    	'judgement' => 'if(-elseif('//multiple if else
 		    		),
 
 
@@ -695,16 +698,16 @@ class ProblemTableSeeder extends Seeder
 		      //CORRECT TANAN RCS DIRI
 		      
 		      array(
-		    	'problem_code' => 'RCS312', 
+		    	'problem_code' => 'RCS312A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 81, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'do(-(while'
+		    	'judgement' => 'do{-while('
 		    		),
 
 		      array(
-		    	'problem_code' => 'RCS313', 
+		    	'problem_code' => 'RCS313A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 82, 
@@ -712,7 +715,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS314', 
+		    	'problem_code' => 'RCS314A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 83, 
@@ -720,7 +723,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS315', 
+		    	'problem_code' => 'RCS315A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 84, 
@@ -728,7 +731,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS316', 
+		    	'problem_code' => 'RCS316A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 85, 
@@ -736,15 +739,15 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS317', 
+		    	'problem_code' => 'RCS317A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 86, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'do(-(while'
+		    	'judgement' => 'do{-while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS318', 
+		    	'problem_code' => 'RCS318A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 87, 
@@ -752,7 +755,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS319', 
+		    	'problem_code' => 'RCS319A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 88, 
@@ -760,7 +763,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS320', 
+		    	'problem_code' => 'RCS320A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 89, 
@@ -768,15 +771,15 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS321', 
+		    	'problem_code' => 'RCS321A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 90, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'for('
+		    	'JUDGEMENTment' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS322', 
+		    	'problem_code' => 'RCS322A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 91, 
@@ -784,7 +787,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for(' //nested for loop
 		    		),
 		      array(
-		    	'problem_code' => 'RCS323', 
+		    	'problem_code' => 'RCS323A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 92, 
@@ -792,7 +795,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('//nested for
 		    		),
 		      array(
-		    	'problem_code' => 'RCS324', 
+		    	'problem_code' => 'RCS324A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 93, 
@@ -800,7 +803,7 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'while(-for(' //1 while and nested for
 		    		),
 		      array(
-		    	'problem_code' => 'RCS325', 
+		    	'problem_code' => 'RCS325A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 94, 
@@ -808,118 +811,122 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'for('
 		    		),
 		      array(
-		    	'problem_code' => 'RCS326', 
+		    	'problem_code' => 'RCS326A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 2, 
 		    	'feedback_id' => 95, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'if(-else' //number15 j not specified
+		    	'judgement' => 'for(' //number15 j not specified
 		    		),
 
 
 		      //ALL ARRAYS WALAY JUDGEMENT
 
 		      array(
-		    	'problem_code' => 'ARR312', 
+		    	'problem_code' => 'ARR312A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 96, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'eliminatedPersons['
+		    	'judgement' => 'sequence[-for('
 		    		),
 
 
 		      
 		      array(
-		    	'problem_code' => 'ARR313', 
+		    	'problem_code' => 'ARR313A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 97, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'position['
+		    	'judgement' => 'configuration['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR314', 
+		    	'problem_code' => 'ARR314A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 98, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'myArray['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR315', 
+		    	'problem_code' => 'ARR315A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 99, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
+
+
+
+		    	//////OCT 7
 		    		),
 		      array(
-		    	'problem_code' => 'ARR316', 
+		    	'problem_code' => 'ARR316A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 100, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR317', 
+		    	'problem_code' => 'ARR317A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 101, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'mirrors['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR318', 
+		    	'problem_code' => 'ARR318A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 102, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'outer[-inner['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR319', 
+		    	'problem_code' => 'ARR319A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 103, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['
+		    	'judgement' => 'numbers['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR320', 
+		    	'problem_code' => 'ARR320A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 104, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers['//invsolved
+		    	'judgement' => 'numbers['//invsolved
 		    		),
 		      array(
-		    	'problem_code' => 'ARR321', 
+		    	'problem_code' => 'ARR321A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 105, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'integers[' //invsolved
+		    	'judgement' => 'numbers[' //invsolved
 		    		),
 		      array(
-		    	'problem_code' => 'ARR322', 
+		    	'problem_code' => 'ARR322A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 106, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'responses['
+		    	'judgement' => 'words['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR323', 
+		    	'problem_code' => 'ARR323A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 107, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'correctSpelling[-contestantSpelling['
+		    	'judgement' => 'correctWords[-contestantWords['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR324', 
+		    	'problem_code' => 'ARR324A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 108, 
@@ -927,20 +934,20 @@ class ProblemTableSeeder extends Seeder
 		    	'judgement' => 'grades['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR325', 
+		    	'problem_code' => 'ARR325A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 109, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'probableWeather['
+		    	'judgement' => 'weatherForecast['
 		    		),
 		      array(
-		    	'problem_code' => 'ARR326', 
+		    	'problem_code' => 'ARR326A', 
 		    	'difficulty' => 'hard', 
 		    	'weakness_id'=> 3, 
 		    	'feedback_id' => 110, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'userNameType['
+		    	'judgement' => 'loginSequences['
 		    		)
 		));		    
     }
