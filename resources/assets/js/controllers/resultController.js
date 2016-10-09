@@ -181,7 +181,9 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 					});
 				}
 			}
-			checkBadges();
+			if(codingService.getSuccess()){
+				checkBadges();
+			}
 
 			$scope.isSuccess = codingService.getSuccess();
 			$scope.isMultiplayer = codingService.getIsMultiplayer();

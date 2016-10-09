@@ -81,10 +81,10 @@
                     <a ui-sref="problemPage"><i class="material-icons">perm_identity</i>Self-Train</a>
                 </li>
                 <li>
-                    <a ng-show="averager" ui-sref="multiplayerPage">
+                    <a ng-show="competent" ui-sref="multiplayerPage">
                         <i class="material-icons">supervisor_account</i>Find Match
                     </a>
-                    <a title="will be unlocked at level 11 in all subject area." ng-hide="averager" class="red lighten-3">
+                    <a title="will be unlocked at level 11 in all subject area." ng-hide="competent" class="red lighten-3">
                         <i class="material-icons">supervisor_account</i>Find Match(Locked)
                     </a>
                 </li>

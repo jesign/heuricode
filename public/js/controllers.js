@@ -441,7 +441,8 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 			rankSCS: null,
 			rankRCS: null,
 			rankARR: null,
-			averager: false
+			averager: false,
+			competent: false
 		});
 		
 		angular.extend($scope,{
@@ -457,10 +458,16 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 						rankService.setRankARR(response[2]);
 
 						if($scope.rankSCS >= 25 && $scope.rankRCS >= 25 && $scope.rankARR >= 25){
+							$scope.competent = true;
+						}else{
+							$scope.competent = false;
+						}
+						if($scope.rankSCS >= 11 && $scope.rankRCS >= 11 && $scope.rankARR >= 11){
 							$scope.averager = true;
 						}else{
 							$scope.averager = false;
 						}
+						console.log($scope.competent + "  " + $scope.averager);
 						console.log($scope.rankSCS + " " + $scope.rankRCS + " " + $scope.rankARR);
 					});
 			}
@@ -1127,6 +1134,46 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		
 
 		if(codingService.getIsEnableCode()){
+			userModel.getUserId()
+			.success(function(response){
+				userId = response;
+				/* check if multiplayer */
+				if(codingService.getIsMultiplayer()){
+			    	$scope.isMultiplayer = true;
+
+					var refRoom = firebase.database().ref().child("rooms");
+					$scope.rooms = $firebaseArray(refRoom);
+			
+			    	roomKey = codingService.getRoomKey();
+
+			    	var pcode = codingService.getProblemCode();
+			    	$scope.rooms.$loaded() 
+			    		.then(function(room){
+			    			var r = $scope.rooms.$getRecord(roomKey);
+							
+							if(r.player1 == userId){
+								opponent_id = r.player2;
+							}else{
+								opponent_id = r.player1;
+							}
+
+							codeModel.addBattle(opponent_id, pcode)
+							.success(function(response){
+								battle_id = response;
+							})
+								
+			    			checkWinner();
+			    		});
+
+			    }else{
+					codeModel.addRound(pCode)
+						.success(function (response){
+							round = response;
+							console.log("heree.............");
+							console.log(response);
+						});			    	
+			    }
+			});
 			// get problem details
 			isMulti = codingService.getIsMultiplayer();
 			codingService.setSuccess(false);
@@ -1173,46 +1220,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		}	
 
 		/* Get user id */
-	    userModel.getUserId()
-			.success(function(response){
-				userId = response;
-				/* check if multiplayer */
-				if(codingService.getIsMultiplayer()){
-			    	$scope.isMultiplayer = true;
-
-					var refRoom = firebase.database().ref().child("rooms");
-					$scope.rooms = $firebaseArray(refRoom);
-			
-			    	roomKey = codingService.getRoomKey();
-
-			    	var pcode = codingService.getProblemCode();
-			    	$scope.rooms.$loaded() 
-			    		.then(function(room){
-			    			var r = $scope.rooms.$getRecord(roomKey);
-							
-							if(r.player1 == userId){
-								opponent_id = r.player2;
-							}else{
-								opponent_id = r.player1;
-							}
-
-							codeModel.addBattle(opponent_id, pcode)
-							.success(function(response){
-								battle_id = response;
-							})
-								
-			    			checkWinner();
-			    		});
-
-			    }else{
-					codeModel.addRound(pCode)
-						.success(function (response){
-							round = response;
-							console.log("heree.............");
-							console.log(response);
-						});			    	
-			    }
-			});
+	    
 
 	    function checkWinner(){
 	    	var r = $scope.rooms.$getRecord(roomKey);
@@ -1694,7 +1702,9 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 					});
 				}
 			}
-			checkBadges();
+			if(codingService.getSuccess()){
+				checkBadges();
+			}
 
 			$scope.isSuccess = codingService.getSuccess();
 			$scope.isMultiplayer = codingService.getIsMultiplayer();

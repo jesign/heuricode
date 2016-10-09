@@ -5,7 +5,8 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 			rankSCS: null,
 			rankRCS: null,
 			rankARR: null,
-			averager: false
+			averager: false,
+			competent: false
 		});
 		
 		angular.extend($scope,{
@@ -21,10 +22,16 @@ myApp.controller('globalController', ['$scope', 'userModel', 'problemModel', 'ra
 						rankService.setRankARR(response[2]);
 
 						if($scope.rankSCS >= 25 && $scope.rankRCS >= 25 && $scope.rankARR >= 25){
+							$scope.competent = true;
+						}else{
+							$scope.competent = false;
+						}
+						if($scope.rankSCS >= 11 && $scope.rankRCS >= 11 && $scope.rankARR >= 11){
 							$scope.averager = true;
 						}else{
 							$scope.averager = false;
 						}
+						console.log($scope.competent + "  " + $scope.averager);
 						console.log($scope.rankSCS + " " + $scope.rankRCS + " " + $scope.rankARR);
 					});
 			}
