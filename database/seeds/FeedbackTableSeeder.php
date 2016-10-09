@@ -12,7 +12,7 @@ class FeedbackTableSeeder extends Seeder
     public function run()
     {
         DB::table('feedbacks')->insert(array(
-		    array(
+		    array(	
 		    	'id' => 1,
 		    	'description' => 'Remember that the modulo operator(%) will return the remainder of 2 numbers. It will be helpful in finding out if a number is odd or even.'),
 
@@ -255,8 +255,8 @@ class FeedbackTableSeeder extends Seeder
 	    	array('id' => 62,
 	    			    	'description' => 'To find the longest substring, start reading the string from the left towards the right.'),
 	    	array('id' => 63,
-	    			    	'description' => '1: Character.isDigit(char) tests if a char is one of the chars '0', '1', .. '9'. \n
-	    			    	Integer.parseInt(string) converts a string to an int.'),
+	    			    	'description' => "1: Character.isDigit(char) tests if a char is one of the chars '0', '1', .. '9'. \n
+	    			    	Integer.parseInt(string) converts a string to an int."),
 	    	//NUMBER 9
 	    	array('id' => 64,
 	    			    	'description' => 'The length() keyword is used in getting the length of a string. For example:
