@@ -24,7 +24,8 @@ class RankController extends Controller
     	$rank = Auth::user()->ranks()	
     		->where('weakness_id', $weakness_id)
     		->increment('rank');
-    	$r = DB::table('ranks')->find($rank);
+    	// $r = DB::table('ranks')->find($rank);
+        $r = Auth::user()->ranks()->where('weakness_id', $weakness_id)->first();
         return $r->rank;
     }
     public function rankDown(Request $request){
