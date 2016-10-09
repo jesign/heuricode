@@ -11,7 +11,7 @@ class ProblemApiController extends Controller
 	private $problem_access_token;
 
 	public function __construct(){
-		$this->problem_access_token = "eb588f1d38f12e88abf8c7f70f05a7a1a7e4a172";
+		$this->problem_access_token = "441ca3d64e3a19a8d63f5924322c823882761009";
 	}
 
 	public function getProblem($code){
@@ -33,19 +33,19 @@ class ProblemApiController extends Controller
 
 		$client = new Client;
 
-		$problemCode = $request->input('problemCode');
-		$compilerId = $request->input('compilerId');
-		$sourceCode = $request->input('source');
+			$problemCode = $request->input('problemCode');
+			$compilerId = $request->input('compilerId');
+			$sourceCode = $request->input('source');
 
-		$response = $client->post('http://db4262da.problems.sphere-engine.com/api/v3/submissions', 
-		               ['json' => [
-		                   "access_token" => $this->problem_access_token,
-		                   "problemCode" => $problemCode,
-		                   "compilerId" => $compilerId,
-		                   "source" => $sourceCode
-		               ]]);
-		
-		return $response->getBody();
+			$response = $client->post('http://db4262da.problems.sphere-engine.com/api/v3/submissions', 
+			               ['json' => [
+			                   "access_token" => $this->problem_access_token,
+			                   "problemCode" => $problemCode,
+			                   "compilerId" => $compilerId,
+			                   "source" => $sourceCode
+			               ]]);
+			
+			return $response->getBody();
     }
     
     public function getSubmissionDetails($submissionid){
