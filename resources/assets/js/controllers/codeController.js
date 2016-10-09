@@ -595,6 +595,46 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		
 
 		if(codingService.getIsEnableCode()){
+			userModel.getUserId()
+			.success(function(response){
+				userId = response;
+				/* check if multiplayer */
+				if(codingService.getIsMultiplayer()){
+			    	$scope.isMultiplayer = true;
+
+					var refRoom = firebase.database().ref().child("rooms");
+					$scope.rooms = $firebaseArray(refRoom);
+			
+			    	roomKey = codingService.getRoomKey();
+
+			    	var pcode = codingService.getProblemCode();
+			    	$scope.rooms.$loaded() 
+			    		.then(function(room){
+			    			var r = $scope.rooms.$getRecord(roomKey);
+							
+							if(r.player1 == userId){
+								opponent_id = r.player2;
+							}else{
+								opponent_id = r.player1;
+							}
+
+							codeModel.addBattle(opponent_id, pcode)
+							.success(function(response){
+								battle_id = response;
+							})
+								
+			    			checkWinner();
+			    		});
+
+			    }else{
+					codeModel.addRound(pCode)
+						.success(function (response){
+							round = response;
+							console.log("heree.............");
+							console.log(response);
+						});			    	
+			    }
+			});
 			// get problem details
 			isMulti = codingService.getIsMultiplayer();
 			codingService.setSuccess(false);
@@ -641,46 +681,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 		}	
 
 		/* Get user id */
-	    userModel.getUserId()
-			.success(function(response){
-				userId = response;
-				/* check if multiplayer */
-				if(codingService.getIsMultiplayer()){
-			    	$scope.isMultiplayer = true;
-
-					var refRoom = firebase.database().ref().child("rooms");
-					$scope.rooms = $firebaseArray(refRoom);
-			
-			    	roomKey = codingService.getRoomKey();
-
-			    	var pcode = codingService.getProblemCode();
-			    	$scope.rooms.$loaded() 
-			    		.then(function(room){
-			    			var r = $scope.rooms.$getRecord(roomKey);
-							
-							if(r.player1 == userId){
-								opponent_id = r.player2;
-							}else{
-								opponent_id = r.player1;
-							}
-
-							codeModel.addBattle(opponent_id, pcode)
-							.success(function(response){
-								battle_id = response;
-							})
-								
-			    			checkWinner();
-			    		});
-
-			    }else{
-					codeModel.addRound(pCode)
-						.success(function (response){
-							round = response;
-							console.log("heree.............");
-							console.log(response);
-						});			    	
-			    }
-			});
+	    
 
 	    function checkWinner(){
 	    	var r = $scope.rooms.$getRecord(roomKey);
