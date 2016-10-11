@@ -25,7 +25,7 @@
                                         <button class="btn waves-effect right btn-large waves-light" type="submit" name="action">Login
                                         <i class="material-icons right">send</i>
                                         </button>
-                                        <a href="{{ url('/password/reset') }}">Forgot Your Password?</a>
+                                        {{-- <a href="{{ url('/password/reset') }}">Forgot Your Password?</a> --}}
                                     </div>
                                 </div>
                         </form>

@@ -13,102 +13,102 @@ class MultiplayerProblemTableSeeder extends Seeder
     {
         DB::table('multiplayer_problems')->insert(array(
 			array(
-		    	'problem_code' => 'MPP1', 
+		    	'problem_code' => 'MPP1A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP2', 
+		    	'problem_code' => 'MPP2A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP3', 
+		    	'problem_code' => 'MPP3A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP4', 
+		    	'problem_code' => 'MPP4A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP5', 
+		    	'problem_code' => 'MPP5A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP6', 
+		    	'problem_code' => 'MPP6A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP7', 
+		    	'problem_code' => 'MPP7A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP8', 
+		    	'problem_code' => 'MPP8A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP9', 
+		    	'problem_code' => 'MPP9A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP10', 
+		    	'problem_code' => 'MPP10A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP11', 
+		    	'problem_code' => 'MPP11A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP12', 
+		    	'problem_code' => 'MPP12A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP13', 
+		    	'problem_code' => 'MPP13A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP14', 
+		    	'problem_code' => 'MPP14A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP15', 
+		    	'problem_code' => 'MPP15A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP16', 
+		    	'problem_code' => 'MPP16A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP17', 
+		    	'problem_code' => 'MPP17A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP18', 
+		    	'problem_code' => 'MPP18A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP19', 
+		    	'problem_code' => 'MPP19A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		),
 		      array(
-		    	'problem_code' => 'MPP20', 
+		    	'problem_code' => 'MPP20A', 
 		    	'difficulty' => 'easy', 
 		    	'time_limit' => 14401 
 		    		)

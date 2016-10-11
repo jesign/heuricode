@@ -63,7 +63,6 @@
             </nav>
         </div>
         @if(!Auth::guest())
-
             <a href="#" data-activates="slide-out" class="btn-floating right btn-large button-collapse" style="right: 10px; margin: 10px; position: fixed;">
                 <i class="material-icons">menu</i>
             </a>
