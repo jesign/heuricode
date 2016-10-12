@@ -42,7 +42,7 @@ class ProblemTableSeeder extends Seeder
 		    	'weakness_id'=> 1, 
 		    	'feedback_id' => 4, 
 		    	'time_limit' => 14401, 
-		    	'judgement' => 'switch(-case'
+		    	'judgement' => 'if(-elseif(-else'
 		    		),
 		    array(
 		    	'problem_code' => 'SCS116A', 

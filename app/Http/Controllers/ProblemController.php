@@ -83,7 +83,8 @@ class ProblemController extends Controller
 
         $problem = Problem::where('problem_code', $problemCode)->first();
         $judgement = $problem->judgement;
-        $judgements = (explode("-",$judgement));
+        $sourceCode=preg_replace('/\s+/', '', $sourceCode);
+        $judgements = (explode("-",$judgement)); 
 
         foreach ($judgements as $judge) {
             $pos = strpos($sourceCode, $judge);
@@ -94,7 +95,7 @@ class ProblemController extends Controller
             }
         }
     
-        return $result;
+        echo $result;
     }
     public function getRandomProblem(Request $request){
         // set weakness
@@ -110,7 +111,7 @@ class ProblemController extends Controller
         }else if($rank >= 11 && $rank <= 25){
             $difficulty = "average";
         }else if($rank >= 26 && $rank <= 40){
-            $difficulty = "problem";
+            $difficulty = "hard";
         }
 
         // get all solved problems from rounds table
