@@ -19,12 +19,6 @@ myApp
 
 			$stateProvider.state({
 				templateUrl: 'templates/home.html',
-				url: '/',
-				name: 'home'
-
-			}),
-			$stateProvider.state({
-				templateUrl: 'templates/home.html',
 				url: '/home',
 				name: 'homePage'
 			}),
