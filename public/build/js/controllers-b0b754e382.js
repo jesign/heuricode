@@ -1502,17 +1502,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			declareWeakness: function(response){
 				console.log("You have a problem in subject a -> " + response);
 				$scope.hasWeakness = true;
-				switch(response){
-					case 1:
-						$scope.subject = "Selection Control Structure";
-						break;
-					case 2:
-						$scope.subject = "Repetition Control Structure";
-						break;
-					case 3:
-						$scope.subject = "Array";
-						break;
-				}
+				
 			}
 		});
 
@@ -1799,21 +1789,21 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			var addFeedback = function(error, value){
 				$scope.hasErrorFeedback = true;
 				if(error == 1 && value == 1){
-					$scope.errorFeedback += "<br>You've made more than 8 Missing Semicolon Errors. It seems that you are experiencing difficulty with this type of error. Don't forget to put semicolons where you need to place them when you code.\n";
+					$scope.errorFeedback += "<br>You've made more than <span style='color: blue;'>8 Missing Semicolon Errors</span>. It seems that you are experiencing difficulty with this type of error. Don't forget to put semicolons where you need to place them when you code.\n";
 				}else if(error == 1 && value == 2){
-					$scope.errorFeedback += "<br>You’ve made more than 15 Missing Semicolon Errors. It seems that you are problematic with this type of error. Always be mindful of where you need to place your semicolons in your code.\n";
+					$scope.errorFeedback += "<br>You’ve made more than 15 <span style='color: blue;'>5 Missing Semicolon Errors</span>. It seems that you are problematic with this type of error. Always be mindful of where you need to place your semicolons in your code.\n";
 				}else if(error == 2 && value == 1){
-					$scope.errorFeedback += "<br>You've made more than 8 Scoping Errors. It seems that you are experiencing difficulty with this type of error. Don't forget to keep track of the brackets of your functions as they determine the scope of each.\n";
+					$scope.errorFeedback += "<br>You've made more than <span style='color: blue;'>8 Scoping Errors</span>. It seems that you are experiencing difficulty with this type of error. Don't forget to keep track of the brackets of your functions as they determine the scope of each.\n";
 				}else if(error == 2 && value == 2){
-					$scope.errorFeedback += "<br>You've made more than 15 Scoping Errors. It seems that you are problematic with this type of error. Always be mindful of the brackets of your functions as they determine the scope of each.\n";
+					$scope.errorFeedback += "<br>You've made more than <span style='color: blue;'>15 Scoping Errors</span>. It seems that you are problematic with this type of error. Always be mindful of the brackets of your functions as they determine the scope of each.\n";
 				}else if(error == 3 && value == 1){
-					$scope.errorFeedback += "<br>You’ve made more than 8 Parentheses Matching Errors. It seems that you are experiencing difficulty with this type of error. Don’t forget that whenever you type a parenthesis, match it with another.\n";
+					$scope.errorFeedback += "<br>You’ve made more than <span style='color: blue;'>8 Parentheses Matching Errors</span>. It seems that you are experiencing difficulty with this type of error. Don’t forget that whenever you type a parenthesis, match it with another.\n";
 				}else if(error == 3 && value == 2){
-					$scope.errorFeedback += "<br>You’ve made more than 15 Parentheses Matching Errors. It seems that you are problematic with this type of error. Always be mindful of the parentheses in your code, one must always be paired with another.\n";
+					$scope.errorFeedback += "<br>You’ve made more than <span style='color: blue;'>15 Parentheses Matching Errors</span>. It seems that you are problematic with this type of error. Always be mindful of the parentheses in your code, one must always be paired with another.\n";
 				}else if(error == 4 && value == 1){
-					$scope.errorFeedback += "<br>You’ve made more than 8 Initializer Errors. It seems that you are experiencing difficulty with this type of error. Don’t forget to initialize statements in your code properly.\n";
+					$scope.errorFeedback += "<br>You’ve made more than <span style='color: blue;'>8 Initializer Errors</span>. It seems that you are experiencing difficulty with this type of error. Don’t forget to initialize statements in your code properly.\n";
 				}else if(error == 4 && value == 2){
-					$scope.errorFeedback += "<br>You’ve made more than 15 Initializer Errors. It seems that you are problematic with this type of error. Always be mindful of initializing statements in your code properly.\n";
+					$scope.errorFeedback += "<br>You’ve made more than <span style='color: blue;'>15 Initializer Errors</span>. It seems that you are problematic with this type of error. Always be mindful of initializing statements in your code properly.\n";
 				}
 			}
 
@@ -1835,9 +1825,6 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			barColor.push(getBarColor(2,errorService.getErrorCountSE()));
 			barColor.push(getBarColor(3,errorService.getErrorCountPM()));
 			barColor.push(getBarColor(4,errorService.getErrorCountIE()));			
-
-			
-			
 
 			var myChart = new Chart(ctx, {
 			    type: 'bar',

@@ -205,17 +205,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			declareWeakness: function(response){
 				console.log("You have a problem in subject a -> " + response);
 				$scope.hasWeakness = true;
-				switch(response){
-					case 1:
-						$scope.subject = "Selection Control Structure";
-						break;
-					case 2:
-						$scope.subject = "Repetition Control Structure";
-						break;
-					case 3:
-						$scope.subject = "Array";
-						break;
-				}
+				
 			}
 		});
 

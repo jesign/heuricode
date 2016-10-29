@@ -1,5 +1,8 @@
 <script>
       $('.parallax').parallax();
+      $('.collapsible').collapsible({
+        accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+      });
 </script>
 <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
@@ -52,43 +55,134 @@
       </div>
     </div>
     
-    <div class="section">
-      <h2>Main menu</h2>
-        <img src="img/mainmenufinal.png" height ="400" width ="600"alt="Unsplashed background img 1">
-    </div>
-    <div class="section">
-      <h2>Self Train</h2>
-    </div>
-    <div class="section">
-      <h4>Problem Assignment</h4>
-      <img src="img/self train.jpg" height ="600" width ="800"alt="Unsplashed background img 1">
-    </div>
-    <div class="section">
-      <h4>Coding Results</h4>
-      <img src="img/post-solve.png" height ="400" width ="600"alt="Unsplashed background img 1">
-    </div>
-    <div class="section">
-      <h2>Coding Phase</h2>
-    </div>
-    <div class="section">
-      <h4>Code Editor</h4>
-      <img src="img/editorfinal.png" height ="400" width ="600"alt="Unsplashed background img 1">
-    </div>
-    <div class="section">
-      <h4>Input - Output - Problem Details</h4>
-      <img src="img/inputoutputproblemdetails.png" height ="400" width ="600"alt="Unsplashed background img 1">
-    </div>
-    <div class="section">
-      <h2>Statistical Progress</h2>
-      <img src="img/graphfinal.png" height ="400" width ="600"alt="Unsplashed background img 1">
-    </div>
-    <div class="section">
-      <h2>Find Match</h2>
-      <img src="img/multiplayerfindmatch.png" height ="400" width ="600"alt="Unsplashed background img 1">
-    </div>
-    <div class="section">
-      <h2>Badges</h2>
-      <img src="img/badgesfinal.png" height ="400" width ="600"alt="Unsplashed background img 1">
-    </div>
-  </div>
+     <h5 class="center">Learn How to Use HeuriCode! Click a topic below to get started!</h5>
+<ul class="collapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">view_list</i>Main Menu</div>
+      <div class="collapsible-body"><center><img src="img/menu.jpg" height ="600" width ="1000"alt="Unsplashed background img 1"></center></div>
+         <div class="collapsible-body"><p>1. In here will be your name that is used when you registerd in HeuriCode</p>
+         
+         <p>2. Used to redirect to the homepage</p>
+         
+         <p>3. Click this to start practicing problems by yourself</p>
+
+         <p>4. The multiplayer feature to battle other players will be unlocked once you reached Level 25 in all subject areas</p>
+
+         <p>5. Click this to see the statistical graph of your errors while using HeuriCode</p>
+
+         <p>6. Click to see all the error history each time you solve a problem while using HeuriCode</p>
+
+         <p>7. Click to view all of your unlocked badges</p>
+
+         <p>8. Click to log out of HeuriCode</p>
+
+
+         </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">trending_up</i>Self Train</div>
+       <div class="collapsible-body"><p><b>Problem Assignment</p></b></div>
+      <div class="collapsible-body"><center><img src="img/problem details.jpg" height ="600" width ="800"alt="Unsplashed background img 1"></center></div>
+       <div class="collapsible-body"><p>1. The problem to be solved which is automatically given by HeuriCode</p>
+         
+         <p>2. The difficulty of the problem</p>
+         
+         <p>3. The subject area of the problem</p>
+
+         <p>4. Click to select a programming language, choices are either C, C++ or Java</p>
+
+         <p>5. Click to proceed to the coding phase</p>
+
+
+         </div>
+       <div class="collapsible-body"><p><b>Coding Results</p></b></div>
+      <div class="collapsible-body"><center><img src="img/post-solve.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+      <div class="collapsible-body"><p>1. The tips to be given by HeuriCode in the case the user decides to give up on a problem</p>
+         
+         <p>2. Proceed to the next problem</p>
+         
+
+
+         </div>
+
+          <div class="collapsible-body"><p><b>Error Feedback</p></b></div>
+      <div class="collapsible-body"><center><img src="img/feedback.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+      <div class="collapsible-body"><p>This will display a feedback on how many errors did you commit on the problem.</p>
+         
+
+
+         </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">subject</i>Coding Phase</div>
+      <div class="collapsible-body"><p>Code Editor</p></div>
+      <div class="collapsible-body"><center><img src="img/editorfinal.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+       <div class="collapsible-body"><p>1. Input your code in here</p>
+         
+         <p>2. Click here to test your code</p>
+         
+         <p>3. Click to submit your code and check if it follows the conditions of the problem</p>
+
+         <p>4. Click to give up on the problem</p>
+
+       
+
+
+         </div>
+      <div class="collapsible-body"><p>Input/Output/Problem Details</p></div>
+      <div class="collapsible-body"><center><img src="img/inputoutputproblemdetails.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+       <div class="collapsible-body"><p>1. Input area for testing the code. Type a test case here.</p>
+         
+         <p>2. Click this to enter an input for testing code.</p>
+         
+         <p>3. Click here to view the output of the code when you are testing it.</p>
+
+         <p>4. Click here anytime to view again the problem details</p>
+
+       
+
+
+         </div>
+    </li>
+     <li>
+      <div class="collapsible-header"><i class="material-icons">equalizer</i>Statistical Progress</div>
+      <div class="collapsible-body"><center><img src="img/graphfinal.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+    </li>
+
+    <li>
+      <div class="collapsible-header"><i class="material-icons">equalizer</i>Error History</div>
+      <div class="collapsible-body"><center><img src="img/error_history.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+
+      <div class="collapsible-body"><p>In here you can see the history of your problems that you solved or did not solve in HeuriCode. Click each problem to view information such as how many errors did you commit and the percentage of HeuriCoders who solved the problem.</p>
+
+       
+
+
+         </div>
+    </li>
+     <li>
+      <div class="collapsible-header"><i class="material-icons">perm_identity</i>Find Match</div>
+      <div class="collapsible-body"><center><img src="img/multiplayerfindmatch.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+       <div class="collapsible-body"><p>1. Your name</p>
+         
+         <p>2. Your currently selected programming language</p>
+         
+         <p>3. Click here to change your currently selected programming language</p>
+
+         <p>4. Toggle if you are ready or not</p>
+
+
+
+         </div>
+    </li>
+     <li>
+      <div class="collapsible-header"><i class="material-icons">stars</i>Badges</div>
+      <div class="collapsible-body"><center><img src="img/badgesfinal.png" height ="400" width ="600"alt="Unsplashed background img 1"></center></div>
+      <div class="collapsible-body"><p>1. The Badge Logo</p>
+         
+         <p>2. The Badge name</p>
+         
+         </div>
+    </li>
+  </ul>
   <div class="parallax-container valign-wrapper"></div>
