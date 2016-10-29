@@ -14,7 +14,7 @@ class UpdateProblemsTable2 extends Migration
     {
         Schema::table('problems', function ($table) {
             $table->integer('feedback_id');
-            
+            $table->string('problem_title');            
         });
     }
 
@@ -28,6 +28,7 @@ class UpdateProblemsTable2 extends Migration
         Schema::table('problems', function($table)
         {
             $table->dropColumn('feedback_id');
+            $table->dropColumn('problem_title');
         });
     }
 }

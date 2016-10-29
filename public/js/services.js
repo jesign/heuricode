@@ -180,6 +180,12 @@ myApp.service('errorService', function() {
     var errors = [];
     var errorQuotient = 0;
 
+    var clearErrors = function(){
+      errorMS = 0;
+      errorSE = 0;
+      errorPM = 0;
+      errorIE = 0;
+    }
     var addErrorCountMS = function($count){
       errorMS += $count;
     }
@@ -213,6 +219,7 @@ myApp.service('errorService', function() {
     }
 
 	return {
+      clearErrors: clearErrors,
 		  addErrorCountMS: addErrorCountMS,
       getErrorCountMS: getErrorCountMS,
       addErrorCountSE: addErrorCountSE,

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Error extends Model
 {
 	protected $fillable = [
-        'user_id', 'type', 'count','mode',
+        'user_id', 'type', 'count','mode', 'round_id',
     ];
 
     public function user(){

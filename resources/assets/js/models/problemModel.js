@@ -84,6 +84,9 @@ myApp.factory('problemModel', ['$http', function($http){
 		},
 		checkHasWeakness: function(){
 			return $http.get(baseUrl + 'hasWeakness');
+		},
+		getErrorHistory: function(){
+			return $http.get(baseUrl + 'getErrorHistory');
 		}
 	}
 }]);

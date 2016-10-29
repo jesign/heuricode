@@ -13,6 +13,7 @@ class UpdateErrorsTable2 extends Migration
     public function up()
     {
         Schema::table('errors', function ($table) {
+            $table->integer('round_id');
             $table->enum('mode', ['single', 'multiplayer']);
         });
     }
@@ -26,6 +27,7 @@ class UpdateErrorsTable2 extends Migration
     {
         Schema::table('errors', function($table)
         {
+            $table->dropColumn('round_id');
             $table->dropColumn('mode');
         });
     }

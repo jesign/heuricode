@@ -155,8 +155,6 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						$scope.getErrorsSE();
 						$scope.getErrorsPM();
 						$scope.getErrorsIE();
-
-						
 		  			}else{
 		  				$scope.resultValueColor = "resultValError";
 		  			}
@@ -202,7 +200,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				problemModel.setWeakness(0);
 
 				codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
-						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" )
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" , round)
 						.success(function(){
 							console.log("Error counts are set.");
 						});
@@ -239,7 +237,7 @@ myApp.controller('codeController', ['$scope','$rootScope',
 					});
 
 				codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
-						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "multiplayer" )
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "multiplayer",0)
 					.success(function(){
 						console.log("Error counts are set.");
 					});
@@ -466,12 +464,16 @@ myApp.controller('codeController', ['$scope','$rootScope',
 									var isWin;
 									if(!isLose){
 										isWin = 1;
-										$scope.winOrLoseMessage = "You won against player " + opponent;
+										$scope.winOrLoseMessage = "You won against " + codingService.getOpponentName();
 										r.winner = userId;
 										$scope.rooms.$save(r);
+
+										codingService.setIsWinner(true);
+										
 									}else{
 										isWin = 0;
-										$scope.winOrLoseMessage = "You lose against player " + opponent;
+										codingService.setIsWinner(false);
+										$scope.winOrLoseMessage = "You lose against " + codingService.getOpponentName();
 									}
 									
 									codeModel.setBattle(battle_id,1, isWin)	
@@ -545,13 +547,12 @@ myApp.controller('codeController', ['$scope','$rootScope',
 				/* set error counts in each subj from this round */
 				if(isMulti){
 					codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
-						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "multiplayer" )
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "multiplayer", 0 )
 					.success(function(){
 						console.log("Error counts are set.");
 					});
 
 					if($scope.isCorrect){
-
 						$scope.updateRankProceed();
 					}else{
 						var r = $scope.rooms.$getRecord(roomKey);
@@ -560,10 +561,10 @@ myApp.controller('codeController', ['$scope','$rootScope',
 						console.log("you have given up");
 						$scope.updateRankProceed();
 					}
-					
+
 				}else{
 					codeModel.saveErrors(errorService.getErrorCountMS(), errorService.getErrorCountSE(),
-						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single" )
+						errorService.getErrorCountPM(), errorService.getErrorCountIE(), "single", round )
 						.success(function(){
 							console.log("Error counts are set.");
 						});
@@ -626,13 +627,13 @@ myApp.controller('codeController', ['$scope','$rootScope',
 			    			checkWinner();
 			    		});
 
-			    }else{
+			    }else{/* Single player */
 					codeModel.addRound(pCode)
 						.success(function (response){
 							round = response;
-							console.log("heree.............");
+							console.log("heree......");
 							console.log(response);
-						});			    	
+						});
 			    }
 			});
 			// get problem details
@@ -685,17 +686,16 @@ myApp.controller('codeController', ['$scope','$rootScope',
 
 	    function checkWinner(){
 	    	var r = $scope.rooms.$getRecord(roomKey);
+	    	console.log("checking for winner: " + r.winner + " " + r.giveup)
 	  		if(!r.winner && !r.giveup){
 	  			setTimeout(checkWinner, 1000);
 	  			return;
 	  		}
 
   			if(r.winner == opponent_id){
+  				
+	            $('#loseModal').openModal({dismissible:false});
   				isLose = true;
-  				$scope.alert_title = "You lose";
-	            $scope.alert_description = codingService.getOpponentName() + " has won the game!";
-	            $scope.closableModal = true;
-	            $('#alertModal').openModal({dismissible:false});
   			}else if(r.giveup == opponent_id){
   				$scope.alert_title = "You won";
 	            $scope.alert_description = codingService.getOpponentName() + " has given up!";

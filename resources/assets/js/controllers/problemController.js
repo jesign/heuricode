@@ -10,7 +10,8 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 			languageId: 11,
 			loadingProblem: true,
 			loadSuccess: false,
-			hasWeakness: false
+			hasWeakness: false,
+			subject: ""
 		});
 
 		// functions
@@ -200,6 +201,21 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					}
 				}
 				initialize();
+			},
+			declareWeakness: function(response){
+				console.log("You have a problem in subject a -> " + response);
+				$scope.hasWeakness = true;
+				switch(response){
+					case 1:
+						$scope.subject = "Selection Control Structure";
+						break;
+					case 2:
+						$scope.subject = "Repetition Control Structure";
+						break;
+					case 3:
+						$scope.subject = "Array";
+						break;
+				}
 			}
 		});
 
@@ -211,7 +227,7 @@ myApp.controller('problemController', ['$scope','problemModel', '$state', 'codin
 					if(response == 0){
 						$scope.setRanks();
 					}else{
-						console.log("You have a problem in subject area -> " + response);
+						$scope.declareWeakness(response);
 						codingService.setWeaknessId(response);
 						$scope.getRandomProblems(response);
 					}

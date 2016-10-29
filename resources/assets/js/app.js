@@ -70,6 +70,17 @@ myApp
 				name: 'badgesPage'
 			}),
 			$stateProvider.state({
+				templateUrl: 'templates/errorHistory.html',
+				controller: 'errorHistoryController',
+				url: '/errorHistory',
+				name: 'errorHistoryPage'
+			}),
+			$stateProvider.state({
+				templateUrl: 'templates/getStarted.html',
+				url: '/getStarted',
+				name: 'getStartedPage'
+			}),
+			$stateProvider.state({
 				templateUrl: 'templates/result.html',
 				controller: 'resultController',
 				url: '/result',

@@ -45,6 +45,7 @@ Route::get('/getAllError/{mode}', 'RoundController@getAllError');
 Route::post('/addBattle','RoundController@addBattle');
 Route::post('/battleSolved', 'RoundController@battleSolved');
 Route::get('/countSolved/{diff}/{subj}', 'RoundController@countSolved');
+Route::get('/getErrorHistory', 'RoundController@getErrorHistory');
 
 // Problem
 Route::get('/problem', 'ProblemController@getProblem');

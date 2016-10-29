@@ -36,7 +36,8 @@ elixir(function(mix) {
         'controllers/problemController.js',
         'controllers/resultController.js',
         'controllers/badgeController.js',
-        'controllers/statprogController.js'
+        'controllers/statprogController.js',
+        'controllers/errorHistoryController.js'
     	], 'public/js/controllers.js');
     mix.scripts([
         'models/userModel.js',

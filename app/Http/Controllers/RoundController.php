@@ -83,12 +83,13 @@ class RoundController extends Controller
         $pm = $request->input("PM");
         $ie = $request->input("IE");
         $mode = $request->input('mode');
+        $round = $request->input('round');
 
         Auth::user()->errors()->saveMany([
-            new Error(['type' => 1, 'count' => $ms, 'mode' => $mode]),
-            new Error(['type' => 2, 'count' => $se, 'mode' => $mode]),
-            new Error(['type' => 3, 'count' => $pm, 'mode' => $mode]),
-            new Error(['type' => 4, 'count' => $ie, 'mode' => $mode]),
+            new Error(['type' => 1, 'count' => $ms, 'mode' => $mode, 'round_id' => $round]),
+            new Error(['type' => 2, 'count' => $se, 'mode' => $mode, 'round_id' => $round]),
+            new Error(['type' => 3, 'count' => $pm, 'mode' => $mode, 'round_id' => $round]),
+            new Error(['type' => 4, 'count' => $ie, 'mode' => $mode, 'round_id' => $round]),
         ]);
         return;
         
@@ -105,5 +106,53 @@ class RoundController extends Controller
         }else{
             return 0;
         }
+    }
+    public function getErrorHistory(){
+        $data = array();
+
+        $rounds = Auth::user()->rounds()->orderBy('created_at', 'desc')->get();
+        foreach ($rounds as $round) {
+            $problem = Problem::find($round->problem_id);
+            $errors = Error::where('round_id', $round->id)->get();
+
+            $attempt_count = Round::where('problem_id', $round->problem_id)->get()->count();
+            $solved_count = Round::where('problem_id', $round->problem_id)->where('is_solved', 1)->get()->count();
+            $percentage = ($solved_count/$attempt_count)*100;
+            if($errors->count()){
+                $arr_error = array();
+
+                switch($problem->weakness_id){
+                    case 1: 
+                        $sa = "Selection Control Structure";
+                        break;
+                    case 2: 
+                        $sa = "Repetition Control Structure";
+                        break;
+                    case 3: 
+                        $sa = "Array";
+                        break;
+                }
+
+                array_push($data, 
+                    array(  'round_id' => $round->id, 
+                            'problem_code'=> $problem->problem_code, 
+                            'difficulty' => $problem->difficulty, 
+                            'problem_title' => $problem->problem_title,
+                            'weakness'=> $sa, 
+                            'is_solve'=>  $round->is_solved, 
+                            'date' => $round->updated_at->toDateString(), 
+                            'success_rate' => $percentage,
+                            'errors' => array(
+                                'ms' => $errors->where('type', 1)->first()->count,  
+                                'se' => $errors->where('type', 2)->first()->count,  
+                                'pm' => $errors->where('type', 3)->first()->count,  
+                                'ie' => $errors->where('type', 4)->first()->count,  
+                                )
+                    )
+                );
+                
+            }
+        }
+        return $data;
     }
 }

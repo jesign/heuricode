@@ -73,6 +73,7 @@
                 </li>
                 <li><strong><a class="white-text">{{ Auth::user()->name }}</a></strong></li>
                 <li><div class="divider"></div></li>
+                <li><a ui-sref="homePage">Home</a></li>
                 <li>
                     <a ui-sref="problemPage"><i class="material-icons">perm_identity</i>Self-Train</a>
                 </li>
@@ -86,6 +87,7 @@
                 </li>
                 <li><a ui-sref="statProgPage"><i class="material-icons">trending_up</i>Statistical Progress</a></li>
                 <li><a ui-sref="errorHistoryPage"><i class="material-icons">trending_up</i>Error History</a></li>
+                
                 <li><a ui-sref="badgesPage"><i class="material-icons">stars</i>Badges</a></li>
                 <li><a href="{{ url('/logout') }}"><i class="material-icons">power_settings_new</i>Logout</a></li>
             </ul>
@@ -97,7 +99,7 @@
 
     
     <!-- JavaScripts Offline -->
-     <script src="{{ asset('bower_components/jquery/dist/jquery.js')}}"></script>
+     {{-- <script src="{{ asset('bower_components/jquery/dist/jquery.js')}}"></script>
      <script src="{{ asset('bower_components/angular/angular.js')}}"></script>
     <script src="{{ asset('bower_components/firebase/firebase.js') }}"></script>
     <script src="{{ asset('bower_components/angularfire/dist/angularfire.js') }}"></script>
@@ -106,11 +108,11 @@
     <script src="{{ asset('bower_components/chart.js/dist/Chart.js') }}"></script>
     <script src="{{ asset('bower_components/lodash/dist/lodash.js') }}"></script>
     
-    <script type="text/javascript" src="{{ asset('bower_components/materialize/dist/js/materialize.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/materialize/dist/js/materialize.min.js') }}"></script> --}}
 
     <!--Import jQuery before materialize.js-->
     <!-- CDNs -->
-    {{-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
@@ -124,7 +126,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/lodash/4.16.4/lodash.min.js"></script>
- --}}
+
     {{-- local js --}}
     <script src="{{ asset('js/app.js')}}"></script>
     <script src="{{ asset('js/controllers.js')}}"></script>
@@ -132,8 +134,6 @@
     <script src="{{ asset('js/services.js')}}"></script>
     <script src="{{ asset('codemirror-5.19.0/lib/codemirror.js') }}"></script>
     <script src="{{ asset('codemirror-5.19.0/mode/javascript/javascript.js') }}"></script> 
-    
-    <script src="{{ asset('js/init.js')}}"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>

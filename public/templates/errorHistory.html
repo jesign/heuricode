@@ -1,0 +1,95 @@
+<script >
+	$('.collapsible').collapsible({
+      accordion : true 
+    });
+</script>
+<div style="padding: 10px 20px 0px;">
+	<div class="row">
+		<div class="col s10">
+			
+		  	<ul class="collapsible" data-collapsible="accordion">
+			    <li ng-repeat="history in data">
+		    	  	<div class="collapsible-header grey lighten-4"> <% history.problem_title %>
+		    	  		<span ng-show="history.is_solve"><strong style="color: #2196f3">(Solved)</strong></span>
+		    	  		<span ng-hide="history.is_solve"><strong style="color: #f44336;">(Not solved)</strong></span>
+		    	  		<div class="right"><% history.date %></div>
+		    	  	</div>
+			      	<div class="collapsible-body" style="background-color: #fdfdfd">
+			      		
+			      			<div class="row">
+			      				<div class="col s7">
+				      				<table>
+						      			<thead>
+						      				<tr>
+						      					<td>Error</td>
+						      					<td>Count</td>
+						      					<td>Value</td>
+						      				</tr>
+						      			</thead>
+						      			<tbody>
+						      				<tr>
+						      					<td>Missing Semicolon</td>
+						      					<td><% history.errors.ms %></td>
+						      					<td style="color: #e53935" ng-if="history.errors.ms > 15"><strong>Problematic</strong></td>
+						      					<td style="color: #ff9800" ng-if="history.errors.ms < 15 && history.errors.ms > 8"><strong>Difficult</strong></td> 	
+						      					<td style="color: #4caf50" ng-if="history.errors.ms < 9"><strong>Ok</strong></td>
+
+						      				</tr>
+						      				<tr>
+						      					<td>Scoping Error</td>
+						      					<td><% history.errors.se %></td>
+						      					<td style="color: #e53935" ng-if="history.errors.se > 15"><strong>Problematic</strong></td>
+						      					<td style="color: #ff9800" ng-if="history.errors.se < 15 && history.errors.se > 8"><strong>Difficult</strong></td> 	
+						      					<td style="color: #4caf50" ng-if="history.errors.se < 9"><strong>Ok</strong></td>
+						      				</tr>
+						      				<tr>
+						      					<td>Parenthesis Matching</td>
+						      					<td><% history.errors.pm %></td>
+						      					<td style="color: #e53935" ng-if="history.errors.pm > 15"><strong>Problematic</strong></td>
+						      					<td style="color: #ff9800" ng-if="history.errors.pm < 15 && history.errors.pm > 8"><strong>Difficult</strong></td> 	
+						      					<td style="color: #4caf50" ng-if="history.errors.pm < 9"><strong>Ok</strong></td>
+						      				</tr>
+						      				<tr>
+						      					<td>Identifier Error</td>
+						      					<td><% history.errors.ie %></td>
+						      					<td style="color: #e53935" ng-if="history.errors.ie > 15"><strong>Problematic</strong></td>
+						      					<td style="color: #ff9800" ng-if="history.errors.ie < 15 && history.errors.ie > 8"><strong>Difficult</strong></td> 	
+						      					<td style="color: #4caf50" ng-if="history.errors.ie < 9"><strong>Ok</strong></td>
+						      				</tr>
+						      			</tbody>
+						      		</table>		
+			      				</div>
+			      				<div class="col s5">
+			      					<h5 style="color: #343434;">Problem Details</h5>
+			      					<table class="problem_details">			      		
+				      					<tr>
+				      						<td>Problem Title: </td>
+				      						<td><% history.problem_title %></td>
+				      					</tr>
+				      					<tr>
+				      						<td>Subject Area: </td>
+				      						<td><% history.weakness %></td>
+				      					</tr>
+				      					<tr>
+				      						<td>Difficulty: </td>
+				      						<td><% history.difficulty %></td>
+				      					</tr>
+			      					</table>
+			      					<h5 style="color: #424242"><% history.success_rate %>% of the heuricoders solved this problem. 
+				      					<span ng-show="history.is_solve">You are one of them!</span>
+				      					<span ng-hide="history.is_solve">
+				      						<span ng-if="history.success_rate > 0">Be one of them!</span>
+				      						<span ng-if="history.success_rate == 0">Be the first one to solve it!</span>
+				      					</span>
+				      					</h5>
+			      				</div>
+			      			</div>
+				      		
+			      		
+			      	</div>
+			    </li>
+			    
+		  	</ul>
+		</div>
+	</div>
+</div>

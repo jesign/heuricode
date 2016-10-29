@@ -18,7 +18,11 @@
 	<div class="row">
 		<div class="col s6">
 			<div class="card grey lighten-5">
+
             	<div class="card-content">
+            		<a href="#errorFeedbackModal" ng-show="hasErrorFeedback" class="modal-trigger waves-effect waves-light btn">Error feedback
+						<i class="material-icons right">info</i>
+					</a>
 					<center><canvas id="myChart" width="500px" height="400px"></canvas></center>
 				</div>
 			</div>
@@ -90,6 +94,16 @@
 	    <div class="modal-content" >
 	      	<h4>Tips: </h4>
 	      	<p ng-bind="feedback" style="font-size: 20px;"></p>
+		</div>
+	    <div class="modal-footer">
+	      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok thanks!</a>
+	    </div>
+  	</div>
+	
+	<div id="errorFeedbackModal" class="modal modal-fixed-footer blue lighten-5">
+	    <div class="modal-content" >
+	      	<h4>Feedback: </h4>
+	      	<p ng-bind-html="errorFeedback" style="font-size: 20px;"></p>
 		</div>
 	    <div class="modal-footer">
 	      	<a class="modal-action modal-close waves-effect waves-green btn-flat ">Ok thanks!</a>

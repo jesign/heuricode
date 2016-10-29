@@ -9,6 +9,7 @@ class Round extends Model
 	protected $fillable = [
         'user_id', 'problem_id', 'is_solved'
     ];
+     
 
     public function user(){
     	return $this->belongsTo('App\User');

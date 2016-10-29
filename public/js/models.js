@@ -151,7 +151,7 @@ myApp.factory('codeModel', ['$http', function($http){
 			method: "POST"
 		});			
 	}
-	model.saveErrors = function(ms, se, pm, ie, modes){
+	model.saveErrors = function(ms, se, pm, ie, modes, round_id){
 		return $http({
 			headers: {
 				'Content-Type' : 'application/json'
@@ -161,7 +161,8 @@ myApp.factory('codeModel', ['$http', function($http){
 				SE: se, 
 				PM: pm,
 				IE: ie,
-				mode: modes
+				mode: modes,
+				round: round_id
 			},
 			url: baseUrl + "saveError",
 			method: "POST"
@@ -324,6 +325,9 @@ myApp.factory('problemModel', ['$http', function($http){
 		},
 		checkHasWeakness: function(){
 			return $http.get(baseUrl + 'hasWeakness');
+		},
+		getErrorHistory: function(){
+			return $http.get(baseUrl + 'getErrorHistory');
 		}
 	}
 }]);
