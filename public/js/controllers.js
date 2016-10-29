@@ -1715,10 +1715,10 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 				});
 				
 			}
+			$scope.isSuccess = codingService.getSuccess();
 
 			if(codingService.getSuccess()){
 				if(codingService.getIsMultiplayer()){
-					$scope.isSuccess = codingService.getSuccess();
 					$scope.isMultiplayer = codingService.getIsMultiplayer();
 					$scope.isWinner = codingService.getIsWinner();
 				}else{
@@ -1726,7 +1726,6 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 				}
 			}else{
 				if(codingService.getIsMultiplayer()){
-					$scope.isSuccess = codingService.getSuccess();
 					$scope.isMultiplayer = codingService.getIsMultiplayer();
 					$scope.isWinner = codingService.getIsWinner();
 				}
@@ -1837,7 +1836,7 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			barColor.push(getBarColor(3,errorService.getErrorCountPM()));
 			barColor.push(getBarColor(4,errorService.getErrorCountIE()));			
 
-			errorService.clearErrors();
+			
 			
 
 			var myChart = new Chart(ctx, {
@@ -1871,6 +1870,8 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 			        }
 			    }
 			});
+
+			errorService.clearErrors();
 		}
 	}]);
 myApp.controller('badgeController', ['$scope', 'badgeModel',

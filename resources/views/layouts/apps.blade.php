@@ -49,7 +49,7 @@
                     HeuriCode
                 </a>
                 <ul class="right hide-on-med-and-down">
-                    @if (Auth::guest())s
+                    @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @endif
@@ -73,7 +73,7 @@
                 </li>
                 <li><strong><a class="white-text">{{ Auth::user()->name }}</a></strong></li>
                 <li><div class="divider"></div></li>
-                <li><a ui-sref="homePage">Home</a></li>
+                <li><a ui-sref="homePage"><i class="material-icons">store</i>Home</a></li>
                 <li>
                     <a ui-sref="problemPage"><i class="material-icons">perm_identity</i>Self-Train</a>
                 </li>
