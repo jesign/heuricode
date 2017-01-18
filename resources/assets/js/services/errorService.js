@@ -36,7 +36,6 @@ myApp.service('errorService', function() {
     var getErrorCountIE = function(){
       return errorIE;
     }
-    
     var setErrors = function(error){
       errors = error;
     }

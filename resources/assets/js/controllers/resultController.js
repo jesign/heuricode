@@ -264,7 +264,7 @@ myApp.controller('resultController', ['$scope', 'errorService', 'codingService',
 				if(error == 1 && value == 1){
 					$scope.errorFeedback += "<br>You've made more than <span style='color: blue;'>8 Missing Semicolon Errors</span>. It seems that you are experiencing difficulty with this type of error. Don't forget to put semicolons where you need to place them when you code.\n";
 				}else if(error == 1 && value == 2){
-					$scope.errorFeedback += "<br>You’ve made more than 15 <span style='color: blue;'>5 Missing Semicolon Errors</span>. It seems that you are problematic with this type of error. Always be mindful of where you need to place your semicolons in your code.\n";
+					$scope.errorFeedback += "<br>You’ve made more than <span style='color: blue;'>15 Missing Semicolon Errors</span>. It seems that you are problematic with this type of error. Always be mindful of where you need to place your semicolons in your code.\n";
 				}else if(error == 2 && value == 1){
 					$scope.errorFeedback += "<br>You've made more than <span style='color: blue;'>8 Scoping Errors</span>. It seems that you are experiencing difficulty with this type of error. Don't forget to keep track of the brackets of your functions as they determine the scope of each.\n";
 				}else if(error == 2 && value == 2){

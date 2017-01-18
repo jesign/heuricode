@@ -133,7 +133,7 @@
     <script src="{{ asset('codemirror-5.19.0/lib/codemirror.js') }}"></script>
     <script src="{{ asset('codemirror-5.19.0/mode/javascript/javascript.js') }}"></script> 
     
-    <script src="{{ asset('js/init.js')}}"></script>
+    
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>
