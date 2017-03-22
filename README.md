@@ -1,27 +1,35 @@
-# Laravel PHP Framework
+# Heuricode 
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+  A Web-based Programming Supplementary and Assessment Tool for Novice Programmers. With this tool a novice programmer who is new to C/C++/Java will be guided in learning the programming language he choose. Giving a particular Subject Area, Counting types of errors, showing his/her training progress, and etc. is the way Heuricode will guide the novice programmer
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Getting Started
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
-## Official Documentation
+### Prerequisites
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+Composer
+Node
+Bower
+XAMPP/WAMPP 
+Virtual host
+### Installing
 
-## Contributing
+1. Clone the project
+2. Update the dependencies using Composer.
+	- to do this open command prompt. go to the root of this project ang type "composer update".
+3. create virtual host for this project..
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+4. create a database
 
-## Security Vulnerabilities
+NOTE: You should have a knowledge in laravel to follow steps 4 & 5.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+5. Create and configure .env file 
+	-you can use the .env-sample located at the root folder to help you configure the database name, hostname, password and etc. 
+6. Migrate tables and seed data
+	- open cmd, go to the root folder and type 'php artisan migrate'. After the migration you are now ready to seed the constant data. Now type to the comand line 'php artisan db:seed'. (Without the quotes).
 
-## License
+7. Install modules and components using Node and Bower
+	- Open cmd, go to the root folder of the project and type 'npm install' without the quotes.
+	- While still using the cmd, go to public folder and type 'bower install' without the quotes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
