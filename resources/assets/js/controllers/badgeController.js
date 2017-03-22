@@ -9,7 +9,4 @@ myApp.controller('badgeController', ['$scope', 'badgeModel',
 				});
 		}
 		getBadges();
-
-
-
 	}]);
