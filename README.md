@@ -83,9 +83,10 @@ NOTE: You should have a knowledge in laravel to follow steps 4 & 5.
 
 ## Multiplayer
 
-	Heuricode also has a Multiplayer feature. This will be unlocked when the user got level 20 in all subject area. With this,
-	they can compete with other online players. The first one to solve the problem is the winner. 
+	Heuricode also has a Multiplayer feature. This will be unlocked when the user got level 20 in all subject area. 
+	With this,they can compete with other online players. The first one to solve the problem is the winner. 
 	
-	Developer can change the user's level in the database to quickly experience multiplayer feature. I used AngularFire to handle
-	this feature.
+	Developer can change the user's level in the database to quickly experience multiplayer feature. 
+	
+	I used AngularFire to handle this feature.
 	
