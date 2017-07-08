@@ -1,4 +1,4 @@
-# Heuricode 
+# Heuricode (Built with Laravel and AngularJS)
 
   A Web-based Programming Supplementary and Assessment Tool for Novice Programmers. With this tool a novice programmer who is new to C/C++/Java will be guided in learning the programming language he choose. Giving a particular Subject Area, Counting types of errors, showing his/her training progress, and etc. is the way Heuricode will guide the novice programmer
 
