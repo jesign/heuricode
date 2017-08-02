@@ -6,8 +6,7 @@
 	Composer
 	Node
 	Bower
-	XAMPP/WAMPP 
-	Virtual host
+
 ### Installing
 
 1. Clone the project
